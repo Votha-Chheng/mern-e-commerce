@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import logo from '../images/logoCavallo.svg'
-import Photo from './Photo'
 import {Container, Row, Col} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
@@ -20,7 +19,7 @@ const Footer = () => {
             <Col md={12} lg={4} className='py-auto'>
             <div id='logo-footer'>
               <div>
-                <Photo src={logo} alt="luminaires Cavallo" height='100%' width="280px"/>
+                <img src={logo} alt="luminaires Cavallo" height='100%' width="280px"/>
               </div>
               <h3>Luminaires Cavallo</h3>
             </div>

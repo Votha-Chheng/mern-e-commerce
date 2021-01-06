@@ -1,4 +1,3 @@
-import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer'
 import MenuFixe from './components/MenuFixe';
@@ -13,7 +12,9 @@ import BlogScreen from './screens/BlogScreen';
 import CGVScreen from './screens/CGVScreen';
 import ProductScreen from './screens/ProductScreen';
 
+
 function App() {
+
   return (
     <Router>
       <MenuFixe/>

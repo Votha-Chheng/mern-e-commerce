@@ -59,7 +59,7 @@ const Wrapper = styled.header`
     background-color : #0C1B33;
     width: 100%;
     height: 190px;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin: 0 auto;
     text-align : center;
@@ -70,16 +70,15 @@ const Wrapper = styled.header`
   }
   .burger {
     position : absolute;
-    opacity: 0;
-
+    opacity: 1;
+    width: 100 px;
+    transform : translateY(-1500px)
   }
   .cross{
     position : absolute;
     opacity: 0;
     color: #C4A77D;
-  }
-  .dropdown-menu{
-
+    transform : translateY(-1500px);
   }
 
   @media only screen and (max-width: 1000px){
@@ -87,6 +86,7 @@ const Wrapper = styled.header`
       left: 10px;
       bottom: 5px;
       cursor: pointer;
+      transform : translateY(0);
       transition : all 0.5s;
       
     }
@@ -95,6 +95,7 @@ const Wrapper = styled.header`
       bottom: 5px;
       cursor: pointer;
       transition : all 0.5s;
+      transform : translateY(0);
     }
     .visible{
       display : block;

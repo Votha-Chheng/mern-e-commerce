@@ -5,7 +5,7 @@ const products = [
     catégorie : "lampadaires",
     prix : 0,
     stock : 1,
-    image : '/images/conifere-flotte.jpg',
+    image : ['/images/conifere-flotte.jpg'],
     livraison : true,
   },
   {
@@ -14,7 +14,7 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 120,
     stock : 1,
-    image : '/images/lampe-en-bois-flotte.jpg',
+    image : ['/images/lampe-en-bois-flotte.jpg'],
     livraison : true,
   },
   {
@@ -23,7 +23,7 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 65,
     stock : 1,
-    image : '/images/bois-dansants.jpg',
+    image : ['/images/bois-dansants.jpg'],
     livraison : true,
   },
   {
@@ -32,7 +32,7 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 95,
     stock : 1,
-    image : '/images/lampe-en-bois-flotte.jpg',
+    image : ['/images/lampe-en-bois-flotte.jpg'],
     livraison : true,
 
   },
@@ -42,7 +42,7 @@ const products = [
     catégorie : "lampes en bois brut et autres",
     prix : 40,
     stock : 1,
-    image : '/images/lampe-en-pvc-recycle.jpg',
+    image : ['/images/lampe-en-pvc-recycle.jpg'],
     livraison : true,
   },
   {
@@ -51,7 +51,7 @@ const products = [
     catégorie : "lampadaires",
     prix : 95,
     stock : 1,
-    image : '/images/lampadaire-en-bois-flotte.jpg',
+    image : ['/images/lampadaire-en-bois-flotte.jpg'],
     livraison : false
   },
   {
@@ -60,7 +60,7 @@ const products = [
     catégorie : "lampadaires",
     prix : 95,
     stock : 1,
-    image : '/images/lampadaire-en-bois-flotte(1).jpg',
+    image : ['/images/lampadaire-en-bois-flotte(1).jpg'],
     livraison : false
   },
   {
@@ -69,7 +69,7 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 120,
     stock : 1,
-    image : '/images/casque-aile.jpg'
+    image : ['/images/casque-aile.jpg']
   },
   {
     _id:55,
@@ -77,7 +77,7 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 155,
     stock : 1,
-    image : '/images/l-hydre.jpg',
+    image : ['/images/l-hydre.jpg'],
     livraison : true,
   },
 
@@ -87,7 +87,7 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 105,
     stock : 1,
-    image : '/images/le-chevron-flotte.jpg',
+    image : ['/images/le-chevron-flotte.jpg'],
     livraison : true,
   },
   {
@@ -97,7 +97,7 @@ const products = [
     prix : 105,
     stock : 3,
     livraison : true,
-    image : '/images/L18014.jpg'
+    image : ['/images/L18014.jpg']
   },
   {
     _id:52,
@@ -106,7 +106,7 @@ const products = [
     prix : 105,
     stock : 3,
     livraison : true,
-    image : '/images/L19002.jpg'
+    image : ['/images/L19002.jpg']
   },
   {
     _id:51,
@@ -115,7 +115,7 @@ const products = [
     prix : 50,
     stock : 1,
     livraison : true,
-    image : '/images/L18012.jpg'
+    image : ['/images/L18012.jpg']
   },
   {
     _id:50,
@@ -124,7 +124,7 @@ const products = [
     prix : 105,
     stock : 3,
     livraison : true,
-    image : '/images/L18011.jpg'
+    image : ['/images/L18011.jpg']
   },
   {
     _id:49,
@@ -133,7 +133,7 @@ const products = [
     prix : 105,
     stock : 3,
     livraison : true,
-    image : '/images/L18009.jpg'
+    image : ['/images/L18009.jpg']
   },
   {
     _id:48,
@@ -142,7 +142,7 @@ const products = [
     prix : 105,
     stock : 1,
     livraison : true,
-    image : '/images/L18008.jpg'
+    image : ['/images/L18008.jpg']
   },
   {
     _id:47,
@@ -151,7 +151,7 @@ const products = [
     prix : 95,
     stock : 1,
     livraison : true,
-    image : '../images/L18006.jpg'
+    image : ['/images/L18006.jpg']
   },
   {
     _id:46,
@@ -160,7 +160,7 @@ const products = [
     prix : 105,
     stock : 5,
     livraison : true,
-    image : '/images/L18004.jpg'
+    image : ['/images/L18004.jpg']
   },
   {
     _id:45,
@@ -169,7 +169,7 @@ const products = [
     prix : 80,
     stock : 3,
     livraison : true,
-    image : '/images/L18023.jpg'
+    image : ['/images/L18023.jpg']
   },
   {
     _id:44,
@@ -178,7 +178,7 @@ const products = [
     prix : 95,
     stock : 1,
     livraison : true,
-    image : '/images/L18029.jpg'
+    image : ['/images/L18029.jpg']
   },
   {
     _id:43,
@@ -187,7 +187,7 @@ const products = [
     prix : 105,
     stock : 3,
     livraison : true,
-    image : '/images/L18027.jpg'
+    image : ['/images/L18027.jpg']
   },
   {
     _id:42,
@@ -196,7 +196,7 @@ const products = [
     prix : 105,
     stock : 5,
     livraison : true,
-    image : '/images/L18037.jpg'
+    image : ['/images/L18037.jpg']
   },
   {
     _id:41,
@@ -205,7 +205,7 @@ const products = [
     prix : 105,
     stock : 3,
     livraison : true,
-    image : '/images/L18038.jpg'
+    image : ['/images/L18038.jpg']
   },
   {
     _id:40,
@@ -214,7 +214,7 @@ const products = [
     prix : 55,
     stock : 2,
     livraison : true,
-    image : '/images/L18042.jpg'
+    image : ['/images/L18042.jpg']
   },
   {
     _id:39,
@@ -223,7 +223,7 @@ const products = [
     prix : 55,
     stock : 1,
     livraison : true,
-    image : '/images/L18044.jpg'
+    image : ['/images/L18044.jpg']
   },
 
   {
@@ -232,7 +232,7 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 90,
     stock : 0,
-    image : '/images/L19001.jpg'
+    image : ['/images/L19001.jpg']
   },
   {
     _id:37,
@@ -241,7 +241,7 @@ const products = [
     prix : 120,
     stock : 1,
     livraison : true,
-    image : '/images/L19003.jpg'
+    image : ['/images/L19003.jpg']
   },
   {
     _id:36,
@@ -250,7 +250,7 @@ const products = [
     prix : 50,
     stock : 1,
     livraison : true,
-    image : '/images/boite-a-lumieres.jpg'
+    image : ['/images/boite-a-lumieres.jpg']
   },
   {
     _id:35,
@@ -259,7 +259,7 @@ const products = [
     prix : 50,
     stock : 2,
     livraison : true,
-    image : '/images/L19006.jpg'
+    image : ['/images/L19006.jpg']
   },
   {
     _id:34,
@@ -268,7 +268,7 @@ const products = [
     prix : 110,
     stock : 1,
     livraison : true,
-    image : '/images/l-encadree.jpg'
+    image : ['/images/l-encadree.jpg']
   },
   {
     _id:32,
@@ -276,7 +276,7 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 95,
     stock : 0,
-    image : '/images/les-mouettes.jpg'
+    image : ['/images/les-mouettes.jpg']
   },
   {
     _id:31,
@@ -285,7 +285,7 @@ const products = [
     prix : 70,
     stock : 1,
     livraison : true,
-    image : '/images/L19015.jpg'
+    image : ['/images/L19015.jpg']
   },
   {
     _id:30,
@@ -294,7 +294,7 @@ const products = [
     prix : 105,
     stock : 3,
     livraison : true,
-    image : '/images/L18026.jpg'
+    image : ['/images/L18026.jpg']
   },
   {
     _id:29,
@@ -303,7 +303,7 @@ const products = [
     prix : 105,
     stock : 3,
     livraison : true,
-    image : '/images/L18022.jpg'
+    image : ['/images/L18022.jpg']
   },
   {
     _id:28,
@@ -312,7 +312,7 @@ const products = [
     prix : 95,
     stock : 3,
     livraison : true,
-    image : '/images/L18021.jpg'
+    image : ['/images/L18021.jpg']
   },
   {
     _id:27,
@@ -321,7 +321,7 @@ const products = [
     prix : 95,
     stock : 3,
     livraison : true,
-    image : '/images/L18020.jpg'
+    image : ['/images/L18020.jpg']
   },
 
   {
@@ -331,7 +331,7 @@ const products = [
     prix : 80,
     stock : 1,
     livraison : true,
-    image : '/images/L18018.jpg'
+    image : ['/images/L18018.jpg']
   },
   {
     _id:24,
@@ -340,7 +340,7 @@ const products = [
     prix : 95,
     stock : 1,
     livraison : true,
-    image : '/images/L18017.jpg'
+    image : ['/images/L18017.jpg']
   },
   {
     _id:23,
@@ -349,16 +349,17 @@ const products = [
     prix : 105,
     stock : 3,
     livraison : true,
-    image : '/images/L18016.jpg'
+    image : ['/images/L18016.jpg']
   },
   {
     _id:22,
     nom : "Lampe en bois flotté",
     catégorie : "lampes en bois flotté",
+    description : "Lampe à poser en bois flotté avec spot intégré, formant un joli jeu de lumières et d'ombres.Ampoule spot fournie.",
     prix : 70,
     stock : 1,
     livraison : true,
-    image : '/images/L19012.jpg'
+    image : ['/images/22-1.jpg', '/images/22(2).jpg','/images/L19012.jpg' ]
   }
 ]
 

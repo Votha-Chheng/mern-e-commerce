@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import styled from 'styled-components'
-import Photo from './Photo'
 import {Link} from 'react-router-dom'
+import {motion} from 'framer-motion'
 import rond from '../images/Group_1.svg'
 import photo1 from '../images/photoeffets.com_.jpg'
 import photo2 from '../images/photoeffets.com_ (2).jpg'
@@ -9,39 +9,70 @@ import photo3 from '../images/9902ADA5-15E4-4FAD-958A-1CD870D121BF_1_105_c2.jpeg
 import photo4 from '../images/couv_4.jpg'
 
 const Home = () => {
-  const [invisible, setInvisible] = useState(true)
 
-  useEffect(() => {
-    setTimeout(() => {
-      setInvisible(false)
-    },800)
-    
-  }, [])
+  const rondAnim = {
+    hidden: {x:-700, scale:0.7},
+    show: {x:0, scale :1, transition: {ease : 'easeOut', duration : 2.2}}
+  }
+
+  const titleAnim = {
+    left: { opacity : 0},
+    set : { opacity : 1, transition : {ease : 'easeOut', delay:1.9, duration : 1.7}}
+  }
+
+  const photosAnim = {
+    hidden: { opacity : 0},
+    set : { opacity : 1, transition : {delay:2, delayChildren : 2.3, staggerChildren : 1}}
+  }
+  const photoDisplay = {
+    hidden: { opacity : 0},
+    set : { opacity : 1, transition : {ease : 'easeIn'}}
+  }
+
+  const carre1Anim = {
+    start : { opacity : 0, y : 900},
+    end: { opacity : 1, y:0, transition : {ease : 'easeOut', delay:0.7, duration : 0.7}}
+  }
+  const carre3Anim = {
+    start : { opacity : 0, y : -900},
+    end: { opacity : 1, y:0, transition : {ease : 'easeOut', delay:0.9, duration : 0.8}}
+  }
+  const carre2Anim = {
+    start : { opacity : 0, x : -500},
+    end: { opacity : 1, x:0, transition : {ease : 'easeOut', delay:1.2, duration : 0.9}}
+  }
+  const carre4Anim = {
+    start : { opacity : 0, x : 500},
+    end: { opacity : 1, x:0, transition : {ease : 'easeOut', delay:1.2, duration : 0.8}}
+  }
 
   return (
     <Wrapper>
       <main>
-        <img className='rond' src={rond} alt="rond"/>
-        <div id="conteneur-texte">
+        <motion.div variants={rondAnim} initial="hidden" animate='show'>
+          <img className='rond' src={rond} alt="rond"  />
+        </motion.div>
+        
+        <motion.div variants={titleAnim} initial="left" animate='set' id="conteneur-texte">
           <h2><span>Lampes en</span> <span>bois flotté</span></h2>
           <h3>Créations 100% originales<br/>Fabrication 100% artisanale</h3>
           <Link to='/boutique'><button id="btn-articles">Voir les produits</button></Link>
-        </div>
-        <div id='carre-1' className="carre">
-        </div>
-        <div id='carre-2' className="carre">
-        </div>
-        <div id='carre-3' className="carre">
-        </div>
-        <div id='carre-4' className="carre">
-        </div>
+        </motion.div>
+        <motion.div id='carre-1' className="carre" variants={carre1Anim} initial='start' animate='end' >
+        </motion.div>
+        <motion.div id='carre-2' className="carre" variants={carre2Anim} initial='start' animate='end'>
+        </motion.div>
+        <motion.div id='carre-3' className="carre" variants={carre3Anim} initial='start' animate='end'>
+        </motion.div>
+        <motion.div id='carre-4' className="carre" variants={carre4Anim} initial='start' animate='end'>
+        </motion.div>
         <Frame>
-          <div id="images-presentation">
-            <Photo id="image-front-1" classStyle={`image-front ${invisible ? 'invisible':''}`} src={photo1} width="375" alt="image-front-1" />
-            <Photo id="image-front-2" classStyle={`image-front ${invisible ? 'invisible':''}`} src={photo2} width="325" alt="image-front-2"/>
-            <Photo id="image-front-3" classStyle={`image-front ${invisible ? 'invisible':''}`} src={photo3} width="400" alt="image-front-3" />
-            <Photo id="image-front-4" classStyle={`image-front ${invisible ? 'invisible':''}`} src={photo4} width="400" alt="image-front-4" />
-          </div>
+          <motion.div id="images-presentation" variants={photosAnim} initial="hidden" animate='set' >
+            <motion.div variants={photoDisplay}><img id="image-front-4" className="image-front" src={photo4} width="380" alt="front-4" /></motion.div>
+            <motion.div variants={photoDisplay}><img id="image-front-3" className="image-front" src={photo3} width="400" alt="front-3" /></motion.div>
+            <motion.div variants={photoDisplay}><img id="image-front-1" className="image-front" src={photo1} width="375" alt="front-1" /></motion.div>
+            <motion.div variants={photoDisplay}><img id="image-front-2" className="image-front" src={photo2} width="325" alt="front-2"/></motion.div>
+          </motion.div>
         </Frame>
       </main>
     </Wrapper>
@@ -96,11 +127,11 @@ const Wrapper = styled.section`
   }
   #carre-3{
     position: absolute;
-    width: 350px;
+    width: 370px;
     height: 680px;
     background-color:#e4e9b2;
-    top: 150px;
-    right : 120px;
+    top: 140px;
+    right : 130px;
     border : solid 2px white;
   }
   #carre-4{
@@ -109,7 +140,7 @@ const Wrapper = styled.section`
     height: 280px;
     background-color:#D0D6B5;
     top: 450px;
-    right : 100px;
+    right : 70px;
     border : solid 2px white;
   }
   button{
@@ -256,33 +287,22 @@ const Frame = styled.section`
   #image-front-1{
     top: 40px;
     right : 70px;
-    z-index: 2;
-    transition: all 1.5s ease-in-out;
   }
   #image-front-2{
-  top: 400px;
+  top: 380px;
   right : 100px;
-  z-index: 3;
-  transition: all 1.5s ease-out;
-  width: 325px;
   overflow: hidden;
   }
   #image-front-3{
-    top: 250px;
-    right : 420px;
-    z-index: 1;
-    transition: all 1.5s ease-in-out;
-    width: 400px;
+    top: 180px;
+    right : 360px;
     overflow: hidden;
+
   }
   #image-front-4{
-    top: 550px;
-    right : 370px;
-    z-index: 1;
-    transition: all 1.5s ease-out;
-    width: 400px;
+    top: 480px;
+    right : 410px;
     overflow: hidden;
-    z-index:53;
   }
   @media only screen and (max-width: 1450px){
     #image-front-2{
