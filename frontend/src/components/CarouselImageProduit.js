@@ -18,7 +18,7 @@ const CarouselImageProduit = ({images}) => {
           
           {
 
-          imagesArray.map((image, index) => <div key={index}><img src={image} alt ='carousel' width='100px'/></div>)
+          imagesArray.map((image, index) => <div key={index}><img src={require('/images/47d.png')} alt ='carousel' width='100px'/></div>)
           }
         </div>
       </div>

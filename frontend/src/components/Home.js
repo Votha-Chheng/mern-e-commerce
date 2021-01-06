@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import {Link} from 'react-router-dom'
 import {motion} from 'framer-motion'
@@ -22,7 +22,7 @@ const Home = () => {
 
   const photosAnim = {
     hidden: { opacity : 0},
-    set : { opacity : 1, transition : {delay:2, delayChildren : 2.3, staggerChildren : 1}}
+    set : { opacity : 1, transition : {delay:2, delayChildren : 2.3, staggerChildren : 0.5}}
   }
   const photoDisplay = {
     hidden: { opacity : 0},

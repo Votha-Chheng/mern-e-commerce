@@ -7,23 +7,23 @@ const CardHome = ({product}) => {
   const ratioFrame = 220/280
   const [ratio, setRatio] = useState(0)
 
-  const img = useRef(null)
+  const image = useRef(null)
 
   
 
   useEffect(()=>{
-    const getRatio = async () => {
-      await setRatio(img.current.clientWidth/img.current.clientHeight)
-    }
-    getRatio()
-  }, [ratio])
+    // const getRatio = async () => {
+    //   await setRatio(img.current.clientWidth/img.current.clientHeight)
+    // }
+    // getRatio()
+  }, [])
 
   
   return (
     <Wrapper >
         <Link to={`/produit/${product._id}`}>
           <div style={{position:'relative'}} className="image-frame">
-            <img ref={img} src={product.image[0]} style={{position : 'absolute', left:'0', transform:`scale(0.9) translateY(${ratio>ratioFrame?15:0}px) translateX(-${ratio>1? 220*ratio/4 : '0'}px)`}} width={ratio<1 ? '220': 'auto'} height={ratio>1? '280px' : 'auto'} alt="lampe"/>
+            <img ref={image} src={product.image[0]} onLoad={()=>{setRatio(image.current.naturalWidth/image.current.naturalHeight)}} src={product.image[0]} alt={product.name} style={{position : 'absolute', left:'0', transform:`scale(0.9) translateY(${ratio>ratioFrame?15:0}px) translateX(-${ratio>1? 220*ratio/4 : '0'}px)`}} width={ratio<1 ? '220': 'auto'} height={ratio>1? '280px' : 'auto'} alt="lampe"/>
           </div>
         
           <div className="text-desc">

@@ -16,7 +16,6 @@ const HomeProducts = () => {
     fetchProducts()
   }, [])
 
-  
 
   return (
     <Wrapper>

@@ -359,7 +359,7 @@ const products = [
     prix : 70,
     stock : 1,
     livraison : true,
-    image : ['/images/22-1.jpg', '/images/22(2).jpg','/images/L19012.jpg' ]
+    image : ['/images/L19012.jpg','/images/22-1.png', '/images/abcdefgh.jpg','/images/4d7.png', '/images/hackerman.png']
   }
 ]
 
