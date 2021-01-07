@@ -5,6 +5,7 @@ import {motion} from 'framer-motion'
 import rond from '../images/Group_1.svg'
 import photo1 from '../images/photoeffets.com_.jpg'
 import photo2 from '../images/photoeffets.com_ (2).jpg'
+import photobis from '../images/4d7.png'
 import photo3 from '../images/9902ADA5-15E4-4FAD-958A-1CD870D121BF_1_105_c2.jpeg'
 import photo4 from '../images/couv_4.jpg'
 

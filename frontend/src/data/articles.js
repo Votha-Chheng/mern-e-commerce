@@ -1,4 +1,5 @@
 import article1 from "../images/article-1.jpeg"
+
 const articles = 
   [
     { 

@@ -107,6 +107,7 @@ const Wrapper = styled.div`
   }
   .card-description{
     width:500px;
+    margin-left : 50px
   }
 `
 export default ProductScreen

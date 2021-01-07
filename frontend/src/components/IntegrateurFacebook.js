@@ -40,5 +40,4 @@ const Wrapper = styled.div`
   }
   
 `
-
 export default IntegrateurFacebook
