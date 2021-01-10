@@ -1,86 +1,146 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {productDetails} from '../actions/productActions'
+import {useHistory} from 'react-router-dom'
+import {useParams} from 'react-router-dom'
+import {listProductDetails} from '../actions/productActions'
 import styled from 'styled-components'
-import {motion} from 'framer-motion'
-import Modal from '../components/Modal'
 import CarouselImageProduit from '../components/CarouselImageProduit'
 
-const ProductScreen = ({match}) => {
+const ProductScreen = () => {
+  const history = useHistory()
+  const {id} = useParams()
 
-  const modalShow = {
-    start: {opacity : 0},
-    end : {opacity : 1, transition : { ease : 'easeIn', duration:0.5}}
-  }
-
-  // const [ratio, setRatio] = useState(0)
-  const [modal, setModal] = useState(false)
-  // const image = useRef(null)
-  const imageModal = useRef(null)
+  const [qty, setQty] = useState(1)
+  const [couleur, setCouleur] = useState('beige')
 
   const dispatch = useDispatch()
 
-  const {loading, error, product} = useSelector(state => state.productDetails)
+  const productDetails = useSelector(state => state.productDetails)
+  const {loading, error, product} = productDetails
 
   useEffect(() => {
-    dispatch(productDetails(match.params.id))
-  }, [match, dispatch])
+
+    dispatch(listProductDetails(id))
+    console.log(history)
+  }, [dispatch, id, history])
+
+  const convertPrice = (price)=>{
+    let priceString = (Math.floor(price*100)/100).toFixed(2)
+    let priceArray = priceString.split('.')
+    return priceArray.join(',')
+  }
+
+  const displayOpt = (nombre)=>{
+    let text = []
+    for(let i=0; i<nombre; i++){
+      text.push(i+1)
+    }
+    return text
+  }
   
 
   return (
     <Wrapper>
       {
-        modal && (
-          <motion.div  className='modal-container' onClick={() => setModal(false)} style={{ }}>
-              <Modal>
-                <motion.img variants={modalShow} initial = 'start' animate='end' ref={imageModal} src={product.image[0]} alt={product.nom} height='750px' />
-              </Modal>     
-          </motion.div>
-          
-        ) 
-      }
-      {
         loading? <h2>Chargement...</h2> : error ? <h3>{error}</h3> : (
         <>
           <div className='card-container'>
-            {/* <div className='card-image' onClick={() => setModal(true)}>
-              <img ref={image} onLoad={()=>{setRatio(image.current.naturalWidth/image.current.naturalHeight)}} src={product.image[0]} alt={product.name} width={ratio>1? '500px' : 'auto'} height={ratio<1? '500px' : 'auto'} />
-            </div> */}
             <CarouselImageProduit images={product.image}/>
             <div className='card-description'>
-              <h3>{product.nom}</h3>
-              <small>Catégorie : <span className='categorie'>{product.catégorie}</span></small><br/><br/>
-              <h4 >Prix : <span className='prix'>{product.prix} €</span></h4>
+              <div className='partie-haute'>
+                <h3>{product.nom}</h3>
+                <small>Catégorie : <span className='categorie'>{product.catégorie}</span></small><br/><br/>
+                
+                <p className="desc">{product.description}</p>
+
+                {
+                  !product.livraison && (
+                    <div className='livraison-false'>
+                      
+                      <p><i className="fas fa-exclamation-circle warning"/>  Cette lampe est disponible. Pour des questions évidentes de fragilité et d'emballage, il est difficile d'expédier ce lampadaire par les réseaux de transport classiques. Si ce modèle vous plait, contactez moi et nous verrons ensemble quelle solution adopter pour vous livrer. En vous remerciant de votre compréhension</p>
+                    </div>
+                  )
+                }
+
+                {product.couleurs.length>0 && (
+                    <div className='couleurs'>
+                      <h5>Couleurs d'abat-jour disponibles</h5>
+                      <div className='couleurs-container'>
+                        { product.couleurs.map((couleur, index) => <div key={index} id={couleur} className={`coloris`}></div>) }
+                      </div>
+                    </div>
+                  )}
+              </div>
+              
+              <div className='card-product'>
+                <div className='info-container'>
+                  <h5 >Prix :</h5>
+                  <div className='prix'>{convertPrice(product.prix)} €</div>
+                </div>
+                <div className='info-container'>
+                  <h5 >Livraison :</h5>
+                  <div className={product.livraison? 'livraison' : "livraison red"}>{product.livraison ? "Oui" : "Me contacter"}</div>
+                </div>
+                <div className='info-container'>
+                  <h5 >Disponibilité :</h5>
+                  <div className={product.stock>0? 'stock' : "stock red"}>{product.stock>0 ? "Oui" : "Rupture de stock"}</div>
+                </div>
+                  {product.stock<1 && <div className='info-container'><button className="btn grey btn-block">Ajouter au panier</button></div>}
+                  {product.stock>0 && (<>
+                  <div className='info-container'>
+                    <h5 >Quantité :</h5>
+                    <select id='quantity' value={qty} onChange={(event)=>setQty(event.target.value)}>
+                      {
+                        displayOpt(product.stock).map((item, index) => <option key={index} value={item}>{item}</option>)
+                      }
+                    </select>
+                  </div>
+                  <div className='bouton'>
+                      {
+                        product.livraison ? <button className='btn btn-block btn-primary'>Ajouter au panier</button> : <button className='btn btn-block btn-warning'>Me contacter</button>
+                      } 
+                   </div>
+                   </>
+                  )}
+                   
+                   
+              </div> 
             </div>
             
           </div>
         </>
         )
       } 
-      
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
-  .modal-container {
-    z-index: 80000000000000;
-    top: 0px;
-    position: fixed;
-    width: 100%;
-    height: 100vh;
-    display : flex;
-    justify-content: center;
-    background-color : rgba(0,0,0,0.5);
-    padding : 50px 20px;
+  .bouton{
+    margin-top : 30px;
+  }
+  #quantity{
+    width:60px;
   }
   h3{
     text-align: Left;
     margin-top:0px;
     font-stretch : condensed;
+    padding : 2px;
+  }
+  .desc{
+    padding-bottom : 20px;
+    border-bottom : 2px solid #dce3e5;
+  }
+  .livraison-false{
+    color : red;
+  }
+  .warning{
+    transform : scale(1.2)
   }
   small{
     font-size: 0.9em;
+    padding : 2px;
   }
   .categorie{
     font-style : italic;
@@ -90,7 +150,17 @@ const Wrapper = styled.div`
     margin:75px auto 0 auto;
     display: flex;
     justify-content: center;
+    width: 1200px;
+  }
+  .partie-haute{
+    width:380px;
+    margin-right:20px;
     
+  }
+  p{
+    font-size : 1em;
+    font-weight: bold;
+    padding : 2px;
   }
   .card-image{
     display : flex;
@@ -103,11 +173,71 @@ const Wrapper = styled.div`
     cursor: pointer;
   }
   .prix{
-    color : #b62902;
+    font-weight: bold;
+    font-size : 1.2em
   }
   .card-description{
-    width:500px;
-    margin-left : 50px
+    width:100%;
+    margin-top : 10px;
+    margin-left : 50px;
+    display : flex;
+  }
+  .card-product{
+    width:380px;
+    max-height:350px;
+    border : 1px #dce3e5 solid;
+    padding : 10px 20px;
+  }
+  h4{
+    margin : 0;
+  }
+  .info-container{
+    display : flex;
+    justify-content: space-between;
+    margin : 10px 0;
+    padding : 10px;
+    line-height: 15px;
+    border-bottom : 1px solid #dce3e5;
+  }
+
+  .stock{
+    font-size: 1.1em
+  }
+  .stock.red, .livraison.red{
+    color : red;
+    font-weight: bold;
+  }
+  button{
+    margin-bottom : 0px;
+  }
+  .grey{
+    background-color:#dce3e5;
+    pointer-events: none;
+  }
+  .couleurs{
+    margin : 25px 2px
+  }
+  .couleurs-container{
+    display : flex;
+   
+  }
+  .coloris {
+    width : 30px;
+    height: 30px;
+    border-radius : 50%;
+    border : 3px double white;
+    box-shadow : -3px 5px 10px 0px grey;
+    cursor: pointer;
+    margin : 0 10px;
+  }
+  #beige{
+    background-color : #e1c699
+  }
+  #blanc{
+    background-color : #ffffff
+  }
+  #bleu-clair{
+    background-color : #318ce7
   }
 `
 export default ProductScreen

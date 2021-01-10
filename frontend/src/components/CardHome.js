@@ -9,9 +9,13 @@ const CardHome = ({product}) => {
 
   const image = useRef(null)
 
+  const handleClick = ()=>{
+    window.scrollTo(0,0)
+  }
   
 
   useEffect(()=>{
+    
     // const getRatio = async () => {
     //   await setRatio(img.current.clientWidth/img.current.clientHeight)
     // }
@@ -21,9 +25,9 @@ const CardHome = ({product}) => {
   
   return (
     <Wrapper >
-        <Link to={`/produit/${product._id}`}>
+        <Link to={`/produit/${product._id}`} onClick={handleClick}>
           <div style={{position:'relative'}} className="image-frame">
-            <img ref={image} src={product.image[0]} onLoad={()=>{setRatio(image.current.naturalWidth/image.current.naturalHeight)}} src={product.image[0]} alt={product.name} style={{position : 'absolute', left:'0', transform:`scale(0.9) translateY(${ratio>ratioFrame?15:0}px) translateX(-${ratio>1? 220*ratio/4 : '0'}px)`}} width={ratio<1 ? '220': 'auto'} height={ratio>1? '280px' : 'auto'} alt="lampe"/>
+            <img ref={image} src={product.image[0]} onLoad={()=>{setRatio(image.current.naturalWidth/image.current.naturalHeight)}} alt={product.nom} style={{position : 'absolute', left:'0', transform:`scale(0.9) translateY(${ratio>ratioFrame?15:0}px) translateX(-${ratio>1? 220*ratio/4 : '0'}px)`}} width={ratio<1 ? '220': 'auto'} height={ratio>1? '280px' : 'auto'}/>
           </div>
         
           <div className="text-desc">
@@ -52,7 +56,7 @@ const Wrapper = styled.div`
     padding: 15px 20px;
   }
   .text-desc h3{
-    height : 50px;
+    height : 40px;
   }
   .image-frame{
     position: relative;
@@ -97,7 +101,7 @@ const Wrapper = styled.div`
     padding-right: 18px;
     padding-top:20px;
     font-weight: bold;
-    
+    margin-right : 18px;
   }
   .prix-card span{
     border: 1px solid black;
@@ -139,6 +143,8 @@ const Wrapper = styled.div`
   }
 
   @media only screen and (max-width: 1520px){
+    height: 450px;
+
     .btn-card button{
       font-size:0.9em;
       padding:6px;

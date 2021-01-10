@@ -1,5 +1,6 @@
 import React from 'react'
 import logo from '../images/logoCavallo.svg'
+import {Link} from 'react-router-dom'
 import styled from 'styled-components'
 
 const Logo = () => {
@@ -7,7 +8,9 @@ const Logo = () => {
   return (
     <Wrapper>
       <div  className='logo-container'>
-        <img src={logo} alt="logo-luminaires-Cavallo" width="380" />
+        <Link to='/'>
+          <img src={logo} alt="logo-luminaires-Cavallo" width="380" />
+        </Link>
         <h1 >Luminaires Cavallo</h1>
       </div>
     </Wrapper>

@@ -23,9 +23,12 @@ const HomeCarousel = () => {
     }, 100)
     
     window.onresize= ()=>{
-      setRatioFrame(imgFrame.current[index].offsetWidth/imgFrame.current[index].offsetHeight)
-      setRatioImg(imgFormat.current[index].naturalWidth/imgFormat.current[index].naturalHeight)
-      setImgWidth(imgFormat.current[index].offsetWidth)
+      if(imgFrame.current[index]){
+        setRatioFrame(imgFrame.current[index].offsetWidth/imgFrame.current[index].offsetHeight)
+        setRatioImg(imgFormat.current[index].naturalWidth/imgFormat.current[index].naturalHeight)
+        setImgWidth(imgFormat.current[index].offsetWidth)
+      }
+      
     }
      
   }, [ratioFrame, ratioImg, index, imgWidth])

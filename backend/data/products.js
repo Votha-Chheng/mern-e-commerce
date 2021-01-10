@@ -4,35 +4,33 @@ const products = [
     nom : "Conifère flotté",
     catégorie : "lampadaires",
     prix : 0,
+    description : "Lampadaire de caractère ! Pourquoi de caractère ? De par son pied en bois de conifère, qui a gardé ses caractéristiques et qui a été légèrement poli par son trajet dans l'eau, il ne s'est pas laissé percer facilement le bougre! Les mèches ont fumé... Câble non visible, abat-jour made in France. Interrupteur à tirette. Triple socle pour assurer une totale stabilité.",
     stock : 1,
-    image : ['../images/conifere-flotte.jpg'],
-    livraison : true,
+    couleurs : [],
+    image : ['../images/conifere-flotte.jpg','../images/conifere-flotte-1.jpg','../images/conifere-flotte-2.jpg'],
+    livraison : false,
   },
-  {
-    _id:62,
-    nom : "Lampe en bois flotté",
-    catégorie : "lampes en bois flotté",
-    prix : 120,
-    stock : 1,
-    image : ['../images/lampe-en-bois-flotte.jpg'],
-    livraison : true,
-  },
-  {
-    _id:61,
-    nom : "Bois dansants",
-    catégorie : "lampes en bois flotté",
-    prix : 65,
-    stock : 1,
-    image : ['../images/bois-dansants.jpg'],
-    livraison : true,
-  },
+
+  // {
+  //   _id:61,
+  //   nom : "Bois dansants",
+  //   catégorie : "lampes en bois flotté",
+  //   prix : 65,
+  //   description : "",
+  //   stock : 1,
+  //   couleurs : [],
+  //   image : ['../images/bois-dansants.jpg'],
+  //   livraison : true,
+  // },
   {
     _id:60,
     nom : "Lampe en bois flotté",
     catégorie : "lampes en bois flotté",
     prix : 95,
+    description : "Un bois qui vous tend les bras!",
     stock : 1,
-    image : ['../images/lampe-en-bois-flotte.jpg'],
+    couleurs : [],
+    image : ['../images/lampe-en-bois-flotte.jpg','../images/lampe-en-bois-flotte-1.jpg','../images/lampe-en-bois-flotte-2.jpg'],
     livraison : true,
 
   },
@@ -41,8 +39,10 @@ const products = [
     nom : "PVC étoilé",
     catégorie : "lampes en bois brut et autres",
     prix : 40,
+    description : "Recyclage ! Tube PVC recyclé pour faire une jolie lampe d'ambiance moderne. Et oui, d'un simple et moche tuyau en PVC on peut obtenir un résultat plutôt sympa ! Comme d'habitude, socles faits \"maison\". Ampoule fournie.",
     stock : 1,
-    image : ['../images/lampe-en-pvc-recycle.jpg'],
+    couleurs : [],
+    image : ['../images/lampe-en-pvc-recycle.jpg','../images/lampe-en-pvc-recycle-1.jpg','../images/lampe-en-pvc-recycle-2.jpg'],
     livraison : true,
   },
   {
@@ -50,8 +50,10 @@ const products = [
     nom : "Lampadaire en bois flotté",
     catégorie : "lampadaires",
     prix : 95,
+    description : "Un lampadaire en bois flotté très original. Une véritable sculpture lumineuse. Des bois aux formes découpées et aériennes surmontent un socle colonne, équipé d'un spot. La lumière venant du bas, elle créée avec les bois un très beau jeu de lumières et d'ombres projetés sur les murs environnants. Pièce unique. Socle fabriqué par mes soins. Ampoule spot fournie.",
     stock : 1,
-    image : ['../images/lampadaire-en-bois-flotte.jpg'],
+    couleurs : [],
+    image : ['../images/lampadaire-en-bois-flotte.jpg','../images/lampadaire-en-bois-flotte-1.jpg','../images/lampadaire-en-bois-flotte-2.jpg'],
     livraison : false
   },
   {
@@ -60,7 +62,9 @@ const products = [
     catégorie : "lampadaires",
     prix : 95,
     stock : 1,
-    image : ['../images/lampadaire-en-bois-flotte(1).jpg'],
+    description : "Un lampadaire en bois flotté très original. Une véritable sculpture lumineuse. Des bois aux formes découpées et aériennes surmontent un socle colonne, équipé d'un spot. La lumière venant du bas, elle créée avec les bois un très beau jeu de lumières et d'ombres projetés sur les murs environnants. Pièce unique. Socle fabriqué par mes soins. Ampoule spot fournie.",
+    couleurs : [],
+    image : ['../images/lampadaire-en-bois-flotte(1).jpg','../images/lampadaire-en-bois-flotte2-1.jpg','../images/lampadaire-en-bois-flotte2-2.jpg'],
     livraison : false
   },
   {
@@ -69,7 +73,10 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 120,
     stock : 1,
-    image : ['../images/casque-aile.jpg']
+    livraison : true,
+    couleurs : [],
+    description : "Jolie lampe de bureau en bois flotté, aux formes originales, laissant libre court à l'imagination. Personnellement je vois dans le premier bois l'aile du casque d'Astérix ! Si si, regardez bien ! Abat-jour fabriqué sur mesure en France. Cable non visible. Finitions soignées. Pièce unique.",
+    image : ['../images/casque-aile.jpg', '../images/casque-aile1.jpg', '../images/casque-aile2.jpg' ]
   },
   {
     _id:55,
@@ -77,7 +84,9 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 155,
     stock : 1,
-    image : ['../images/l-hydre.jpg'],
+    couleurs : [],
+    description : 'Modèle original de lampe à trois têtes! Issue de la mythologie? Non, cette lampe est bien réelle. Cables non visibles, finitions soignées. Les abats-jours sont fabriqués en France. Modèle unique.',
+    image : ['../images/l-hydre.jpg', '../images/l-hydre1.jpg','../images/l-hydre2.jpg'],
     livraison : true,
   },
 
@@ -86,7 +95,9 @@ const products = [
     nom : "Le chevron flotté",
     catégorie : "lampes en bois flotté",
     prix : 105,
-    stock : 1,
+    description : "",
+    stock : 0,
+    couleurs : [],
     image : ['../images/le-chevron-flotte.jpg'],
     livraison : true,
   },
@@ -95,18 +106,22 @@ const products = [
     nom : "Lampe en bois flotté",
     catégorie : "lampes en bois flotté",
     prix : 105,
-    stock : 3,
+    description : "Lampe en bois flottés selon une structure originale, donnant un mélange de style très réussi. Abat-jour rectangulaire fabriqué en France sur mesure. Trois coloris au choix. Modèle unique.",
+    stock : 1,
     livraison : true,
-    image : ['../images/L18014.jpg']
+    couleurs : ['beige', 'blanc', 'bleu-clair'],
+    image : ['../images/L18014-1.jpg','../images/L18014.jpg', '../images/L18014-2.jpg']
   },
   {
     _id:52,
     nom : "L'Eléphant",
     catégorie : "lampes en bois flotté",
     prix : 105,
-    stock : 3,
+    stock : 1,
     livraison : true,
-    image : ['../images/L19002.jpg']
+    couleurs : ['beige', 'blanc', 'bleu-clair'],
+    description : "Parfois les éléments naturels se rapprochent de notre imagination, et nous offrent des bois flottés aux formes étonnantes. Abat-jour rectangulaire fabriqué sur mesure en France. Trois coloris d'abat-jour au choix. Modèle unique.",
+    image : ['../images/L19002.jpg', '../images/L19002(1).jpg', '../images/L19002(2).jpg']
   },
   {
     _id:51,
@@ -114,8 +129,10 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 50,
     stock : 1,
+    description : "Simple et efficace ! Lampe en bois flotté, créant un jeu de lumière et d'ombres par projection sur les murs ou meubles avoisinants.",
+    couleurs : [],
     livraison : true,
-    image : ['../images/L18012.jpg']
+    image : ['../images/L18012.jpg','../images/L18012-1.jpg','../images/L18012-2.jpg']
   },
   {
     _id:50,
@@ -123,8 +140,10 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 105,
     stock : 3,
+    description : "Lampe à poser sur socle en bois brut. Pied de lampe en métal. Abat-jour rectangulaire fabriqué en France sur mesure. Trois coloris au choix.",
+    couleurs : ['beige', 'blanc', 'bleu-clair'],
     livraison : true,
-    image : ['../images/L18011.jpg']
+    image : ['../images/L18011.jpg','../images/L18011-1.jpg','../images/L18011-2.jpg']
   },
   {
     _id:49,
@@ -132,8 +151,10 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 105,
     stock : 3,
+    description : "Jolie lampe aux bois flotté très découpés, aériens, donnant un air de structure artistique à l'ensemble. Abat-jour rectangulaire fabriqué en France sur mesure, trois coloris au choix. Finitions soignées. Modèle unique.",
+    couleurs : ['beige', 'blanc', 'bleu-clair'],
     livraison : true,
-    image : ['../images/L18009.jpg']
+    image : ['../images/L18009.jpg','../images/L18009-1.jpg','../images/L18009-2.jpg']
   },
   {
     _id:48,
@@ -141,8 +162,10 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 105,
     stock : 1,
+    description : "Lampe en bois flotté. Celui-ci tel le cours d'eau où je l'ai trouvé se divise en deux. Câbles électriques non visibles. Abat-jours rond fabriqués en France. Plusieurs coloris au choix : blanc, taupe, bleu, crème. Combinaison de couleur selon votre choix. Modèle unique.",
+    couleurs : [],
     livraison : true,
-    image : ['../images/L18008.jpg']
+    image : ['../images/L18008.jpg','../images/L18008-1.jpg','../images/L18008-2.jpg']
   },
   {
     _id:47,
@@ -150,8 +173,10 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 95,
     stock : 1,
+    description : "Jolie lampe à poser où des bois flottés dansent autour du pied de lampe. Abat-jour carré fabriqué en France sur mesure. Finitions soignées. Modèle unique.",
+    couleurs : [],
     livraison : true,
-    image : ['../images/L18006.jpg']
+    image : ['../images/L18006.jpg','../images/L18006-1.jpg','../images/L18006-2.jpg']
   },
   {
     _id:46,
@@ -159,6 +184,8 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 105,
     stock : 5,
+    description : "",
+    couleurs : [],
     livraison : true,
     image : ['../images/L18004.jpg']
   },
@@ -168,8 +195,10 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 80,
     stock : 3,
+    description : "Lampe originale en bois flotté. Ou plutôt en tranche de bois flotté! Idéale comme lampe de chevet, seule ou avec son double de l'autre coté du lit. Abat-jour cubique, fabriqué en France sur mesure. Finitions soignées.",
+    couleurs : [],
     livraison : true,
-    image : ['../images/L18023.jpg']
+    image : ['../images/L18023.jpg','../images/L18023-1.jpg','../images/L18023-2.jpg']
   },
   {
     _id:44,
@@ -177,44 +206,54 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 95,
     stock : 1,
+    description : "Tels des cristaux, ces bois flottés donnent une allure minérale à cette lampe. Abat-jour carré fabriqué en France sur mesure. Un seul coloris possible. Finitions soignées. Pièce unique.",
+    couleurs : [],
     livraison : true,
-    image : ['../images/L18029.jpg']
+    image : ['../images/L18029.jpg','../images/L18029-1.jpg','../images/L18029-2.jpg']
   },
   {
     _id:43,
     nom : "Lampe en bois flotté",
     catégorie : "lampes en bois flotté",
     prix : 105,
-    stock : 3,
+    description : "Jolie lampe en bois flottés, aux forme épurées. Abat-jour fabriqué en France sur mesure, trois coloris au choix. Modèle unique.",
+    stock : 1,
+    couleurs : ['beige', 'blanc', 'bleu-clair'],
     livraison : true,
-    image : ['../images/L18027.jpg']
+    image : ['../images/L18027.jpg','../images/L18027-1.jpg','../images/L18027-2.jpg']
   },
   {
     _id:42,
     nom : "Lampe en bois flotté",
     catégorie : "lampes en bois flotté",
     prix : 105,
+    description : "Jolie lampe à poser en bois flottés. Originale par ses bois, sa structure, cette lampe à un air de sculpture moderne. Parfaite pour votre bureau. Abat-jour fabriqué en France sur mesure, trois coloris au chois (blanc, bleu, taupe). Patins sous le socle. Finitions soignées.",
     stock : 5,
+    couleurs : ['beige', 'blanc', 'bleu-clair'],
     livraison : true,
-    image : ['../images/L18037.jpg']
+    image : ['../images/L18037.jpg','../images/L18037-1.jpg','../images/L18037-2.jpg']
   },
   {
     _id:41,
     nom : "Lampe en bois flotté",
     catégorie : "lampes en bois flotté",
     prix : 105,
+    description : "Des bois flottés originaux, travaillés par les éléments forment cette lampe à poser du plus bel effet. Le rustique des bois flottés mis en scène pour une lampe moderne. Abat-jour fabriqué en France, trois coloris (blanc, taupe ou bleu) au choix. Patins sous le socle. Finitions soignées.",
     stock : 3,
+    couleurs : ['beige', 'blanc', 'bleu-clair'],
     livraison : true,
-    image : ['../images/L18038.jpg']
+    image : ['../images/L18038.jpg','../images/L18038-1.jpg','../images/L18038-2.jpg']
   },
   {
     _id:40,
     nom : "Lampe de sol en bois flotté",
     catégorie : "lampadaires",
     prix : 55,
+    description : "De taille intermédiaire entre un lampadaire et une lampe à poser, cette jolie lampe de sol donnera une atmosphère chaleureuse à votre pièce. Idéale contre un mur pour un jeu d'ombres et de lumières.",
     stock : 2,
+    couleurs : [],
     livraison : true,
-    image : ['../images/L18042.jpg']
+    image : ['../images/L18042.jpg','../images/L18042-1.jpg','../images/L18042-2.jpg']
   },
   {
     _id:39,
@@ -222,8 +261,10 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 55,
     stock : 1,
+    description : "Posée contre un mur, elle jouera avec ses ombres pour donner une ambiance chaleureuse à votre intérieur.",
+    couleurs : [],
     livraison : true,
-    image : ['../images/L18044.jpg']
+    image : ['../images/L18044.jpg','../images/L18044-1.jpg','../images/L18044-2.jpg']
   },
 
   {
@@ -231,7 +272,10 @@ const products = [
     nom : "L'Elégante",
     catégorie : "lampes en bois flotté",
     prix : 90,
+    description : "",
+    couleurs : [],
     stock : 0,
+    livraison : true,
     image : ['../images/L19001.jpg']
   },
   {
@@ -240,26 +284,32 @@ const products = [
     catégorie : "lampadaires",
     prix : 120,
     stock : 1,
+    description : "Jolie colonne en bois brut (pin). Inspirée de mes boites lumineuses, elle se décline comme un lampadaire, pour un très beau jeu de lumières sur les murs et meubles autour d'elle. Via sa grande ampoule, fournie, elle éclaire aussi bien en bas qu'en haut de la colonne.",
+    couleurs : [],
     livraison : true,
-    image : ['../images/L19003.jpg']
+    image : ['../images/L19003-1.jpg','../images/L19003.jpg','../images/L19003-2.jpg']
   },
   {
     _id:36,
-    nom : "Boite à lumières",
+    nom : "Boite à lumières couleur noire",
     catégorie : "lampes en bois brut et autres",
     prix : 50,
     stock : 1,
+    description : "Jolie lampe d'ambiance créée à partir de bois de récupération. Ambiance cosy et intimiste assurée. Version noire. Ampoule fournie.",
+    couleurs : [],
     livraison : true,
     image : ['../images/boite-a-lumieres.jpg']
   },
   {
     _id:35,
-    nom : "Boite à lumières",
+    nom : "Boite à lumières couleur blanche",
     catégorie : "lampes en bois brut et autres",
     prix : 50,
     stock : 2,
+    description : "Jolie lampe d'ambiance créée à partir de bois de récupération. Ambiance cosy et intimiste assurée. Version blanche. Ampoule fournie.",
+    couleurs : [],
     livraison : true,
-    image : ['../images/L19006.jpg']
+    image : ['../images/L19006-1.jpg','../images/L19006-2.jpg','../images/L19006.jpg']
   },
   {
     _id:34,
@@ -267,8 +317,10 @@ const products = [
     catégorie : "lampes en bois brut et autres",
     prix : 110,
     stock : 1,
+    description : "Attention création originale! Lampe à poser en pin. Inspirée par mes \"boites lumineuses\", cette lampe reprend le jeu des trous et lumières associé à un cadre. Mi-sculpture moderne , mi-lampe.",
+    couleurs : [],
     livraison : true,
-    image : ['../images/l-encadree.jpg']
+    image : ['../images/l-encadree.jpg','../images/l-encadree-1.jpg','../images/l-encadree-2.jpg']
   },
   {
     _id:32,
@@ -276,7 +328,10 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 95,
     stock : 0,
-    image : ['../images/les-mouettes.jpg']
+    description : "",
+    couleurs : [],
+    livraison : true,
+    image : ['../images/les-mouettes.jpg','../images/les-mouettes-1.jpg','../images/les-mouettes-2.jpg']
   },
   {
     _id:31,
@@ -284,8 +339,10 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 70,
     stock : 1,
+    description : "Les racines polies par les eaux donnent toujours des bois flottés très originaux. Mi-sculpture, mi-lampe cette lampe à poser avec spot intégré sera très appréciée. Ampoule spot fournie.",
+    couleurs : [],
     livraison : true,
-    image : ['../images/L19015.jpg']
+    image : ['../images/L19015.jpg','../images/L19015-1.jpg','../images/L19015-2.jpg']
   },
   {
     _id:30,
@@ -293,35 +350,43 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 105,
     stock : 3,
+    couleurs : ['beige', 'blanc', 'bleu-clair'],
+    description : "Lampes à poser aux bois flottés, lui donnant un style épuré et élégant. Parfaite pour agrémenter votre bureau ou une table basse. Modèle unique. Abat-jour fabriqué en France, sur mesure. 3 coloris au choix.",
     livraison : true,
-    image : ['../images/L18026.jpg']
+    image : ['../images/L18026.jpg','../images/L18026-1.jpg','../images/L18026-2.jpg']
   },
   {
     _id:29,
     nom : "Lampe en bois flotté",
     catégorie : "lampes en bois flotté",
     prix : 105,
-    stock : 3,
+    stock : 1,
+    couleurs : ['beige', 'blanc', 'bleu-clair'],
+    description : "Jolie lampe à poser en bois flotté, aux bois naturellement travaillés par les éléments. Abat-jour fabriqué en France sur-mesure, 3 coloris au choix. Patins sous le socle. Finitions soignées. Modèle unique.",
     livraison : true,
-    image : ['../images/L18022.jpg']
+    image : ['../images/L18022.jpg','../images/L18022-1.jpg','../images/L18022-2.jpg']
   },
   {
     _id:28,
     nom : "Lampe en bois flotté",
     catégorie : "lampes en bois flotté",
     prix : 95,
-    stock : 3,
+    stock : 1,
+    couleurs : ['beige', 'blanc', 'bleu-clair'],
+    description : "Lampe de table en bois flotté, formant une géode. Parfaite pour vous accompagner sur votre bureau. Abat-jour rectangulaire fabriqué sur mesure en France. 3 coloris au choix. Patins sous le socle. Finitions soignées. Modèle unique.",
     livraison : true,
-    image : ['../images/L18021.jpg']
+    image : ['../images/L18021.jpg','../images/L18021-1.jpg']
   },
   {
     _id:27,
     nom : "Lampe en bois flotté",
     catégorie : "lampes en bois flotté",
     prix : 95,
-    stock : 3,
+    stock : 1,
+    description : "Lampe à poser en bois flotté, idéale pour agrémenter votre bureau ! Abat-jour fabriqué en France sur mesure, trois coloris au choix. Patins sous le socle. Finitions soignée. Modèle unique.",
+    couleurs : ['beige', 'blanc', 'bleu-clair'],
     livraison : true,
-    image : ['../images/L18020.jpg']
+    image : ['../images/L18020.jpg','../images/L18020-1.jpg']
   },
 
   {
@@ -330,8 +395,10 @@ const products = [
     catégorie : "lampes en bois brut et autres",
     prix : 80,
     stock : 1,
+    description : "Petite lampe de chevet en bois de récupération. Rien ne se perd, tout se transforme! Une deuxième vie pour ce bois de palette. Abat-jour fabriqué en France sur mesure.",
+    couleurs : [],
     livraison : true,
-    image : ['../images/L18018.jpg']
+    image : ['../images/L18018.jpg', '../images/L18018-1.jpg', '../images/L18018-2.jpg']
   },
   {
     _id:24,
@@ -339,25 +406,31 @@ const products = [
     catégorie : "lampes en bois flotté",
     prix : 95,
     stock : 1,
+    couleurs : [],
+    description : "Lampe de table en bois flotté idéale pour une lumière d'appoint sur une table basse. Abat-jour fabriqué en France sur-mesure (25cm*25cm). Modèle unique. Cordon électrique non visible, finitions soignées.",
     livraison : true,
-    image : ['../images/L18017.jpg']
+    image : ['../images/L18017.jpg', '../images/L18017-1.jpg','../images/L18017-2.jpg']
   },
   {
     _id:23,
     nom : "Lampe en bois flotté",
     catégorie : "lampes en bois flotté",
     prix : 105,
-    stock : 3,
+    stock : 1,
+    couleurs : ['beige', 'blanc', 'bleu-clair'],
+    description : "Lampe à poser en bois flotté idéale pour une lumière d'appoint sur une table basse. Abat-jour fabriqué en France sur-mesure, trois coloris au choix. Finition soignée. Modèle unique.",
     livraison : true,
-    image : ['../images/L18016.jpg']
+    image : ['../images/L18016.jpg','../images/L18016-1.jpg','../images/L18016-2.jpg']
   },
   {
     _id:22,
     nom : "Lampe en bois flotté",
     catégorie : "lampes en bois flotté",
-    description : "Lampe à poser en bois flotté avec spot intégré, formant un joli jeu de lumières et d'ombres.Ampoule spot fournie.",
+    description : "Lampe à poser en bois flotté avec spot intégré, formant un joli jeu de lumières et d'ombres. Ampoule spot fournie.",
     prix : 70,
     stock : 1,
+    couleurs : [],
+    description : "",
     livraison : true,
     image : ['../images/L19012.jpg','../images/22-1.jpg', '../images/abcdefgh.jpg']
   }

@@ -1,12 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
+import {motion} from 'framer-motion'
 
 const Modal = ({children}) => {
+
+  const modalAnim = {
+    start: {y : '300px'},
+    end: {y : 0, transition : { duration : 0.5}}
+  }
+
+
   return (
     <ModalDiv>
-      <div>
+      <motion.div variants={modalAnim} initial="start" animate='end' >
         {children}
-      </div>     
+      </motion.div>
     </ModalDiv>
   )
 }
@@ -14,18 +22,15 @@ const Modal = ({children}) => {
 const ModalDiv = styled.div`
 
   div{
-    max-width :800px;
-    max-height :800px;
+    max-width :900px;
+    max-height :900px;
     background-color : white;
     display :flex;
     justify-content:center;
     align-items:center;
-    padding :30px;
-    overflow :hidden;
-    padding :20px;
-    border-right:10px solid white;
-    border-left:10px solid white;
+    position :relative;
   }
+  
 `
 
 export default Modal

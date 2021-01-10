@@ -3,7 +3,7 @@ import Footer from './components/Footer'
 import MenuFixe from './components/MenuFixe';
 import HomeScreen from './screens/HomeScreen';
 import BoutiqueScreen from './screens/BoutiqueScreen'
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 import LegalScreen from './screens/LegalScreen';
 import ConfidentialiteScreen from './screens/ConfidentialiteScreen';
 import IntegrateurFacebook from './components/IntegrateurFacebook';
