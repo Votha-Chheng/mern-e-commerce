@@ -20,6 +20,7 @@ const DisplayProducts = ({filteredProducts}) => {
 }
 
 const Wrapper  = styled.div`
+  width : 100%;
   .card-container{
     border: solid 1px #eaf0ce;
     margin-bottom : 25px;
@@ -32,6 +33,14 @@ const Wrapper  = styled.div`
     flex-wrap :wrap;
     justify-content:space-evenly;
   }
+
+  @media only screen and (max-width: 1490px){
+    .card-container{
+      height : 460px;
+    }
+  }
+
 `
+
 
 export default DisplayProducts

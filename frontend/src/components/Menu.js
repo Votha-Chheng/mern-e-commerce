@@ -6,10 +6,10 @@ const Menu = () => {
   return (
     <Wrapper>
         <ul>
-          <NavLink to='/'><li>Accueil</li></NavLink>
-          <NavLink to='/boutique'><li>Boutique</li></NavLink>
-          <NavLink to='/presentation'><li>Qui suis-je ?</li></NavLink>
-          <NavLink to='/blog'><li>Blog</li></NavLink>
+          <NavLink className='item' to='/'><li>Accueil</li></NavLink>
+          <NavLink className='item' to='/produits'><li>Boutique</li></NavLink>
+          <NavLink className='item' to='/presentation'><li>Qui suis-je ?</li></NavLink>
+          <NavLink className='item' to='/blog'><li>Blog</li></NavLink>
         </ul>
     </Wrapper>
     
@@ -40,9 +40,11 @@ const Wrapper = styled.nav`
     cursor: pointer;
     font-family:'Oswald', sans-serif;
   }
+  .item:hover{
+    text-decoration: none !important;
+  }
   @media only screen and (max-width: 1000px){
     display : none;
   }
 `
-
 export default Menu

@@ -7,13 +7,14 @@ import styled from 'styled-components'
 import CarouselImageProduit from '../components/CarouselImageProduit'
 
 const ProductScreen = () => {
-  const history = useHistory()
-  const {id} = useParams()
 
   const [qty, setQty] = useState(1)
   const [couleur, setCouleur] = useState('beige')
 
+  const {id} = useParams()
   const dispatch = useDispatch()
+  const history = useHistory()
+
 
   const productDetails = useSelector(state => state.productDetails)
   const {loading, error, product} = productDetails
@@ -21,8 +22,8 @@ const ProductScreen = () => {
   useEffect(() => {
 
     dispatch(listProductDetails(id))
-    console.log(history)
-  }, [dispatch, id, history])
+    
+  }, [dispatch, id])
 
   const convertPrice = (price)=>{
     let priceString = (Math.floor(price*100)/100).toFixed(2)
@@ -37,7 +38,10 @@ const ProductScreen = () => {
     }
     return text
   }
-  
+
+  const addCartHandler = ()=> {
+    history.push(`/panier/${product._id}?qty=${qty}`)
+  }
 
   return (
     <Wrapper>
@@ -45,7 +49,7 @@ const ProductScreen = () => {
         loading? <h2>Chargement...</h2> : error ? <h3>{error}</h3> : (
         <>
           <div className='card-container'>
-            <CarouselImageProduit images={product.image}/>
+            <CarouselImageProduit images={product.images}/>
             <div className='card-description'>
               <div className='partie-haute'>
                 <h3>{product.nom}</h3>
@@ -66,7 +70,22 @@ const ProductScreen = () => {
                     <div className='couleurs'>
                       <h5>Couleurs d'abat-jour disponibles</h5>
                       <div className='couleurs-container'>
-                        { product.couleurs.map((couleur, index) => <div key={index} id={couleur} className={`coloris`}></div>) }
+                        { 
+                          product.couleurs.map((color, index) => 
+                            <div 
+                              key={index} 
+                              id={color} 
+                              className='coloris'
+                              onClick={(event)=>{setCouleur(event.target.id)}} 
+                            >
+                            {
+                              color===couleur && <svg width="10" height="91" viewBox="0 0 90 91" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M37.627 89.6151C35.6169 88.9665 34.5779 88.3948 32.7322 86.9221C30.2998 84.9812 3.43728 57.8773 2.48853 56.4067C1.06725 54.2036 0.514866 52.4102 0.380722 49.5636C0.248512 46.758 0.500418 45.3351 1.52639 43.0921C3.10149 39.6485 6.35167 36.8313 10.0318 35.7196C12.0547 35.1086 15.8213 35.1031 17.8228 35.7083C21.112 36.7029 22.0075 37.4172 30.3915 45.734L38.3695 53.6481L39.0566 52.6369C39.4345 52.0808 39.7437 51.5456 39.7437 51.4475C39.7437 51.3494 40.3204 50.2757 41.0254 49.0615C41.7303 47.8473 44.0707 43.6392 46.2264 39.7101C48.382 35.781 50.59 31.7924 51.1331 30.8465C51.6761 29.9007 52.4313 28.5612 52.8112 27.87C53.1912 27.1788 53.8171 26.0477 54.2021 25.3564C54.5872 24.6652 56.9821 20.3492 59.5241 15.7653C62.0662 11.1814 64.5568 6.86875 65.0588 6.18164C69.5225 0.0721297 78.3463 -1.1379 84.4583 3.52137C89.5781 7.42436 91.2354 14.7573 88.3017 20.5278C87.491 22.1225 79.8223 36.0599 77.8927 39.4455C77.2292 40.6097 76.4048 42.0861 76.0607 42.7264C75.7166 43.3668 75.1244 44.4383 74.7446 45.1077C74.0361 46.3567 71.8375 50.3171 64.6685 63.258C62.4113 67.3326 60.2274 71.2616 59.8154 71.9893C59.4035 72.7169 57.7251 75.7529 56.0858 78.7361C53.5231 83.3994 52.8454 84.4205 51.2531 86.0167C49.2072 88.0676 47.5108 89.0949 45.1584 89.7076C43.0631 90.2534 39.468 90.2092 37.627 89.6151V89.6151Z" fill="black"/>
+                              </svg>
+                            }
+                            </div>
+                          ) 
+                        }
                       </div>
                     </div>
                   )}
@@ -89,7 +108,7 @@ const ProductScreen = () => {
                   {product.stock>0 && (<>
                   <div className='info-container'>
                     <h5 >Quantité :</h5>
-                    <select id='quantity' value={qty} onChange={(event)=>setQty(event.target.value)}>
+                    <select name='quantity' value={qty} onChange={(event)=>setQty(+event.target.value)}>
                       {
                         displayOpt(product.stock).map((item, index) => <option key={index} value={item}>{item}</option>)
                       }
@@ -97,13 +116,11 @@ const ProductScreen = () => {
                   </div>
                   <div className='bouton'>
                       {
-                        product.livraison ? <button className='btn btn-block btn-primary'>Ajouter au panier</button> : <button className='btn btn-block btn-warning'>Me contacter</button>
+                        product.livraison ? <button className='btn btn-block btn-primary'onClick={addCartHandler} >Ajouter au panier</button> : <button className='btn btn-block btn-warning'>Me contacter</button>
                       } 
                    </div>
                    </>
-                  )}
-                   
-                   
+                  )}  
               </div> 
             </div>
             
@@ -219,9 +236,9 @@ const Wrapper = styled.div`
   }
   .couleurs-container{
     display : flex;
-   
   }
   .coloris {
+    position: relative;
     width : 30px;
     height: 30px;
     border-radius : 50%;
@@ -229,7 +246,13 @@ const Wrapper = styled.div`
     box-shadow : -3px 5px 10px 0px grey;
     cursor: pointer;
     margin : 0 10px;
+    svg{
+      position :absolute;
+      top : -32px;
+      left: 7px;
+    }
   }
+
   #beige{
     background-color : #e1c699
   }

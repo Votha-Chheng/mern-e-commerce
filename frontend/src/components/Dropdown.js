@@ -1,15 +1,18 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
-const Dropdown = ({classProps}) => {
+const Dropdown = ({classProps, clic}) => {
+  
   return (
+
     <NavStyle >
       <nav className={classProps.dropdown}>
         <ul>
-          <li className={classProps.li}>Accueil</li>
-          <li className={classProps.li}>Boutique</li>
-          <li className={classProps.li}>Qui suis-je ?</li>
-          <li className={classProps.li}>Blog</li>
+          <NavLink to='/' onClick={clic} className='item'><li className={classProps.li }>Accueil</li></NavLink> 
+          <NavLink to='/produits' onClick={clic} className='item'><li className={classProps.li}>Boutique</li></NavLink>
+          <NavLink to='/presentation' onClick={clic} className='item'><li className={classProps.li}>Qui suis-je ?</li></NavLink>
+          <NavLink to='/blog' onClick={clic} className='item'><li className={classProps.li}>Blog</li></NavLink> 
         </ul>
       </nav>
     </NavStyle>
@@ -54,6 +57,8 @@ const NavStyle = styled.div`
     transition: all 0.8s ease-in-out;
     opacity : 1;
   }
+  .item:hover{
+    text-decoration : none !important; 
+  }
 `
-
 export default Dropdown

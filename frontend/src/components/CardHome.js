@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
-import {Link} from 'react-router-dom'
+import React, { useLayoutEffect, useRef, useState } from 'react'
+import {Link, NavLink, useHistory} from 'react-router-dom'
 import styled from 'styled-components'
 
 const CardHome = ({product}) => {
@@ -9,25 +9,25 @@ const CardHome = ({product}) => {
 
   const image = useRef(null)
 
+  const history = useHistory()
+  
+  useLayoutEffect(()=>{
+    //Est utilisé pour choper les éléments du dom une fois monté
+  }, [])
+
   const handleClick = ()=>{
     window.scrollTo(0,0)
   }
-  
 
-  useEffect(()=>{
-    
-    // const getRatio = async () => {
-    //   await setRatio(img.current.clientWidth/img.current.clientHeight)
-    // }
-    // getRatio()
-  }, [])
+  const addCartHandler = ()=> {
+    history.push(`/panier/${product._id}?qty=1`)
+  }
 
-  
   return (
     <Wrapper >
-        <Link to={`/produit/${product._id}`} onClick={handleClick}>
+        <Link to={`/produits/${product._id}`} onClick={handleClick}>
           <div style={{position:'relative'}} className="image-frame">
-            <img ref={image} src={product.image[0]} onLoad={()=>{setRatio(image.current.naturalWidth/image.current.naturalHeight)}} alt={product.nom} style={{position : 'absolute', left:'0', transform:`scale(0.9) translateY(${ratio>ratioFrame?15:0}px) translateX(-${ratio>1? 220*ratio/4 : '0'}px)`}} width={ratio<1 ? '220': 'auto'} height={ratio>1? '280px' : 'auto'}/>
+            <img ref={image} src={product.images[0]} onLoad={()=>{setRatio(image.current.naturalWidth/image.current.naturalHeight)}} alt={product.nom} style={{position : 'absolute', left:'0', transform:`scale(0.9) translateY(${ratio>ratioFrame?15:0}px) translateX(-${ratio>1? 220*ratio/4 : '0'}px)`}} width={ratio<1 ? '220': 'auto'} height={ratio>1? '280px' : 'auto'}/>
           </div>
         
           <div className="text-desc">
@@ -36,8 +36,8 @@ const CardHome = ({product}) => {
         </Link>
           <h4 className="prix-card"><span>{product.prix} €</span></h4>
           <div className="btn-card">
-            <button>Détails</button>
-            <button>Ajouter au panier</button>
+            <NavLink to={`/produits/${product._id}`} className='details' ><button>Détails</button></NavLink>
+            <div className='cart' ><button onClick={addCartHandler}>Ajouter au panier</button></div>
           </div>
     </Wrapper>
   )
@@ -112,34 +112,45 @@ const Wrapper = styled.div`
     display: flex;
     justify-content:space-around;
   }
-  .btn-card :nth-child(1){
-    background-color: #2A3D45 ;
+  .details{
+    width:100px;
+    button{
+      background-color: #2A3D45 ;
+      width:100%;
+      border : 1px solid #2A3D45;
+    }
+    button:hover{
+      background-color: antiquewhite;
+      color: #2A3D45;
+      border : 1px solid #2A3D45;
+      transition: all 0.3s ease-out;
+    }
   }
-  .btn-card :nth-child(1):hover{
-    background-color: white;
-    border : 2px solid #2A3D45;
-    color: #2A3D45;
-    transition: all 0.3s ease-out;
+  .cart{
+    width : 200px;
+    button{
+      width:100%;
+      background-color: #FF8427 ;
+      border : 1px solid #FF8427
+    }
+    button:hover{
+      background-color: antiquewhite;
+      color: #FF8427;
+      border : 1px solid #FF8427;
+      transition: all 0.3s ease-out;
+    }
   }
-  .btn-card :nth-child(2){
-    background-color: #FF8427 ;
-    border : 2px solid #FF8427;
-  }
-  .btn-card :nth-child(2):hover{
-    background-color: white;
-    border : 2px solid #FF8427;
-    color: #FF8427;
-    transition: all 0.3s ease-out;
-  }
+
   .btn-card button{
     font-size:1.1em;
     padding:10px 15px;
     cursor: pointer;
-    margin: 0 5px;
+    margin: 0 0px;
     font-family: 'Lato', sans-serif;
     text-transform: uppercase;
     border:none;
     color: #fff;
+    width:100%;
   }
 
   @media only screen and (max-width: 1520px){
@@ -148,9 +159,7 @@ const Wrapper = styled.div`
     .btn-card button{
       font-size:0.9em;
       padding:6px;
-    }
-    .btn-card :nth-child(1){
-    width:80px;
+      height : 40px;
     }
     .image-frame{
       margin-top : 0px;
@@ -162,34 +171,26 @@ const Wrapper = styled.div`
       margin-bottom : 22px;
     }
   }
+
   @media only screen and (max-width: 1200px){
-
-    width:350px;
-    height: 470px;
-
-    .btn-card button{
-      font-size:1.1em;
-      padding:10px 15px;
-      margin: 0 5px;
-    }
-    .btn-card :nth-child(1){
-      width:unset;
-    }
+    width:320px;
+    height: 440px;
   }
+
   @media only screen and (max-width: 768px){
 
-      width:260px;
-      height: 450px;
+    width:260px;
+    height: 450px;
 
     .btn-card button{
       font-size:0.8em;
       padding:4px;
       margin: 0;
     }
-    .btn-card :nth-child(1){
-    width:75px;
+    .details{
+    width:80px;
     }
-    .btn-card :nth-child(2){
+    .cart{
     width:110px;
     }
     .prix-card {

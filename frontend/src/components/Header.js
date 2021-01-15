@@ -9,10 +9,11 @@ import Dropdown from './Dropdown'
 const Header = () => {
 
   const [show, setShow] = useState(true)
+  const [size, setSize] = useState()
 
   useEffect(() => {
     setShow(true)
-  }, [])
+  },[])
 
   const handleBurger = ()=>{
     setShow(!show)
@@ -24,7 +25,7 @@ const Header = () => {
       position.burger = 'visible'
       position.cross = 'non-visible'
       position.dropdown = ''
-      position.li = ''
+      position.li = ''      
     } else {
       position.burger = 'non-visible'
       position.cross =  'visible'
@@ -33,6 +34,13 @@ const Header = () => {
     }
     return position
   }
+
+  window.addEventListener('resize',()=> {
+    setSize(window.innerWidth)
+    size > 1000 && setShow(true)
+    showBurger()
+  })
+
 
   return (
     <Wrapper>
@@ -44,7 +52,7 @@ const Header = () => {
         <i  className={"fas fa-times fa-2x cross " + showBurger().cross} onClick={handleBurger}></i>
         <Logo/>
         <Utils/>
-        <Dropdown classProps={showBurger()}/>
+        <Dropdown classProps={showBurger()} clic={handleBurger}/>
       </div>
         
     </Wrapper>

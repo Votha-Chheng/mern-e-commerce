@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react'
+import React, {useEffect, useState, useRef, useLayoutEffect} from 'react'
 import styled from 'styled-components'
 import {motion} from 'framer-motion'
 import Modal from '../components/Modal'
@@ -20,12 +20,14 @@ const CarouselImageProduit = ({images}) => {
 
   useEffect(() => {
     setImagesArray(images)
+    
+  },[images, imagesRef])
+
+  useLayoutEffect(()=>{
     setRatioArray([])
     const newRatioArray = imagesRef.current.map(image => image.naturalWidth/image.naturalHeight||image.clientWidth/image.clientHeight )
     setRatioArray([newRatioArray])
-  },[images, imagesRef])
-
-  // const ratioArray = imagesRef.current.map(image => image.naturalWidth/image.naturalHeight||image.clientWidth/image.clientHeight ) || [1, 1, 1]
+  }, [])
 
   return (
     <Wrapper>
@@ -69,8 +71,9 @@ const CarouselImageProduit = ({images}) => {
 
       <div className='carousel-container'>
         <div className='image-frame'>
-          <div className='images-queue' 
-          style={{transform: `translateX(${indexImg * -100}%)`}} 
+          <div 
+            className='images-queue' 
+            style={{transform: `translateX(${indexImg * -100}%)`}} 
           >
           {
             imagesArray.map((image, index) => (

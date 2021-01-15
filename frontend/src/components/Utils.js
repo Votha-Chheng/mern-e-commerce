@@ -1,11 +1,12 @@
 import React from 'react'
+import {NavLink} from 'react-router-dom'
 import styled from 'styled-components'
 
 const Utils = () => {
   return (
     <Wrapper>
         <ul>
-          <li><span>Panier<br/></span><i className="fas fa-shopping-basket"><div className="articles-dans-panier"><Span>0</Span></div></i></li>
+          <NavLink to='/panier'><li><span>Panier<br/></span><i className="fas fa-shopping-basket"><div className="articles-dans-panier"><Span>0</Span></div></i></li></NavLink>
           <li><span>Compte<br/></span><i className="fas fa-user-alt"></i></li>
         </ul>
     </Wrapper>

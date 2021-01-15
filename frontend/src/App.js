@@ -11,6 +11,7 @@ import PresentationScreen from './screens/PresentationScreen'
 import BlogScreen from './screens/BlogScreen';
 import CGVScreen from './screens/CGVScreen';
 import ProductScreen from './screens/ProductScreen';
+import CartScreen from './screens/CartScreen';
 
 
 function App() {
@@ -20,8 +21,9 @@ function App() {
       <MenuFixe/>
       <Header/>
       <Route exact path="/" component ={HomeScreen} />
-      <Route exact path="/boutique" component ={BoutiqueScreen} />
-      <Route exact path="/produit/:id" component ={ProductScreen} />
+      <Route exact path="/produits" component ={BoutiqueScreen} />
+      <Route exact path="/produits/:id" component ={ProductScreen} />
+      <Route path="/panier/:id?" component ={CartScreen} />
       <Route exact path="/presentation" component ={PresentationScreen} />
       <Route exact path="/blog" component ={BlogScreen} />
       <Route exact path='/mentionslegales' component={LegalScreen} /> 

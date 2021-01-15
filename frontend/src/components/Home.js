@@ -56,7 +56,7 @@ const Home = () => {
         <motion.div variants={titleAnim} initial="left" animate='set' id="conteneur-texte">
           <h2><span>Lampes en</span> <span>bois flotté</span></h2>
           <h3>Créations 100% originales<br/>Fabrication 100% artisanale</h3>
-          <Link to='/boutique'><button id="btn-articles">Voir les produits</button></Link>
+          <Link to='/produits'><button id="btn-articles">Voir les produits</button></Link>
         </motion.div>
         <motion.div id='carre-1' className="carre" variants={carre1Anim} initial='start' animate='end' >
         </motion.div>

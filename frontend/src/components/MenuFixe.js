@@ -29,7 +29,7 @@ const MenuFixe = () => {
         <ul>
           <div className='li-items'>
             <NavLink to='/' onClick={handleClick}><li>Accueil</li></NavLink>
-            <NavLink to='/boutique' onClick={handleClick}><li>Boutique</li></NavLink>
+            <NavLink to='/produits' onClick={handleClick}><li>Boutique</li></NavLink>
             <NavLink to='/presentation' onClick={handleClick}><li>Qui suis-je ?</li></NavLink>
             <NavLink to='/blog' onClick={handleClick}><li>Blog</li></NavLink>
           </div>
