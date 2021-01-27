@@ -20,17 +20,20 @@ const Modal = ({children}) => {
 }
 
 const ModalDiv = styled.div`
-
-  div{
-    max-width :900px;
-    max-height :900px;
-    background-color : white;
-    display :flex;
-    justify-content:center;
-    align-items:center;
-    position :relative;
-  }
+  z-index: 80000000000000;
+  top: 0px;
+  left: 0px;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display : flex;
+  justify-content: center;
+  background-color : rgba(0,0,0,0.5);
+  padding : 20px;
   
+  div{
+    background-color : white;
+  }
 `
 
 export default Modal

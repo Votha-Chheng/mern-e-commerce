@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useRef, useLayoutEffect} from 'react'
 import styled from 'styled-components'
-import {motion} from 'framer-motion'
+
 import Modal from '../components/Modal'
 
 const CarouselImageProduit = ({images}) => {
@@ -11,16 +11,9 @@ const CarouselImageProduit = ({images}) => {
   const [modal, setModal] = useState(false)
 
   const imagesRef = useRef([])
-    
-  const modalShow = {
-    start: {opacity : 0},
-    end : {opacity : 1, transition : { ease : 'easeIn', duration:0.2}}
-  }
-
 
   useEffect(() => {
-    setImagesArray(images)
-    
+    setImagesArray(images) 
   },[images, imagesRef])
 
   useLayoutEffect(()=>{
@@ -33,47 +26,44 @@ const CarouselImageProduit = ({images}) => {
     <Wrapper>
       {
         modal && (
-          <motion.div className='modal-container' variants={modalShow} initial='start' animate='end' >
-              <Modal>
-                <div className='image-frame-modal' >
-                <i className="fas fa-times-circle close" onClick={() => setModal(false)} />
-                  <div className='right' onClick={() => setIndexModal(indexModal === imagesArray.length-1 ? 0 : indexModal+1)}>
-                    <i className="fas fa-chevron-circle-right"/>
-                  </div>
-                  <div className='left' onClick={() => setIndexModal(indexModal === 0 ? imagesArray.length-1 : indexModal-1)}>
-                    <i className="fas fa-chevron-circle-left"></i>
-                  </div>
-                  <div 
-                    className='images-queue-modal' 
-                    style={{transform: `translateX(${indexModal * -100}%)`}}
-                  >
-                    {
-                      imagesArray.map((image, index)=> (
-                        <div key={index} 
-                          className='main-container-images-modal'
-                        >
-                          <img 
-                            src={image} 
-                            alt='modal'
-                            width={ratioArray[index]>1? "880px" : "auto"} 
-                            height={ratioArray[index]>1 ? "auto" : "880px"} 
-                          />
-                        </div>
-                      ))
-                    } 
-                  </div>
-                </div>
-              </Modal>     
-          </motion.div>
-          
+          <Modal>
+            <div className='image-frame-modal' >
+              <i className="fas fa-times-circle close" onClick={() => setModal(false)} />
+              <div className='right' onClick={() => setIndexModal(indexModal === imagesArray.length-1 ? 0 : indexModal+1)}>
+                <i className="fas fa-chevron-circle-right"/>
+              </div>
+              <div className='left' onClick={() => setIndexModal(indexModal === 0 ? imagesArray.length-1 : indexModal-1)}>
+                <i className="fas fa-chevron-circle-left"></i>
+              </div>
+              <div 
+                className='images-queue-modal' 
+              >
+                {
+                  imagesArray.map((image, index)=> (
+                    <div key={index} 
+                      className='main-container-images-modal'
+                      style={{transform: `translateX(${indexModal * -100}%)`}}
+                    >
+                      <img 
+                        src={image} 
+                        alt='modal'
+                        width={ratioArray[index]>1? "680px" : "auto"} 
+                        height={ratioArray[index]>1 ? "auto" : "880px"} 
+                      />
+                    </div>
+                  ))
+                } 
+              </div>
+            </div>
+          </Modal>        
         ) 
       }
 
       <div className='carousel-container'>
-        <div className='image-frame'>
+        <div className='image-frame' >
           <div 
             className='images-queue' 
-            style={{transform: `translateX(${indexImg * -100}%)`}} 
+            
           >
           {
             imagesArray.map((image, index) => (
@@ -83,7 +73,9 @@ const CarouselImageProduit = ({images}) => {
                 onClick={()=>{
                   setModal(true)
                   setIndexModal(indexImg)
-                }} >
+                }} 
+                style={{transform: `translateX(${indexImg * -100}%)`}}
+                >
                 <img 
                   onLoad = {()=> setImagesArray(images)} 
                   ref={element => imagesRef.current[index] = element} 
@@ -122,7 +114,7 @@ const CarouselImageProduit = ({images}) => {
 
 const Wrapper = styled.div`
   /**********Modal*****/
-  .modal-container {
+  /* .modal-container {
     z-index: 80000000000000;
     top: 0px;
     left: 0px;
@@ -133,7 +125,7 @@ const Wrapper = styled.div`
     justify-content: center;
     background-color : rgba(0,0,0,0.5);
     padding : 20px 20px;
-  }
+  } */
 
   .image-frame-modal{
     position: relative;
@@ -145,6 +137,7 @@ const Wrapper = styled.div`
   }
   .right, .left{
     position: absolute;
+    top :450px;
     transform : scale(5);
     z-index: 9999999;
     background-color : rgba(0,0,0, 0);
@@ -165,12 +158,13 @@ const Wrapper = styled.div`
     display : flex;
     flex-direction: row;
     justify-content: flex-start;
-    transition : transform 0.3s ease-out;
+
   }
   .main-container-images-modal{
     min-width : 900px;
     display : flex;
     justify-content : center;
+    transition : transform 0.5s ease-out;
   }
   .close{
     position :absolute;
@@ -195,7 +189,7 @@ const Wrapper = styled.div`
     width: 100%;
     height : 100%;
     display: flex;
-    transition: transform 0.5s ease-in-out;
+    transition: transform 0.3s ease-in-out;
   }
   
   .main-container-images{
@@ -206,6 +200,7 @@ const Wrapper = styled.div`
     justify-content: center;
     overflow: hidden;
     cursor: pointer;
+    transition : transform 0.5s ease-out;
   }
   
   .images-suite{

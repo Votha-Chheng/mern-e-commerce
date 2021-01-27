@@ -1,9 +1,11 @@
+import { motion } from 'framer-motion'
 import React from 'react'
 import styled from 'styled-components'
+import { pageTransition } from '../fonctionsOutils'
 
 const LegalScreen = () => {
   return (
-    <Wrapper>
+    <Wrapper variants={pageTransition} initial='initial' animate='animate' exit='exit' >
       <h2>
         Mentions Légales
       </h2>
@@ -42,7 +44,7 @@ const LegalScreen = () => {
   )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   width: 60%;
   margin : 0 auto;
   

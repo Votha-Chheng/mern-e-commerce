@@ -45,13 +45,18 @@ const Header = () => {
   return (
     <Wrapper>
       <div className='header'>
-        <Menu className='menu'/>
+        <div className='menu-header'>
+          <Menu/>
+        </div>
+        
         <div className={" burger "+showBurger().burger} onClick={handleBurger}>
           <img src={burgerImg} alt='burger-menu' />
         </div>
         <i  className={"fas fa-times fa-2x cross " + showBurger().cross} onClick={handleBurger}></i>
         <Logo/>
-        <Utils/>
+        <div className='utils'>
+          <Utils />
+        </div>
         <Dropdown classProps={showBurger()} clic={handleBurger}/>
       </div>
         
@@ -74,7 +79,21 @@ const Wrapper = styled.header`
     width: 100%;
     height: 190px;
     transition : all 1s;
-    z-index: 90000000;
+    z-index: 9000000;
+
+    .menu-header{
+      position : absolute;
+      left : 0;
+      bottom : 0;
+    }
+
+    .utils{
+      position: absolute;
+      top: 140px;
+      right: 0px;
+      z-index: 1;
+      }
+
   }
   .burger {
     position : absolute;
@@ -90,6 +109,9 @@ const Wrapper = styled.header`
   }
 
   @media only screen and (max-width: 1000px){
+    .menu-header{
+      display:none;
+    }
     .burger{
       left: 10px;
       bottom: 5px;

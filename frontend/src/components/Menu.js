@@ -17,14 +17,6 @@ const Menu = () => {
 }
 
 const Wrapper = styled.nav`
-  margin: 0 px;
-  z-index: 100000;
-  flex-direction: row;
-  justify-content :space-between;
-  width: 500px;
-  position : absolute;
-  top: 160px;
-  left: 0px;
   
   ul {
     display: flex;
@@ -43,8 +35,6 @@ const Wrapper = styled.nav`
   .item:hover{
     text-decoration: none !important;
   }
-  @media only screen and (max-width: 1000px){
-    display : none;
-  }
+
 `
 export default Menu

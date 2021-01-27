@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useRef, useState } from 'react'
 import {Link, NavLink, useHistory} from 'react-router-dom'
 import styled from 'styled-components'
+import {convertPrice} from '../fonctionsOutils'
 
 const CardHome = ({product}) => {
 
@@ -15,9 +16,6 @@ const CardHome = ({product}) => {
     //Est utilisé pour choper les éléments du dom une fois monté
   }, [])
 
-  const handleClick = ()=>{
-    window.scrollTo(0,0)
-  }
 
   const addCartHandler = ()=> {
     history.push(`/panier/${product._id}?qty=1`)
@@ -25,7 +23,7 @@ const CardHome = ({product}) => {
 
   return (
     <Wrapper >
-        <Link to={`/produits/${product._id}`} onClick={handleClick}>
+        <Link to={`/produit/${product._id}`}>
           <div style={{position:'relative'}} className="image-frame">
             <img ref={image} src={product.images[0]} onLoad={()=>{setRatio(image.current.naturalWidth/image.current.naturalHeight)}} alt={product.nom} style={{position : 'absolute', left:'0', transform:`scale(0.9) translateY(${ratio>ratioFrame?15:0}px) translateX(-${ratio>1? 220*ratio/4 : '0'}px)`}} width={ratio<1 ? '220': 'auto'} height={ratio>1? '280px' : 'auto'}/>
           </div>
@@ -34,10 +32,15 @@ const CardHome = ({product}) => {
             <h3 className="nom-produit">{product.nom}</h3>
           </div>
         </Link>
-          <h4 className="prix-card"><span>{product.prix} €</span></h4>
+          <h4 className="prix-card"><span>{convertPrice(product.prix)} €</span></h4>
           <div className="btn-card">
-            <NavLink to={`/produits/${product._id}`} className='details' ><button>Détails</button></NavLink>
-            <div className='cart' ><button onClick={addCartHandler}>Ajouter au panier</button></div>
+            <NavLink to={`/produit/${product._id}`} className='details'><button>Détails</button></NavLink>
+            
+            {
+              product.stock <=0 ? <div><button className='no-dispo'>Rupture de stock</button></div> : 
+              <div className='cart' ><button onClick={()=>addCartHandler()}>Ajouter au panier</button></div>
+            }
+            
           </div>
     </Wrapper>
   )
@@ -139,8 +142,12 @@ const Wrapper = styled.div`
       border : 1px solid #FF8427;
       transition: all 0.3s ease-out;
     }
+    
   }
-
+  .no-dispo{
+      color : red !important;
+      cursor : default !important ;
+    }
   .btn-card button{
     font-size:1.1em;
     padding:10px 15px;
@@ -151,6 +158,8 @@ const Wrapper = styled.div`
     border:none;
     color: #fff;
     width:100%;
+
+    
   }
 
   @media only screen and (max-width: 1520px){

@@ -35,8 +35,20 @@ const Wrapper = styled.div`
     margin-top : 5px;
     border-top : 1px solid #C4A77D;
   }
+  @media only screen and (max-width: 1050px){
+    margin-top : -35px;
+    
+  }
+  @media only screen and (max-width: 924px){
+    img, h1{
+      width : 300px
+    }
+    h1{
+      font-size : 1.59em;
+    }
+  }
   @media only screen and (max-width: 680px){
-    margin-top : -20px;
+    margin-top : -50px;
 
     img, h1{
       width : 250px
@@ -45,15 +57,7 @@ const Wrapper = styled.div`
       font-size : 1.29em;
     }
   }
-  @media only screen and (max-width: 450px){
 
-    img, h1{
-      width : 220px
-    }
-    h1{
-      font-size : 1.09em;
-    }
-  }
 `
 
 export default Logo

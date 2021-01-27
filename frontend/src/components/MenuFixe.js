@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import {NavLink} from 'react-router-dom'
+import { useSelector } from 'react-redux'
+
 import styled from 'styled-components'
+import Menu from './Menu'
+
+import Utils from './Utils'
 
 
 const MenuFixe = () => {
 
   const [scroll, setScroll] = useState(0)
 
-  const handleClick =()=>{
-    window.scrollTo(0,0)
-  }
+  const {userInfo} = useSelector(state=>state.userLogin)
 
   useEffect(() => {
     window.onscroll = ()=>{
@@ -17,112 +19,64 @@ const MenuFixe = () => {
     }
   }, [])
 
-  let classProps = ''
-  if(scroll<190){
-    classProps = 'invisible'
-  } else {
-    classProps = ''
-  }
+  useEffect(()=>{
+
+  }, [userInfo])
+
+
   return (
-    <Wrapper>
-      <nav className={classProps} >
-        <ul>
-          <div className='li-items'>
-            <NavLink to='/' onClick={handleClick}><li>Accueil</li></NavLink>
-            <NavLink to='/produits' onClick={handleClick}><li>Boutique</li></NavLink>
-            <NavLink to='/presentation' onClick={handleClick}><li>Qui suis-je ?</li></NavLink>
-            <NavLink to='/blog' onClick={handleClick}><li>Blog</li></NavLink>
-          </div>
-          <div className='utils'>
-            <li><i className="fas fa-shopping-basket"><div className="articles-dans-panier"><Span>0</Span></div></i></li>
-            <li><i className="fas fa-user-alt"></i></li>
-          </div> 
-        </ul>
-      </nav>
+    <Wrapper style={scroll<190?{display:'none'} : {display:'block'}}>
+      <div className='menu-container'>
+        <div className='menu-fixe-container'>
+          <Menu/>
+        </div>
+        
+        <div className='utils-fixe'>
+          <Utils/>
+        </div>
+      </div>
+      
        
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
-    position : sticky;
-    top: 0px;
-    width: 100%;
-    background-color : #0C1B33;
-    z-index: 18000000000000;
-  nav{
-    padding-top:10px;
-    border-top : 1px solid #C4A77D;
+  position : sticky;
+  top: 0px;
+  width: 100%;
+  height : 50px;
+  padding-top : 15px;
+  background-color : #0C1B33;
+  z-index: 18000000000000;
+
+  .menu-container{
+    display : flex ;
+    justify-content: space-between;
+
+    .utils-fixe{
+      transform : scale(0.9) translateY(-15px)
+    }
   }
-  ul{
-    width: 100%;
-    list-style:none;
-    padding-left : 0;
-    padding-bottom : 8px;
-    display:flex;
-    flex-direction:row;
-    justify-content:center;
-  }
-  .li-items{
-    display:flex;
-    width: 100%;
-    justify-content:flex-start;
-    font-size : 1.2em;
-    text-align:center;
-  }
-  li{
-    color : #C4A77D;
-    width: 100%;
-    cursor: pointer;
-    margin-right:30px;
-  }
-  .utils{
-    display : flex;
-    justify-content: center;
-  }
-  .utils li{
-    margin-right:25px;
+
+  @media only screen and (max-width: 640px){
+    height : 83px;
+
+    .menu-container{
+      flex-direction: column-reverse;
+      justify-content: center;
+      align-items: center;
+
+      .menu-fixe-container{
+        transform : translateY(-15px)
+      }
+
+      .utils-fixe{
+        height: 50px;
+      }
+    }
     
   }
-  .fas.fa-shopping-basket{
-    position: relative;
-  }
-  .articles-dans-panier{
-    position: absolute;
-    left:12px;
-    top: -5px;
-    width:15px;
-    height:15px;
-    border-radius: 50%;
-    background-color:red;
-    text-align: center;
-    z-index: 100000000000;
-  }
-  .invisible{
-    display : none;
-  }
-  @media only screen and (max-width: 450px){
-    ul{
-      flex-direction : column-reverse;
-    }
-    .li-items{
-      display : flex;
-      justify-content:center;
-      text-align: center;
-      margin-top:10px;
-      font-size:0.9em;
-    }
-    .utils{
-      width: 20%;
-      margin :0px auto;
-    }
-  }
 `
-const Span = styled.div`
-  font-size:0.7em;
-  text-align: center;
-  font-family:'Lato', sans-serif;
-  margin-left:2px;
-  margin-top:2px;`
 
 export default MenuFixe

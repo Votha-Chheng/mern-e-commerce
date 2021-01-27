@@ -5,6 +5,9 @@ import {useParams} from 'react-router-dom'
 import {listProductDetails} from '../actions/productActions'
 import styled from 'styled-components'
 import CarouselImageProduit from '../components/CarouselImageProduit'
+import {convertPrice, pageTransition} from '../fonctionsOutils'
+import { motion } from 'framer-motion'
+import Loader from '../components/Loader'
 
 const ProductScreen = () => {
 
@@ -20,16 +23,10 @@ const ProductScreen = () => {
   const {loading, error, product} = productDetails
 
   useEffect(() => {
-
     dispatch(listProductDetails(id))
     
-  }, [dispatch, id])
+  }, [dispatch, id, history])
 
-  const convertPrice = (price)=>{
-    let priceString = (Math.floor(price*100)/100).toFixed(2)
-    let priceArray = priceString.split('.')
-    return priceArray.join(',')
-  }
 
   const displayOpt = (nombre)=>{
     let text = []
@@ -40,13 +37,13 @@ const ProductScreen = () => {
   }
 
   const addCartHandler = ()=> {
-    history.push(`/panier/${product._id}?qty=${qty}`)
+    history.push(`/panier/${product._id}?qty=${qty}&couleur=${couleur}`)
   }
 
   return (
-    <Wrapper>
+    <Wrapper variants={pageTransition} initial='initial' animate='animate' exit='exit'>
       {
-        loading? <h2>Chargement...</h2> : error ? <h3>{error}</h3> : (
+        loading? <Loader/> : error ? <h3>{error}</h3> : (
         <>
           <div className='card-container'>
             <CarouselImageProduit images={product.images}/>
@@ -104,7 +101,16 @@ const ProductScreen = () => {
                   <h5 >Disponibilité :</h5>
                   <div className={product.stock>0? 'stock' : "stock red"}>{product.stock>0 ? "Oui" : "Rupture de stock"}</div>
                 </div>
-                  {product.stock<1 && <div className='info-container'><button className="btn grey btn-block">Ajouter au panier</button></div>}
+                  {product.stock<1 &&
+                    <> 
+                      <div className='info-container'>
+                        <button className="btn grey btn-block">Ajouter au panier</button>
+                      </div>
+                      <div className='info-container no-bottom-border'>
+                        <button className='btn btn-block btn-warning '>Me contacter</button>
+                      </div>
+                    </>
+                  }
                   {product.stock>0 && (<>
                   <div className='info-container'>
                     <h5 >Quantité :</h5>
@@ -116,7 +122,7 @@ const ProductScreen = () => {
                   </div>
                   <div className='bouton'>
                       {
-                        product.livraison ? <button className='btn btn-block btn-primary'onClick={addCartHandler} >Ajouter au panier</button> : <button className='btn btn-block btn-warning'>Me contacter</button>
+                        product.livraison ? <button className='btn btn-block btn-primary'onClick={()=>addCartHandler()} >Ajouter au panier</button> : <button className='btn btn-block btn-warning'>Me contacter</button>
                       } 
                    </div>
                    </>
@@ -132,7 +138,7 @@ const ProductScreen = () => {
   )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   .bouton{
     margin-top : 30px;
   }
@@ -215,8 +221,11 @@ const Wrapper = styled.div`
     padding : 10px;
     line-height: 15px;
     border-bottom : 1px solid #dce3e5;
+    
   }
-
+  .info-container.no-bottom-border{
+    border-bottom : transparent !important;
+  }
   .stock{
     font-size: 1.1em
   }

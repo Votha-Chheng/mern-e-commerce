@@ -4,7 +4,7 @@ import { PRODUCTS_LIST_FAIL, PRODUCTS_LIST_REQUEST, PRODUCTS_LIST_SUCCESS, PRODU
 export const productsListReducer = (state = {products: []}, action) =>{
   switch(action.type){
     case PRODUCTS_LIST_REQUEST:
-      return {...state, loading:true, products : [], }
+      return {...state, loading:true, products : [] }
     case PRODUCTS_LIST_SUCCESS:
       return {loading:false, products : action.payload}
     case PRODUCTS_LIST_FAIL:
