@@ -12,6 +12,7 @@ const productSchema = mongoose.Schema({
   prix : {
     type: Number,
     required: true,
+    default : 0
   },
   stock : {
     type: Number,
@@ -23,11 +24,13 @@ const productSchema = mongoose.Schema({
     required: true,
   },
   couleurs : {
-    type : [String]
+    type : [String],
+    required: false,
+    default : []
   },
   images : {
     type: [String],
-    required: true,
+    required: false,
     default : ['../images/sample.jpg']
   },
   livraison : {

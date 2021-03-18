@@ -29,10 +29,18 @@ const userSchema = new mongoose.Schema({
     required: true,
     default: false,
   }, 
-  commandes : {
-    type : mongoose.Schema.Types.ObjectId,
-    required: false,
-    ref : 'Order'
+  commandes : 
+    [{
+      type : mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref : 'Order'
+    }]
+,
+  adresse : {
+    adresse : { type : String, required: false },
+    ville : { type : String, required: false },
+    codePostal : { type : String, required: false },
+    pays : { type : String, required: false, default:'France' },
   }
 
 }, {

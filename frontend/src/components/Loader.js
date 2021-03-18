@@ -7,7 +7,7 @@ const Loader = () => {
 
   const animationLoader = {
     initial : {
-      opacity : 0
+      opacity : 0,
     },
     animate: {
       opacity : 1,

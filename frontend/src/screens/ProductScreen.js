@@ -46,7 +46,7 @@ const ProductScreen = () => {
         loading? <Loader/> : error ? <h3>{error}</h3> : (
         <>
           <div className='card-container'>
-            <CarouselImageProduit images={product.images}/>
+            <CarouselImageProduit images={product.images} loading={loading}/>
             <div className='card-description'>
               <div className='partie-haute'>
                 <h3>{product.nom}</h3>

@@ -1,4 +1,4 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../constants/cartConstants";
+import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_RESET, GET_POINT_RELAIS_ADDRESS } from "../constants/cartConstants";
 
 export const cartReducer = (state = {cartItems : []}, action) =>{
   switch (action.type) {
@@ -22,6 +22,10 @@ export const cartReducer = (state = {cartItems : []}, action) =>{
         ...state, 
         cartItems : state.cartItems.filter(x => x.product!==action.payload)
       }
+    case CART_RESET :
+      return {cartItems : []}
+    case GET_POINT_RELAIS_ADDRESS:
+      return {...state, pointRelaisChoisi:action.payload }
     default:
       return state
   }

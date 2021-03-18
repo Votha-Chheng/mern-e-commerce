@@ -4,9 +4,10 @@ import {useDispatch, useSelector} from 'react-redux'
 import {useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { filtersUpdate, getFilteredProducts } from '../actions/filterActions'
-import DisplayProducts from '../components/DisplayProducts'
+import CardHome from '../components/CardHome'
 import Filtres from '../components/Filtres'
 import Loader from '../components/Loader'
+import Separateur from '../components/Separateur'
 import {pageTransition} from '../fonctionsOutils'
 
 const BoutiqueScreen = () => {
@@ -83,11 +84,9 @@ const BoutiqueScreen = () => {
             <path d="M29.7143 57.5298C45.5793 57.5298 58.4405 44.6686 58.4405 28.8036C58.4405 12.9385 45.5793 0.0773773 29.7143 0.0773773C13.8493 0.0773773 0.988098 12.9385 0.988098 28.8036C0.988098 44.6686 13.8493 57.5298 29.7143 57.5298Z" fill="#EAF0CE"/>
             </motion.svg>
           </motion.div>
-          <div className='h2'>
-            <h2>Boutique</h2> 
-          </div>
+          <h2>Boutique</h2> 
         </div>
-        <div className="separateur"></div>
+        <Separateur/>
       </div>
 
       <div className='content-container'>       
@@ -110,10 +109,14 @@ const BoutiqueScreen = () => {
           loading ? <Loader/> : 
           error ? <h3>{error}</h3> : 
           filteredProducts.length!== 0 ?  
-          (
-            <DisplayProducts 
-              filteredProducts = {filteredProducts}
-            />  
+          (  
+            <div className="products-container">
+              {filteredProducts.map(product =>(
+                <div className='card-container' key={product._id}>
+                  <CardHome product={product} loading={loading}/>
+                </div>
+              ))}
+            </div>
           ) :
           <h3 className='no-found'>Aucun produit ne correspond à vos critères de recherches.</h3>
         }
@@ -138,14 +141,15 @@ const Wrapper = styled(motion.div)`
     padding : 20px 0px;
     margin-bottom: 50px;
     overflow: hidden;
+    
     .title{
       position: relative;
       width : 200px;
       margin : 0 auto;
 
-      .h2 {
+      h2 {
       text-align: center;
-      margin: 50px auto 10px auto;
+      margin: 50px auto -20px auto;
       z-index: 50;
       }
       .shape{
@@ -157,13 +161,6 @@ const Wrapper = styled(motion.div)`
           transition: all 0.3s ease-in-out;
         }
       }
-    }
-    
-    .separateur{
-      margin : 30px auto;
-      width :50px;
-      height :3px;
-      background-color:#0C1B33
     }
   }
   .content-container{
@@ -180,6 +177,27 @@ const Wrapper = styled(motion.div)`
     outline : none;
     border : 1px solid white !important;
   }
+
+  .products-container{
+    width : 100%;
+    display: flex;
+    flex-wrap :wrap;
+    justify-content:space-evenly;
+    
+    .card-container{
+      border: solid 1px #eaf0ce;
+      margin-bottom : 25px;
+      height:510px;
+      overflow: hidden;
+    }
+  }
+
+  @media only screen and (max-width: 1490px){
+    .card-container{
+      height : 460px;
+    }
+  }
+
   @media only screen and (max-width: 1250px){
     .content-container{
       width : 900px;

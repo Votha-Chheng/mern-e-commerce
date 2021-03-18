@@ -1,31 +1,28 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import {NavLink} from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import styled from 'styled-components'
 import ModalForm from './ModalForm'
 import { loginModal } from '../actions/loginModalAction'
-import { capitalize, diminuerLongueurString } from '../fonctionsOutils'
+import { calculerQtyDuPanier, capitalize, diminuerLongueurString } from '../fonctionsOutils'
 import { logout } from '../actions/userActions'
 import Loader from './Loader'
+import LoaderSpin from './LoaderSpin'
+
 
 const Utils = () => {
 
-
   const dispatch = useDispatch()
 
-  const cart = useSelector(state=>state.cart.cartItems)
+  const cartItems = useSelector(state=>state.cart.cartItems)
   const {showModalLogin} = useSelector(state=>state.showModalLogin)
   const {userInfo, error, loading} = useSelector(state=>state.userLogin)
 
   const clickCompte =  useCallback(()=>{
-    dispatch(loginModal())
     window.scrollTo(0,0)
+    dispatch(loginModal())
   },[dispatch])
 
-  // const clickCompte = ()=>{
-  //   dispatch(loginModal())
-  //   window.scrollTo(0,0)
-  // }
 
   return (
     <Wrapper>
@@ -35,7 +32,7 @@ const Utils = () => {
               <span>Panier<br/></span>
               <i className="fas fa-shopping-basket">
               {
-                cart.length !==0 ? <div className="articles-dans-panier"><Span>{cart.length}</Span></div> : ""
+                cartItems.length !==0 ? <div className="articles-dans-panier"><Span>{calculerQtyDuPanier(cartItems)}</Span></div> : ""
               }
               </i>
             </li>
@@ -44,7 +41,8 @@ const Utils = () => {
             loading ? <Loader/>:
             error? <h3>{error}</h3> :
             userInfo ? 
-              <NavLink to='/profil'><li><span>{diminuerLongueurString(capitalize(userInfo.prénom),7)}<br/></span><i className="fas fa-user-alt"></i></li></NavLink> : 
+              <NavLink to='/profil'><li><span>{diminuerLongueurString(capitalize(userInfo.prénom),7)}<br/>
+              </span>{loading ? <LoaderSpin/> : <i className="fas fa-user-alt"></i>}</li></NavLink> : 
 
               <li onClick={()=>clickCompte()}><span>Compte<br/></span><i className="fas fa-user-alt"></i></li>
           }

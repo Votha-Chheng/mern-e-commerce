@@ -5,7 +5,7 @@ import LoginRegisterForm from './LoginRegisterForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { login, register } from '../actions/userActions'
 import { loginModalClose } from '../actions/loginModalAction'
-import { useHistory, useLocation } from 'react-router-dom'
+// import { useHistory, useLocation } from 'react-router-dom'
 
 const ModalForm = ({closeModal}) => {
 
@@ -20,11 +20,9 @@ const ModalForm = ({closeModal}) => {
   const [messageMatchPassword, setMessageMatchPassword] =useState('')
 
   const dispatch = useDispatch()
-  const history = useHistory()
-  const location = useLocation()
 
   const {showModalLogin} = useSelector(state=>state.showModalLogin)
-  const {userInfo, errorLogin, loadingLogin} = useSelector(state=>state.userLogin)
+  const {userInfo, errorLogin, loadingLogin, successLogin} = useSelector(state=>state.userLogin)
   const userRegister = useSelector(state=>state.userRegister)
   const {errorRegister, successRegister, userInfoRegister} = userRegister
 
@@ -70,28 +68,18 @@ const ModalForm = ({closeModal}) => {
     }
   }
 
-  // useEffect(()=>{
-  //   if(userInfo){
-  //     // dispatch(loginModalClose())
-  //     if(!showModalLogin){
-  //       history.push(`/${location}`)
-  //     } 
-  //   }
-  // }, [showModalLogin, userInfo, dispatch])
-
-  window.addEventListener('scroll', ()=>{
-    if (showModalLogin){
-      window.scrollTo(0,0)
+  useEffect(()=>{
+    if(successLogin){
+      dispatch(loginModalClose())
     }
-  }, [showModalLogin])
+  }, [successLogin, dispatch, showModalLogin])
 
-  // useEffect(()=>{
-  //   if(userRegister.userInfoRegister){
-  //     if(!showModalLogin){
-  //       history.push('/')
-  //     } 
-  //   }
-  // }, [userRegister, dispatch, history, showModalLogin])
+  const clickLogin = (emailUser, password)=>{
+    dispatch(login(emailUser, password))
+    
+  }
+  
+
 
   const modalAnim = {
     start: {y : '300px'},
@@ -100,10 +88,10 @@ const ModalForm = ({closeModal}) => {
 
   return (
     
-    <FormDiv>
+    <FormDiv style={showModalLogin ? {overflowY : 'hidden', overflowX : 'hidden'}: ""}>
       <motion.div className='conteneur' variants={modalAnim} initial='start' animate='end' >
         <div className='frame-modal' >
-          <i className="fas fa-times-circle close" onClick={closeModal} />
+          <i className="fas fa-times-circle close" onClick={successRegister?()=> clickLogin(emailRegister, motDePasseRegister) : closeModal} />
           <LoginRegisterForm 
             email={email} 
             motDePasse={motDePasse} 
@@ -140,6 +128,7 @@ const FormDiv = styled.div`
   justify-content: center;
   background-color : rgba(0,0,0,0.5);
   padding : 20px;
+  
   .conteneur{
     z-index: 10000000;
     .frame-modal{

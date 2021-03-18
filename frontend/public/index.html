@@ -14,13 +14,46 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <link rel="stylesheet" href="../bootstrap.css" type="text/html"/>
     <link rel="stylesheet" href="../bootstrap.min.css" type="text/html"/>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"/>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Sacramento&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=La+Belle+Aurore&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:wght@300&family=Mitr:wght@200&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@1,300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cabin&display=swap" rel="stylesheet">
+
     <title>Luminaires Cavallo</title>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="//unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" type="text/css" href="//unpkg.com/leaflet/dist/leaflet.css" />
+    <script defer src="https://widget.mondialrelay.com/parcelshop-picker/jquery.plugin.mondialrelay.parcelshoppicker.min.js"></script>
+    
+    <script defer type="text/javascript">
+      $(document).ready(function () {  
+        $("#Zone_Widget").MR_ParcelShopPicker({  
+          Target: "#Retour_Widget",
+          Brand: "BDTEST13",
+          Country: "FR",
+          Weight: "10000",
+          ColLivMod: "24R",
+          // Activer l'affichage Responsive.  
+          Responsive: true,  
+          // Afficher les résultats sur une carte?  
+          ShowResultsOnMap: true,
+          OnParcelShopSelected : function (Data){
+            sessionStorage.setItem('pointRelais', JSON.stringify({id : Data.ID, adresse : Data.Adresse1, adresse2 : Data.Adresse2, nom : Data.Nom, ville : Data.Ville, codePostal : Data.CP}))
+          }
+        });  
+      }); 
+    </script>
   </head>
   <body>
     <div id="fb-root"></div>
@@ -28,5 +61,7 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
 
+    <!-- HTML element to display the parcelshop selected, for demo only. Should use hidden instead. -->
+    
   </body>
 </html>

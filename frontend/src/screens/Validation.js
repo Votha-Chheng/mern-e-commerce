@@ -1,45 +1,60 @@
-import axios from 'axios'
-import React, { useCallback, useEffect, useState } from 'react'
-import {useParams} from 'react-router-dom'
+import React, { useCallback, useEffect } from 'react'
+import {Link, useHistory} from 'react-router-dom'
 import {motion} from 'framer-motion'
 import {pageTransition} from '../fonctionsOutils'
 import styled from 'styled-components'
+import { useDispatch, useSelector } from 'react-redux'
+import { validateUserEmail } from '../actions/userActions'
+import LoaderSpin from '../components/LoaderSpin'
+import ModalForm from '../components/ModalForm'
+import { loginModal } from '../actions/loginModalAction'
 
 
-const Validation = () => {
+const ValidationScreen = () => {
 
-  const[message, setMessage] = useState('')
+  const dispatch = useDispatch()
 
-  const {userId, secretCode} = useParams()
+  const {location : pathname} = useHistory()
 
-  const validate = useCallback(async ()=>{
-    try{
-      const {data} = await axios.get(`/api/users/confirmation/${userId}/${secretCode}`)
-      const {message} = data
+  const userEmailValidate = useSelector(state => state.userEmailValidate)
+  const {loadingValidateUserEmail, successValidateUserEmail, errorValidateUserEmail, message} = userEmailValidate
+  const {userInfo} = useSelector(state=>state.userLogin)
 
-      console.log(message)
-      setMessage(message)
+  const {showModalLogin} = useSelector(state=>state.showModalLogin)
 
-    } catch (error){
-      setMessage(error)
-    }
-  }, [userId, secretCode]) 
+  //Si successValidateUserEmail est false &&  action = POP retourner à l'accueil
 
   useEffect(() => {
-    validate() 
-  }, [validate])
+    const query = pathname.pathname.slice(17).split('&')
+    const userId = query[0]
+    const code = query[1]
+    dispatch(validateUserEmail(userId, code))
+  }, [dispatch, pathname])
 
-  
+
+  const clickCompte =  useCallback(()=>{
+    window.scrollTo(0,0)
+    dispatch(loginModal())
+  },[dispatch])
 
   return (
     <motion.div variants={pageTransition} initial='initial' animate='animate' exit='exit' >
-      <H2>{message}</H2>
+      { showModalLogin && <ModalForm closeModal={()=>dispatch(loginModal())} showModalLogin={showModalLogin} />}
+      {
+        loadingValidateUserEmail ? <LoaderSpin/> :
+        errorValidateUserEmail ? <H2 className='alert-danger'>{errorValidateUserEmail}</H2> :
+        successValidateUserEmail ? <H2 className='alert-success'>{message}</H2> : null
+      }
+
+      {!userInfo && <div className='text-center'><span className='h4'>Cliquez ici pour vous connecter à votre compte : <Link onClick={()=>clickCompte()}>connexion</Link></span></div>}
     </motion.div>
   )
 }
 
-const H2=styled.h2`
+const H2 = styled.p`
   margin : 90px auto;
   text-align :center;
+  font-size : 2em;
+
 `
-export default Validation
+export default ValidationScreen

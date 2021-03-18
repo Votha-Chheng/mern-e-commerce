@@ -11,7 +11,7 @@ const Logo = () => {
         <Link to='/'>
           <img src={logo} alt="logo-luminaires-Cavallo" width="380" />
         </Link>
-        <h1 >Luminaires Cavallo</h1>
+        <h1>Luminaires Cavallo</h1>
       </div>
     </Wrapper>
     
@@ -34,6 +34,7 @@ const Wrapper = styled.div`
     font-size : 2.3em;
     margin-top : 5px;
     border-top : 1px solid #C4A77D;
+    font-family: 'Mitr', sans-serif;
   }
   @media only screen and (max-width: 1050px){
     margin-top : -35px;

@@ -1,38 +1,26 @@
-import React, {useState, useRef, useEffect} from 'react'
-import articles from '../data/articles'
+import React, {useState, useEffect} from 'react'
+import {formatDate, resume} from '../fonctionsOutils'
 import styled from 'styled-components'
+import Separateur from './Separateur'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllArticles } from '../actions/blogActions'
+import LoaderSpin from './LoaderSpin'
+import ContainerImg from './ContainerImg'
+import { Link } from 'react-router-dom'
 
 
 const HomeCarousel = () => {
 
   const [index, setIndex] = useState(0)
-  const [ratioFrame, setRatioFrame] = useState(0)
-  const [ratioImg, setRatioImg] = useState(0)
-  const [imgWidth, setImgWidth] = useState(0)
-  const imgFrame = useRef([]);
-  const imgFormat = useRef([]);
+
+  const dispatch = useDispatch()
+
+  const {articles, loadingAllarticles, errorAllArticles} = useSelector(state => state.allArticles)
 
 
-
-  useEffect(()=>{
-    
-    setTimeout(()=>{
-      setRatioFrame(imgFrame.current[index].offsetWidth/imgFrame.current[index].offsetHeight)
-      setRatioImg(imgFormat.current[index].naturalWidth/imgFormat.current[index].naturalHeight)
-      setImgWidth(imgFrame.current[index].offsetWidth)
-    }, 100)
-    
-    window.onresize= ()=>{
-      if(imgFrame.current[index]){
-        setRatioFrame(imgFrame.current[index].offsetWidth/imgFrame.current[index].offsetHeight)
-        setRatioImg(imgFormat.current[index].naturalWidth/imgFormat.current[index].naturalHeight)
-        setImgWidth(imgFormat.current[index].offsetWidth)
-      }
-      
-    }
-     
-  }, [ratioFrame, ratioImg, index, imgWidth])
-
+  useEffect(() => {
+    dispatch(getAllArticles())
+  }, [dispatch])
 
   const handlePrevious = ()=>{
     setIndex(index-1)
@@ -69,37 +57,33 @@ const HomeCarousel = () => {
     return position
   }
 
-  const resume = (texte, indexFin) =>{
-    let resume = ""
-    let indexEnd = texte.indexOf(" ", indexFin)
-    resume = texte.substring(0, indexEnd)
-    if(resume===''){
-      return texte
-    } else {
-      resume+='...'
-      return resume
-    }    
-  }
-
   return (
     <Div>
       <h2>
         Actualités du blog
       </h2>
-      <div className='separateur'></div>
+      <Separateur/>
       <div className="widget-carousel">
         <div className="main-actu">
           <div className="prev" onClick={handlePrevious} ><i className="fas fa-caret-square-left"></i></div>
           <div className="next" onClick={handleNext}><i className="fas fa-caret-square-right"></i></div>
 
-          {articles.map((item, indexItem)=> (
-            <div className={defineClassName(indexItem, 'actu right', 'actu active', 'actu left')} key={item.id} >
-              <div ref={item => imgFrame.current[indexItem] = item} className="actu-img-frame">
-                <img ref={item => imgFormat.current[indexItem] = item} src={item.images[0]} alt='illustration' width = {imgWidth} style={{transform :`translateY(-${ratioFrame>2*ratioImg?(imgFrame.current[index].offsetHeight)*0.08 : 0}%)`}}/>
-
+          { 
+            loadingAllarticles ? <LoaderSpin/> :
+            errorAllArticles ? <div className='alert-danger h4 text-center'></div> :
+            articles && articles.reverse().map((item, indexItem)=> (
+            <div className={defineClassName(indexItem, 'actu right', 'actu active', 'actu left')} key={indexItem} >
+              <div 
+                className="actu-img-frame"
+              >
+                <ContainerImg
+                  imageUrl={item.photos[0].url}
+                  frameWidth = '420px'
+                  frameHeight = '320'
+                />
               </div>
-              <h3 className="titre-carousel">{item.titre}</h3>
-              <p className="date-carousel">{item.date}</p>
+              <h3 className="titre-carousel"><Link to={`/blog/${item._id}`}>{item.titre}</Link></h3>
+              <p className="date-carousel">Publié le {formatDate(item.dateBillet)}</p>
               <div className="texte-carousel">
                 <p dangerouslySetInnerHTML={{__html : resume(item.texte, 150)}}></p><br/>
                 <p>Lire la suite...</p>
@@ -110,16 +94,14 @@ const HomeCarousel = () => {
         </div>
 
         <div className="colonne">
-          {articles.map((item, indexItem)=>(  
-            <div className={defineClassName(indexItem, 'actu-colonne up', 'actu-colonne active-right', 'actu-colonne down')} key={item.id}>
-              <h3 className="titre-colonne">{item.titre}</h3>
-              <p className="text-colonne" dangerouslySetInnerHTML={{__html : resume(item.texte, 250)}}></p>
-              <p>Lire la suite...</p>
+          {articles && articles.reverse().map((item, indexItem)=>(  
+            <div className={defineClassName(indexItem, 'actu-colonne up', 'actu-colonne active-right', 'actu-colonne down')} key={indexItem}>
+              <h3 className="titre-colonne"><Link to={`/blog/${item._id}`}>{item.sousTitre ? item.sousTitre : item.titre}</Link></h3>
+              <p className="text-colonne" dangerouslySetInnerHTML={{__html : resume(item.texte, 220)}}></p>
+              <Link to={`/blog/${item._id}`}>Lire la suite...</Link>
             </div>
             )
-          )}
-          
-
+          )} 
         </div>
       </div>
     </Div>
@@ -130,15 +112,9 @@ const Div = styled.div`
   h2{
     text-align: center;
   }
-  .separateur{
-    margin : 30px auto;
-    width :50px;
-    height :3px;
-    background-color:#0C1B33
-  }
   .texte-carousel {
   display : none;
-}
+  }
 
 article{
   width: 100%;
@@ -158,7 +134,6 @@ article{
   flex-direction: row;
   flex-wrap: nowrap;
   /* overflow: hidden; */
-
   width : 70%;
 }
 .colonne{
@@ -210,8 +185,8 @@ article{
 }
 .actu-img-frame{
   overflow: hidden;
-  max-width: 75%;
-  max-height: 300px;
+  max-width: 420px;
+  max-height: 320px;
   margin: 0 auto;
   border: 5px solid black;
 }
@@ -258,9 +233,7 @@ article{
   transform: translateY(0);
   z-index: 10;
 }
-/* img{
-  width : 700px;
-} */
+
 
 @media only screen and (max-width: 950px){
   .colonne, .actu-colonne{

@@ -28,9 +28,9 @@ const Footer = () => {
             <Col md={12} lg={4}>
               <div id='infos'>
                 <h4>Informations</h4>
-                <Link to='/mentionslegales' onClick={handleClick}><p>Mentions légales</p></Link>
-                <Link to='/confidentialite' onClick={handleClick}><p>Politique de confidentialité</p></Link>
-                <Link to='/cgv' onClick={handleClick}><p id="conditions">Conditions générales de vente</p></Link>
+                <Link to='/mentionslegales' onClick={()=>handleClick()}><p>Mentions légales</p></Link>
+                <Link to='/confidentialite' onClick={()=>handleClick()}><p>Politique de confidentialité</p></Link>
+                <Link to='/cgv' onClick={()=>handleClick()}><p id="conditions">Conditions générales de vente</p></Link>
               </div>
             </Col>
             
@@ -40,7 +40,7 @@ const Footer = () => {
                   <h4>Mon atelier</h4>
                   <p><i className="fas fa-map-marker-alt"></i>  Grand Mas d'Avignon, Le Sambuc 13200 Arles</p>
                   <p><i className="fas fa-phone-alt"></i>  04 90 87 88 74</p>
-                  <p id='email'><i className="fas fa-at"></i> Me contacter par e-mail.</p>
+                  <Link to='/contact'><p id='email'><i className="fas fa-at"></i> Me contacter par e-mail.</p></Link>
                 </div>            
               </div> 
             </Col>

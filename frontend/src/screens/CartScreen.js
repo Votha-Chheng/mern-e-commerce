@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { addToCart, removeFromCart } from '../actions/cartActions'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import {convertPrice, pageTransition} from '../fonctionsOutils'
 import { motion } from 'framer-motion'
+import { loginModal } from '../actions/loginModalAction'
 
 const CartScreen = ({location}) => {
 
@@ -15,15 +16,19 @@ const CartScreen = ({location}) => {
   const couleur = location.search ? location.search.substring(6).split('=')[1] : ""
   
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const cart = useSelector(state=>state.cart)
   const {cartItems} = cart
+  const {userInfo} = useSelector(state=>state.userLogin)
+  
+  // const showModalLogin = useSelector(state=>state.showModalLogin)
 
   useEffect(() => {
     if(id) {
       dispatch(addToCart(id, qty, couleur))
     }
-  }, [dispatch, id, qty, couleur, cartItems])
+  }, [dispatch, id, qty, couleur])
 
 
   const removeCart = (id)=>{
@@ -31,10 +36,19 @@ const CartScreen = ({location}) => {
     console.log(id)
   }
 
+  const proceedCkeckoutHandler = (event)=>{
+    event.preventDefault()
+    if(!userInfo){
+      dispatch(loginModal())
+    } else {
+      console.log('Passer commande.')
+      history.push('/adresse')
+    }
+  }
+
   return (
     <Wrapper variants={pageTransition} initial='initial' animate='animate' exit='exit'>
       <h2>Panier</h2>
-      
         {
           cartItems.length===0 ? <>
             <p className='alert-primary message-empty'>
@@ -93,10 +107,9 @@ const CartScreen = ({location}) => {
             <div className='total-commande'>Total de la commande :</div>
             <h4 className='prix-final'>{convertPrice(cartItems.reduce((acc, item)=> acc + item.qty*item.prix, 0)+20)} €</h4>
             <div className='checkout'>
-              <button className='btn btn-block btn-primary checkout'>Valider la commande</button>
+              <button className='btn btn-block btn-primary checkout' onClick={(event)=>proceedCkeckoutHandler(event)} >Valider la commande</button>
             </div>
-          </div>
-          
+          </div> 
         </div>     
       }
   

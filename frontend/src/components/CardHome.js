@@ -2,19 +2,24 @@ import React, { useLayoutEffect, useRef, useState } from 'react'
 import {Link, NavLink, useHistory} from 'react-router-dom'
 import styled from 'styled-components'
 import {convertPrice} from '../fonctionsOutils'
+import LoaderSpin from './LoaderSpin'
 
-const CardHome = ({product}) => {
+const CardHome = ({product, loading}) => {
 
   const ratioFrame = 220/280
-  const [ratio, setRatio] = useState(0)
+  const [ratio, setRatio] = useState('')
 
   const image = useRef(null)
 
   const history = useHistory()
   
   useLayoutEffect(()=>{
-    //Est utilisé pour choper les éléments du dom une fois monté
-  }, [])
+    if(loading){
+      const imageRatio = image.current.offsetWidth/image.current.offsetHeight
+      setRatio(imageRatio)
+      console.log(ratio)
+    }  
+  }, [loading, ratio])
 
 
   const addCartHandler = ()=> {
@@ -22,83 +27,101 @@ const CardHome = ({product}) => {
   }
 
   return (
-    <Wrapper >
-        <Link to={`/produit/${product._id}`}>
-          <div style={{position:'relative'}} className="image-frame">
-            <img ref={image} src={product.images[0]} onLoad={()=>{setRatio(image.current.naturalWidth/image.current.naturalHeight)}} alt={product.nom} style={{position : 'absolute', left:'0', transform:`scale(0.9) translateY(${ratio>ratioFrame?15:0}px) translateX(-${ratio>1? 220*ratio/4 : '0'}px)`}} width={ratio<1 ? '220': 'auto'} height={ratio>1? '280px' : 'auto'}/>
-          </div>
+    <Wrapper >     
+      <Link to={`/produit/${product._id}`}>
+        <div style={{position:'relative'}} className="image-frame">
+          {
+            loading ? <LoaderSpin/> :
+            <img 
+              ref={image} 
+              src={product.images[0]} 
+              alt={product.nom} 
+              width={ratio>1 ? 'auto' : '220'}
+              style={{position : 'absolute', left:'0', transform:`scale(0.9) translateY(${ratio>ratioFrame?15:-15}px) translateX(-${ratio>1? 220*ratio/4 : '0'}px)`}}
+            />
+          } 
+        </div>
+      
+        <div className="text-desc">
+          <h3 className="nom-produit">{product.nom}</h3>
+        </div>
+      </Link>
+      <h4 className="prix-card"><span>{convertPrice(product.prix)} €</span></h4>
+      <div className="btn-card">
+        <NavLink to={`/produit/${product._id}`} className='details'><button>Détails</button></NavLink>
         
-          <div className="text-desc">
-            <h3 className="nom-produit">{product.nom}</h3>
-          </div>
-        </Link>
-          <h4 className="prix-card"><span>{convertPrice(product.prix)} €</span></h4>
-          <div className="btn-card">
-            <NavLink to={`/produit/${product._id}`} className='details'><button>Détails</button></NavLink>
-            
-            {
-              product.stock <=0 ? <div><button className='no-dispo'>Rupture de stock</button></div> : 
-              <div className='cart' ><button onClick={()=>addCartHandler()}>Ajouter au panier</button></div>
-            }
-            
-          </div>
+        {
+          product.stock <=0 ? <div className='cart'><button className='no-dispo'>Rupture de stock</button></div> : product.livraison ? 
+          <div className='cart' ><button className='dispo' onClick={()=>addCartHandler()}>Ajouter au panier</button></div> : 
+          <div className='cart'><button className='btn btn-block btn-primary' onClick={()=>history.push('/contact')}>Me contacter</button></div>
+        }
+        
+      </div>
+      <div className='background'>
+      </div>
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
-
   width:350px;
   height : 500px;
   overflow: hidden;
   margin:10px auto;
-  background-color: #fff;
-  z-index: 1;
+  position: relative;
+  background-color: white;
 
   .text-desc{
     padding: 15px 20px;
+
+    .nom-produit{
+      text-align: center;
+      font-size: 1.2em;
+      height: 40px;
+    }
+    
   }
-  .text-desc h3{
+  /* .text-desc h3{
     height : 40px;
-  }
+  } */
   .image-frame{
     position: relative;
     text-align: center;
     width: 220px;
     height: 280px;
-    overflow: hidden ;
+    overflow: hidden;
     margin: 12px auto;
     cursor: pointer;
     border-bottom: 1px solid grey;
     transition: all 0.3s ease-in;
+    padding-top : 15px;
+
+    &:hover {
+      transform: scale(1.05) translateY(-5px);
+    }
+
+    &::before:hover{
+      content: '';
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255,255,255, 0.5);
+      top: 0;
+      left: 0;
+      position: absolute;
+    }
+
+    img{
+      transition: all 0.3s ease-in;
+      opacity : 1;
+      border-image: linear-gradient(#f6b73c, #4d9f0c) 30;
+
+      &:hover{  
+        opacity : 0.7;
+        transition: all 0.3s ease-in;
+      }
+    }
   }
-  .image-frame:hover{
-    transform: scale(1.05) translateY(-5px);
-  }
-  .image-frame::before:hover{
-    content: '';
-    width: 385px;
-    height: 100%;
-    background-color: rgba(255,255,255, 0.5);
-    top: 0;
-    left: 0;
-    position: absolute;
-    z-index: 33;
-     
-  }
-  img{
-    transition: all 0.3s ease-in;
-    opacity : 1;
-    border-image: linear-gradient(#f6b73c, #4d9f0c) 30;
-  }
-  img:hover{  
-    opacity : 0.7;
-    transition: all 0.3s ease-in;
-  }
-  .nom-produit{
-    text-align: center;
-    font-size: 1.2em;
-  }
+
   .prix-card{
     text-align: right;
     padding-right: 18px;
@@ -117,6 +140,7 @@ const Wrapper = styled.div`
   }
   .details{
     width:100px;
+
     button{
       background-color: #2A3D45 ;
       width:100%;
@@ -131,7 +155,8 @@ const Wrapper = styled.div`
   }
   .cart{
     width : 200px;
-    button{
+
+    .dispo{
       width:100%;
       background-color: #FF8427 ;
       border : 1px solid #FF8427
@@ -142,12 +167,12 @@ const Wrapper = styled.div`
       border : 1px solid #FF8427;
       transition: all 0.3s ease-out;
     }
-    
   }
-  .no-dispo{
-      color : red !important;
-      cursor : default !important ;
-    }
+  button.no-dispo{
+    color : red !important;
+    cursor : default !important ;
+    padding : 10px 20px !important;
+  }
   .btn-card button{
     font-size:1.1em;
     padding:10px 15px;

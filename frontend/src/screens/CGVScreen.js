@@ -1,9 +1,11 @@
+import { motion } from 'framer-motion'
 import React from 'react'
 import styled from 'styled-components'
+import { pageTransition } from '../fonctionsOutils'
 
 const CGVScreen = () => {
   return (
-    <Wrapper>
+    <Wrapper variant={pageTransition} initial='initial' animate='animate' exit='exit' >
       <h2>Conditions générales de vente</h2>
       <p className="h3">Préambule</p>
       <p className='text'>
@@ -202,7 +204,7 @@ const CGVScreen = () => {
     </Wrapper>
   )
 }
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   width : 75%;
   margin : 50px auto;
   line-height: 2em;

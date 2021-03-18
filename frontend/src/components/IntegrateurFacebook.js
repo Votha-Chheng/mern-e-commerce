@@ -1,13 +1,13 @@
 import React from 'react'
 import logo from '../images/fb.svg'
 import styled from 'styled-components'
+import Separateur from './Separateur'
 
 
 const IntegrateurFacebook = () => {
   return (
     <Wrapper>
-      <div className="separateur">
-      </div>
+      <Separateur/>
       <h4>Suivez-moi sur Facebook <span><a href="https://www.facebook.com/Luminaires-Cavallo-359755131496855/" target='_blank' rel="noreferrer"><img src={logo} width='25px' alt ='logoFacebook'/></a></span></h4>
 
       <div id="facebook-container">
@@ -27,12 +27,6 @@ const Wrapper = styled.div`
   width: 100%;
   text-align: center;
 
-  .separateur{
-    margin : 50px auto;
-    width :50px;
-    height :3px;
-    background-color:#0C1B33
-  }
   h4{
     text-align : center;
     width :100%;

@@ -6,7 +6,7 @@ import AdminView from '../components/AdminView'
 import UserView from '../components/UserView'
 import Loader from '../components/Loader'
 import { pageTransition } from '../fonctionsOutils'
-import { getUserDetails, updateUserPassword, updateUserProfile, sendEmailValidation } from '../actions/userActions'
+import { updateUserPassword, updateUserProfile, sendEmailValidation, getUserDetails } from '../actions/userActions'
 
 const ProfileScreen = () => {
 
@@ -21,7 +21,7 @@ const ProfileScreen = () => {
   const dispatch = useDispatch()
 
   const userDetails = useSelector(state => state.userDetails)
-  const {loading, error, user} = userDetails
+  const {user, loadingDetails, error} = userDetails
 
   const userLogin = useSelector(state=>state.userLogin)
   const {userInfo} = userLogin
@@ -29,28 +29,31 @@ const ProfileScreen = () => {
   const userUpdateProfile = useSelector(state=>state.userUpdateProfile)
   const {success} = userUpdateProfile
 
-  const userUpdatePassword =useSelector(state=>state.userUpdatePassword)
-  const {successPassword, errorPassword} = userUpdatePassword
+  const userUpdatePassword = useSelector(state=>state.userUpdatePassword)
+  const {successPassword, errorPassword, loadingUpdatePassword} = userUpdatePassword
 
   const validationEmail = useSelector(state=>state.validationEmail)
   const {successValidationEmail, message, errorValidationEmail, loadingValidation} = validationEmail
+
 
 
   useEffect(() => {
     if(!userInfo){
       history.push('/')
     } else {
-      if(!user.nom) {
-        dispatch(getUserDetails('profile'))
-      } else {
-        setPrénom(user.prénom)
-        setNom(user.nom)
-        setEmail(user.email)
-      }
+      dispatch(getUserDetails(userInfo._id))     
     }
-    
-    console.log(user.validateEmail)
-  }, [userInfo, user, history, dispatch])
+  }, [userInfo, history, dispatch, successValidationEmail])
+
+  useEffect(() => {
+    if(user){
+      setPrénom(user.prénom)
+      setNom(user.nom)
+      setEmail(user.email)
+    }  
+  }, [user])
+  
+
 
   const submitHandler = (event)=>{
     event.preventDefault()
@@ -84,7 +87,7 @@ const ProfileScreen = () => {
   return (
     <motion.div variants={pageTransition} initial='initial' animate='animate' exit='exit'>
       {
-        loading? <Loader /> : 
+        loadingDetails? <Loader /> : 
         error? <h4>{error}</h4> : 
         user.isAdmin ? 
         <AdminView 
@@ -101,8 +104,8 @@ const ProfileScreen = () => {
           success={success}
           modifier={modifier}
           modifierHandler={modifierHandler}
-          validationEmail={user.validateEmail}
-          commandes = {user.commandes}
+          user={user}
+          validationEmail={user.validationEmail}
           submitNewPassword={(event)=>submitNewPassword(event)}
           successPassword={successPassword}
           errorPassword={errorPassword}
@@ -111,6 +114,7 @@ const ProfileScreen = () => {
           errorValidationEmail={errorValidationEmail}
           message={message}
           loadingValidation = {loadingValidation}
+          loadingUpdatePassword={loadingUpdatePassword}
         />
       }     
     </motion.div>

@@ -34,10 +34,10 @@ const LoginRegisterForm = (
     <WrapperDiv>
       <div className='conteneur-onglet'>
         <div className="conteneur-block">
-          <div className={`onglet ${ongletActive==='connexion' && 'active'}`} id='connexion' onClick={(event)=>setOngletActive(event.target.id)}>
+          <div className={`onglet ${ongletActive==='connexion' && 'active'}`} id='connexion' onClick={successRegister? null : (event)=>setOngletActive(event.target.id)}>
             <h3>Connexion</h3>
           </div>
-          <div className={`onglet ${ongletActive==='inscription' && 'active'}`} id='inscription' onClick={(event)=>setOngletActive(event.target.id)}>
+          <div className={`onglet ${ongletActive==='inscription' && 'active'}`} id='inscription' onClick={successRegister? null : (event)=>setOngletActive(event.target.id)}>
             <h3>Inscription</h3>
           </div>
         </div>
@@ -45,7 +45,7 @@ const LoginRegisterForm = (
       </div>
       <div className='login-container'>
         {
-          loadingLogin ? <LoaderSpin/> :
+          ongletActive==='connexion' && loadingLogin ? <LoaderSpin/> :
           <div className='connexion' style={ongletActive==='connexion' ? {transform : "translateY(0)", display:'block'} : {transform : "translateY(-100%)",display : 'none'}} >
             <form  onSubmit={submitHandler} >
               <div className='input-form'>
@@ -71,8 +71,8 @@ const LoginRegisterForm = (
         }
         
         {
-          loadingRegister ? <LoaderSpin/> :
-          successRegister ? (<p className='alert-success text-center'>{`Un e-mail d'activation a été envoyé à cette adresse : ${userInfoRegister.email}. Veuillez cliquer sur le lien présent dans l'e-mail pour activer votre compte.`}</p>) :
+          ongletActive==='inscription' && loadingRegister ? <LoaderSpin/> :
+          successRegister ? (<p className='alert-success text-center h4'>{`Un e-mail d'activation a été envoyé à cette adresse : ${userInfoRegister.email}. Veuillez cliquer sur le lien présent dans l'e-mail pour activer votre compte.`}</p>)  :
           (
           <div className='inscription' style={ongletActive==='inscription' ? {transform : "translateY(0%)", display:'block' } : {transform : "translateY(100%)", display : 'none'}} >
             <form onSubmit={submitRegisterHandler}>
@@ -95,7 +95,7 @@ const LoginRegisterForm = (
                   <label>Confirmez le mot de passe</label><input type='password' name='motDePasseConfirmRegister' value={motDePasseConfirmRegister} onChange={onChangeFormHandler}/>
                 </div>
               </div>
-              <button type='submit' className="btn btn-primary btn-block">Valider</button>
+              <div><button type='submit' className="btn btn-primary btn-block">Valider</button></div>
             </form>
             {messageMatchPassword && <p className='alert-danger text-center h5'>{messageMatchPassword}</p>}
             {errorRegister && <p className='alert-danger h5 text-center'>{errorRegister}</p>}
@@ -110,7 +110,8 @@ const LoginRegisterForm = (
 }
 
 const WrapperDiv = styled.div`
-  border: 8px solid black;
+  border: 4px solid #bec6c6;
+  border-radius : 2px;
   padding: 20px;
   margin : 0 auto;
   background-color: white;
@@ -219,7 +220,7 @@ const WrapperDiv = styled.div`
         width:100%;
 
         input {
-          width:95%
+          width:100%
         }    
       } 
     }  
@@ -228,6 +229,13 @@ const WrapperDiv = styled.div`
 
   @media only screen and (max-width: 600px){
     width:340px;
+
+    .inscription .double input{
+      width:300px !important;
+    }
+    button, p, .p-inscription{
+      width:300px;
+    }
     .conteneur-onglet{
       width:100%;
       
@@ -239,11 +247,25 @@ const WrapperDiv = styled.div`
         }
       } 
     }
+
     .login-container{
+
+      width:300px;
+      padding : 0px;
+
       .connexion, .inscription{
-        
+        padding : 0px;
+        label{
+          width:300px;
+          text-align: center;
+        }
+        input {
+          width:300px; 
+        }
         .input-form{
+          display:flex;
           flex-direction:column;
+          width :100%;
         }
       }
     }

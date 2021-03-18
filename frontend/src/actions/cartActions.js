@@ -1,5 +1,6 @@
 import axios from "axios"
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../constants/cartConstants"
+import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_RESET, GET_POINT_RELAIS_ADDRESS } from "../constants/cartConstants"
+
 
 
 export const addToCart = (id, qty, couleur)=>async(dispatch, getState) =>{
@@ -29,4 +30,20 @@ export const removeFromCart = (id)=>async(dispatch, getState) =>{
   })
 
   localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
+}
+
+export const getPointRelaisAddress = ()=>async(dispatch)=>{
+
+  dispatch({type : GET_POINT_RELAIS_ADDRESS, payload : JSON.parse(sessionStorage.getItem('pointRelais')) })
+
+}
+
+
+export const resetCartItems = ()=>async(dispatch)=>{
+
+  localStorage.removeItem('cartItems')
+  sessionStorage.removeItem('pointRelais')
+
+  dispatch({type : CART_RESET})
+
 }

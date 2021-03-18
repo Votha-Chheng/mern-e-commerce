@@ -1,10 +1,12 @@
 import React from 'react'
 import hackerman from '../images/hackerman.png'
 import styled from 'styled-components'
+import { pageTransition } from '../fonctionsOutils'
+import { motion } from 'framer-motion'
 
 const ConfidentialiteScreen = () => {
   return (
-    <Wrapper>
+    <Wrapper  variant={pageTransition} initial='initial' animate='animate' exit='exit'>
       <h2>Politique de confidentialité</h2>
       <h3>Protection des données</h3><br/>
       <span className="font-weight-bold h4">Politique de confidentialité - selon le Règlement général pour la protection des données (RGDP) de mai 2018</span><br/><br/>
@@ -116,7 +118,7 @@ const ConfidentialiteScreen = () => {
   )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   width : 75%;
   margin : 50px auto;
   line-height: 2em;

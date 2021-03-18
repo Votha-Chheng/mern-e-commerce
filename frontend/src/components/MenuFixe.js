@@ -32,7 +32,7 @@ const MenuFixe = () => {
         </div>
         
         <div className='utils-fixe'>
-          <Utils/>
+          <Utils scroll={scroll} />
         </div>
       </div>
       

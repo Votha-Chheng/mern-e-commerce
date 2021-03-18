@@ -1,8 +1,44 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Commandes from '../components/Commandes'
 import styled from 'styled-components'
+import LoaderSpin from './LoaderSpin'
+import { useDispatch, useSelector } from 'react-redux'
+import { getMyOrders } from '../actions/orderActions'
 
-const UserView = ({submitHandler, changeHandler, prénom, email, nom, oldPassword, motDePasse, success, modifier, modifierHandler, validationEmail, commandes, submitNewPassword, successPassword, errorPassword, sendEmailValidation, successValidationEmail, message, errorValidationEmail, loadingValidation}) => {
+
+const UserView = ({
+  submitHandler, 
+  changeHandler, 
+  prénom, 
+  email, 
+  nom, 
+  oldPassword, 
+  motDePasse, 
+  success, 
+  modifier, 
+  modifierHandler, 
+  validationEmail, 
+  submitNewPassword, 
+  successPassword, 
+  errorPassword, 
+  sendEmailValidation, 
+  successValidationEmail,
+  user, 
+  message, 
+  errorValidationEmail, 
+  loadingValidation, 
+  loadingUpdatePassword
+}) => {
+
+  const {myOrders, loadingMyOrders, errorMyOrders} = useSelector(state => state.myOrders)
+
+  const dispatch = useDispatch()
+  
+  useEffect(() => {
+    dispatch(getMyOrders())
+  }, [dispatch])
+
+
   
   return (
     <WrapperDiv >
@@ -79,7 +115,10 @@ const UserView = ({submitHandler, changeHandler, prénom, email, nom, oldPasswor
               {
                 successPassword && <p className='alert-success'>Mot de passe modifié.</p>
               }
-              <button type='submit' className='btn btn-block btn-primary'>Changer mot de passe</button>
+              {
+                loadingUpdatePassword? <LoaderSpin/> : <button type='submit' className='btn btn-block btn-primary'>Changer mot de passe</button>
+              }
+              
             </div>   
           </div>
         </form>
@@ -87,9 +126,13 @@ const UserView = ({submitHandler, changeHandler, prénom, email, nom, oldPasswor
         <div className='separateur'></div>
 
         <div className='commandes'>
-          <h3>Mes commandes passés</h3>
+          <h3>Mes commandes passées</h3>
           {
-            commandes? <Commandes /> : <div>Vous n'avez commandé aucune lampe dans notre boutique.</div>
+            loadingMyOrders ? <LoaderSpin/> : 
+            errorMyOrders ? <div className='alert-danger'>{errorMyOrders}</div> :
+            !myOrders ? <div>Vous n'avez commandé aucune lampe dans notre boutique.</div>:
+            user.isAdmin ? myOrders.map((commande, index)=> <Commandes user={user} key={index} commande={commande}/>) :
+            myOrders.filter(order=> order.isPaid).map((commande, index)=> <Commandes user={user} key={index} commande={commande}/>) 
           }
           <div></div>
         </div> 

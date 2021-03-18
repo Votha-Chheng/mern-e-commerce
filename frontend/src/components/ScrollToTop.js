@@ -7,14 +7,12 @@ const ScrollToTop = () => {
   const {action} = useHistory()
 
   useEffect(() => {
-    console.log(pathname)
-    console.log(action)
     if(action!=='POP'){
       window.scrollTo(0,0)
     } else if (action==='POP'){
       let positionY = sessionStorage.getItem('positionY')
       window.scrollTo(0,+positionY)
-    }     
+    }    
   }, [pathname, action])
  
   

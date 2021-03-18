@@ -4,12 +4,6 @@ import spinner from '../images/spinner.gif'
 
 const LoaderSpin = () => {
 
-  const spinning = {
-    initial : {
-
-    }
-  }
-
   return (
     <Wrapper>
       <img src={spinner} alt='loading' width='50px'/>

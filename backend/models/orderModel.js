@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const orderSchema = mongoose.Schema({
   client: {
-    type: mongoose.Schema.Types.ObjectID,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref : 'User'
   },
@@ -13,29 +13,33 @@ const orderSchema = mongoose.Schema({
       image : {type:String, required: true},
       prix : {type:Number, required:true},
       couleur : {type : String, required: false},
-      product : {type:mongoose.Schema.Types.ObjectID, required : true, ref: 'Product'}
+      product : {type:mongoose.Schema.Types.ObjectId, required : true, ref: 'Product'}
     }
   ],
-  adresseLivraison : {
-    adresse : { type : String, required: true },
-    ville : { type : String, required: true },
-    codePostal : { type : String, required: true },
-    pays : { type : String, required: false },
+  pointRelais : {
+    type: {String},
+    required: true,
+    message : { type : String, required: false}
   },
   méthodePaiement : {
     type : String,
-    required : true
+    default : 'Paypal'
   },
-  résultatPaiement : {
+  paymentResult : {
     id : {type : String},
     status : {type : String},
     update_time : {type : String},
     email_address : {type : String}
   },
-  fraisDePort : {
+  prixProduits : {
     type : Number,
     required : true,
     default : 0.0
+  },
+  fraisDePort : {
+    type : Number,
+    required : true,
+    default : 10
   },
   prixTotal : {
     type : Number,
@@ -57,8 +61,13 @@ const orderSchema = mongoose.Schema({
   },
   deliveredAt : {
     type : Date
+  },
+  messageOrder : {
+    type : String,
+    required : false
   }
-}, {
+}, 
+{
   timestamps : true
 })
 
