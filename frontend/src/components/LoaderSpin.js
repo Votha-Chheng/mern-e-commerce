@@ -13,7 +13,7 @@ const LoaderSpin = () => {
 
 const Wrapper = styled.div`
   width : 50px;
-  margin: 0 auto;
+  margin: 20px auto;
 
 `
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import CheckoutSteps from '../components/CheckoutSteps'
 import styled from 'styled-components'
 import {motion} from 'framer-motion'
@@ -6,6 +6,23 @@ import { pageTransition } from '../fonctionsOutils'
 import MRComponent from '../components/MRComponent'
 
 const PointRelaisScreen = () => {
+
+  const [pointRelais, setPointRelais ]= useState()
+
+  useEffect(() => {
+
+    const getPointRelais = ()=>{
+      setPointRelais(JSON.parse(sessionStorage.getItem('pointRelais')))
+    }
+
+    document.addEventListener('click', getPointRelais)
+    
+    return () =>{
+      document.removeEventListener('click', getPointRelais)
+    }
+    
+  }, [])
+
 
   const refreshHandler = ()=>{
     window.location.reload()
@@ -17,7 +34,7 @@ const PointRelaisScreen = () => {
      
       <h2>Choix du point relais</h2>
      
-      <MRComponent refreshHandler={()=>refreshHandler()}/>
+      <MRComponent refreshHandler={()=>refreshHandler()} pointRelais={pointRelais}/>
     </Wrapper>
   )
 }
@@ -38,6 +55,12 @@ const Wrapper = styled(motion.div)`
     width : 605px;
     height : 500px;
     margin : 20px auto;
+  }
+  @media (max-width:650px){
+    width : 360px;
+    .widget-MR{
+      width : 360px;
+    }
   }
 `
 

@@ -1,7 +1,7 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
-import {imagesProductUpdateReducer, productCreatedReducer, productDeletedReducer, productDetailsReducer, productInfoUpdateReducer, singleImageDeleteReducer} from './reducers/productReducers'
+import {imagesProductUpdateReducer, productCreatedReducer, productDeletedReducer, productDetailsReducer, productInfoUpdateReducer, productStockUpdateReducer, singleImageDeleteReducer} from './reducers/productReducers'
 import {ordersFilteredReducer, productsFilteredReducer} from './reducers/filtersReducers'
 import { cartReducer } from './reducers/cartReducers';
 import { userDetailsReducer, userEmailValidateReducer, userLoginReducer, userRegisterReducer, usersListReducer, userUpdateAddressReducer, userUpdatePasswordReducer, userUpdateProfileReducer, validationEmailReducer } from './reducers/userReducers';
@@ -9,6 +9,7 @@ import { showModalLoginReducer } from './reducers/modalReducers';
 import { myOrdersReducer, orderCreateReducer, orderDeliveredReducer, orderDetailsReducer, orderPayReducer, userOrdersListReducer } from './reducers/orderReducers';
 import { imagesNamesReducer } from './reducers/imagesReducers';
 import { allArticlesReducer, articleByIdReducer, articleDeleteReducer, articleUpdateReducer, newArticleCreatedReducer } from './reducers/blogReducers';
+import { secretCodeCreatedReducer } from './reducers/secretCodeReducer';
 
 
 const reducer = combineReducers({
@@ -43,7 +44,9 @@ const reducer = combineReducers({
   newArticleCreated : newArticleCreatedReducer,
   articleUpdate : articleUpdateReducer,
   articleDelete : articleDeleteReducer,
-  orderDelivered : orderDeliveredReducer
+  orderDelivered : orderDeliveredReducer,
+  productStockUpdate : productStockUpdateReducer,
+  secretCodeCreated : secretCodeCreatedReducer
 })
 
 const cartItemsFromStorage = localStorage.getItem('cartItems')? JSON.parse(localStorage.getItem('cartItems')) : []

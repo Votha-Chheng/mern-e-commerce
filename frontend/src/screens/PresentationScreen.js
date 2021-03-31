@@ -2,6 +2,10 @@ import { motion } from 'framer-motion'
 import React from 'react'
 import styled from 'styled-components'
 import { pageTransition } from '../fonctionsOutils'
+import photo1 from "../images/IMG_20180415_0044.jpg"
+import photo2 from "../images/IMG_20180415_0042.jpg"
+import photo3 from "../images/IMG_20180415_0038.jpg"
+import photo4 from "../images/IMG_20180415_0043.jpg"
 
 const PresentationScreen = () => {
   return (
@@ -20,6 +24,12 @@ const PresentationScreen = () => {
 
       <p className='text-right'>Bonne visite.</p>
       <p className='text-right'>François</p>
+      <div className='img-container'>
+        <img src={photo1} width='450'/>
+        <img src={photo2} width='450'/>
+        <img src={photo3} width='450'/>
+        <img src={photo4} width='450'/>
+      </div>
       
       
     </Wrapper>
@@ -27,7 +37,7 @@ const PresentationScreen = () => {
 }
 
 const Wrapper = styled(motion.div)`
-  width: 60%;
+  width: 1000px;
   margin: 50px auto;
   line-height: 2em;
 
@@ -38,9 +48,41 @@ const Wrapper = styled(motion.div)`
     text-indent : 20px;
     font-size: 1.2em;
     text-align: justify;
+    padding: 10px;
+  }
+  .img-container{
+    margin-top : 50px;
+    width: 1000px;
+    display: flex;
+    flex-wrap : wrap;
+    justify-content: center;
+
+    img{
+      margin : 5px;
+    }
+  }
+
+  @media only screen and (max-width: 1000px){
+    width : 640px;
+
+    .img-container{
+      width: 640px;
+    }
   }
   @media only screen and (max-width: 640px){
     width: 80%;
+    .img-container{
+      margin : 0 auto;
+      width: 80%;
+      overflow: hidden;
+      flex-direction : column;
+      align-items: center;
+
+      img{
+        object-fit : contain;
+        width : 80%;
+      }
+    }
   }
 `
 

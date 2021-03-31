@@ -1,4 +1,4 @@
-import { USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_UPDATE_PASSWORD_REQUEST, USER_UPDATE_PROFILE_FAIL, USER_UPDATE_PROFILE_REQUEST, USER_UPDATE_PROFILE_SUCCESS, USER_UPDATE_PASSWORD_SUCCESS,USER_UPDATE_PASSWORD_FAIL, SEND_VALIDATION_EMAIL_REQUEST, SEND_VALIDATION_EMAIL_SUCCESS, SEND_VALIDATION_EMAIL_FAIL, USER_UPDATE_ADDRESS_REQUEST, USER_UPDATE_ADDRESS_SUCCESS, USER_UPDATE_ADDRESS_FAIL, VALIDATE_USER_EMAIL_REQUEST, VALIDATE_USER_EMAIL_SUCCESS, VALIDATE_USER_EMAIL_FAIL, GET_USERS_LIST_REQUEST, GET_USERS_LIST_SUCCESS, GET_USERS_LIST_FAIL} from "../constants/userConstants"
+import { USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_UPDATE_PASSWORD_REQUEST, USER_UPDATE_PROFILE_FAIL, USER_UPDATE_PROFILE_REQUEST, USER_UPDATE_PROFILE_SUCCESS, USER_UPDATE_PASSWORD_SUCCESS,USER_UPDATE_PASSWORD_FAIL, SEND_VALIDATION_EMAIL_REQUEST, SEND_VALIDATION_EMAIL_SUCCESS, SEND_VALIDATION_EMAIL_FAIL, USER_UPDATE_ADDRESS_REQUEST, USER_UPDATE_ADDRESS_SUCCESS, USER_UPDATE_ADDRESS_FAIL, VALIDATE_USER_EMAIL_REQUEST, VALIDATE_USER_EMAIL_SUCCESS, VALIDATE_USER_EMAIL_FAIL, GET_USERS_LIST_REQUEST, GET_USERS_LIST_SUCCESS, GET_USERS_LIST_FAIL, GET_USERS_FILTERED, UPDATE_USERS_FILTERS, GET_USERS_FILTERS, RESET_SEARCH_USERS} from "../constants/userConstants"
 
 
 export const userLoginReducer = (state = {}, action) =>{
@@ -86,14 +86,14 @@ export const userUpdateAddressReducer = (state = {}, action) =>{
   }
 }
 
-export const validationEmailReducer = (state = {successValidationEmail : false, message:{}, errorValidationEmail:''}, action) =>{
+export const validationEmailReducer = (state = {successValidationEmail : false}, action) =>{
   switch(action.type){
     case SEND_VALIDATION_EMAIL_REQUEST:
-      return {loadingValidation:true }
+      return {...state, loadingValidation:true }
     case SEND_VALIDATION_EMAIL_SUCCESS:
       return {loadingValidation:false, successValidationEmail : true, message : action.payload }
     case SEND_VALIDATION_EMAIL_FAIL:
-      return {loadingValidation:false, errorValidationEmail : action.payload}
+      return {loadingValidation:false, successValidationEmail : false, errorValidationEmail : action.payload}
     default : 
       return state
   }
@@ -112,12 +112,46 @@ export const userEmailValidateReducer = (state = {}, action) =>{
   }
 }
 
-export const usersListReducer = (state = {}, action) =>{
+export const usersListReducer = (
+  state = {
+    loadingUsersList:true,
+    usersList:[],
+    filteredUsers :[],
+    usersFilters : {
+      byEmail :"",
+      byPrenom : "",
+      byNom : ""
+    }
+  }, action) =>{
   switch(action.type){
     case GET_USERS_LIST_REQUEST:
-      return {loadingUsersList:true }
+      return {...state, loadingUsersList:true }
     case GET_USERS_LIST_SUCCESS:
-      return {loadingUsersList:false, usersList : action.payload }
+      return {...state, usersList : action.payload }
+    case GET_USERS_FILTERS :
+      return {...state, usersFilters : state.usersFilters}    
+    case GET_USERS_FILTERED :
+      const {usersList, usersFilters} = state
+      const {byNom, byEmail, byPrenom} = usersFilters    
+      let tempUsers = [...usersList]
+      if(byNom && byNom.length>0){
+        tempUsers = tempUsers.filter(user =>user.nom.toLowerCase().startsWith(byNom.toLowerCase()))
+      }
+      if(byEmail && byEmail.length>0){
+        tempUsers = tempUsers.filter(user =>user.email.startsWith(byEmail.toLowerCase()))
+      }
+      if(byPrenom && byPrenom.length>0){
+        tempUsers = tempUsers.filter(user =>user.prénom.toLowerCase().startsWith(byPrenom.toLowerCase()))
+      }    
+      return {...state, loadingUsersList: false, filteredUsers : tempUsers}
+    case UPDATE_USERS_FILTERS :
+      return {...state, loadingUsersList: false, usersFilters : action.payload}
+    case RESET_SEARCH_USERS :
+      return {...state, usersFilters : {
+        byEmail :"",
+        byPrenom : "",
+        byNom : ""
+      }}
     case GET_USERS_LIST_FAIL:
       return {loadingUsersList:false, errorUsersList : action.payload}
     default : 

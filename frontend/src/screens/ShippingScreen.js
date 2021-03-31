@@ -23,9 +23,6 @@ const ShippingScreen = () => {
 
   const [modal, setModal] = useState(false)
 
-  // const cart = useSelector(state=>state.cart)
-  // const { shippingAddress } = cart
-
   const userLogin = useSelector(state=>state.userLogin)
   const {userInfo} = userLogin
   
@@ -60,21 +57,30 @@ const ShippingScreen = () => {
 
   useEffect(()=>{
     dispatch(getUserDetails(userInfo._id))
+    
   }, [dispatch, userInfo, successValidationEmail, successValidateUserEmail])
 
   useEffect(() => {
     if(!userInfo){
       history.push('/')
-    } else {
-      setNom(userInfo.nom)
-      setPrénom(userInfo.prénom)
-      setEmail(userInfo.email)
-      setAdresseValidate(userInfo.adresse.adresse||'')
-      setVilleValidate(userInfo.adresse.ville||'')
-      setCPValidate(userInfo.adresse.codePostal||'')
-    }
-    
+    }   
   }, [history, userInfo])
+
+  useEffect(() =>{
+    if(user){
+      setNom(user.nom)
+      setPrénom(user.prénom)
+      setEmail(user.email)
+    }
+  }, [user])
+
+  useEffect(() => {
+    if(user.adresse){
+      setAdresseValidate(user.adresse.adresse||'')
+      setVilleValidate(user.adresse.ville||'')
+      setCPValidate(user.adresse.codePostal||'')
+    }
+  }, [user.adresse])
 
 
   useEffect(() => {
@@ -105,7 +111,7 @@ const ShippingScreen = () => {
     setVilleValidate(objet.properties.city)
     setDisplaySuggestions(false)
     setSuggestions([])
-  
+
   }
 
   const inputChangeHandler = (name, value)=>{
@@ -151,7 +157,7 @@ const ShippingScreen = () => {
         errorAddress && <p className='alert-danger text-center w-25 mx-auto my-5'>{errorAddress}</p>
       }
       
-      <div className='form-container'>
+      <div className='form-container1'>
         <form onSubmit={(event)=>submitAddressHandler(event)}>
           <h4 className='text-center mb-5'>Mes informations</h4>
           <div className='infos'>
@@ -264,6 +270,25 @@ const ModalContainer = styled.div`
       }
     }
   }
+  @media screen and(max-width : 400px){
+    .modal-card {
+      width : 360px;
+      height : auto;
+      background : white;
+      margin : 20px auto;
+      border-radius : 5px;
+
+      .message-alert{
+        font-size : 1em;
+        padding : 5px;
+      }
+      .button-container{
+        button {
+          margin : 0px;
+        }
+      }
+    }
+  }
 `
 
 const Wrapper = styled(motion.div)`
@@ -336,11 +361,11 @@ flex-direction: column;
     text-align: center;
     margin : 50px auto;
   }
-  .form-container {
+  .form-container1 {
     display: flex;
     flex-direction : column;
     justify-content: flex-start;
-    width : 600px;
+    max-width : 600px;
     margin : 0 auto;
 
     .infos{
@@ -348,7 +373,6 @@ flex-direction: column;
       padding : 15px;
       margin-bottom:50px;
       
-
       .name{
         display : flex;
         flex-direction : row;
@@ -365,10 +389,7 @@ flex-direction: column;
         font-weight : bold;
         font-size : 1.2em;
         width : 50%;
-      }
-      
-
-      
+      } 
     }
 
     .form-item {
@@ -381,7 +402,32 @@ flex-direction: column;
     .double-item{
       display : flex;
     }
-}
+  }
+  @media (max-width : 650px){
+
+
+    .form-container1{
+      width : 80%;
+      form{
+        max-width : 360px;
+        .infos{
+          .infos-item{
+            font-size : 1.3em ;
+          }
+          .infos-item.label{
+            font-size : 0.9em;
+          }
+        }
+        .double-item{
+          flex-direction : column;
+          input{
+            width : 100%;
+          }
+        }
+      }
+    }   
+  }
+  
 `
 
 export default ShippingScreen

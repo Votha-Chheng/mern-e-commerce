@@ -20,7 +20,7 @@ const BilletNormalDisplay = ({billet}) => {
         {
           billet.photos.map((photo, index)=>
             <div key={index} className='img-container'>
-              <div className='py-2'>{photo.legende && photo.legende}</div>
+              <div className='py-2 conteneur'>{photo.legende && photo.legende}</div>
               <img  
                 src={photo.url} 
                 alt={`${billet.titre}-${index}`} 
@@ -82,6 +82,32 @@ const Wrapper = styled.div`
       align-items: center;
       max-width : 800px;
       margin : 20px auto 10px auto;  
+    }
+  }
+
+  @media screen and (max-width : 800px){
+    .img-container{
+      width : 500px;
+        img{
+          width : 500px;
+          object-fit : contain;
+        }  
+    }
+  }
+  @media screen and (max-width : 520px){
+    padding :0;
+
+    .img-container{
+      width : 330px;
+      height : 100%;
+
+      img{
+        width : 330px;
+        height : 100%;
+        object-fit : contain;
+      }
+      
+      
     }
   }
   

@@ -22,6 +22,7 @@ import PaymentScreen from './screens/PaymentScreen';
 import OrderScreen from './screens/OrderScreen';
 import BilletScreen from './screens/BilletScreen';
 import ContactScreen from './screens/ContactScreen';
+import OrderPaidScreen from './screens/OrderPaidScreen';
 
 
 
@@ -44,7 +45,8 @@ function App() {
           <Route exact path='/choixpointrelais' component = {PointRelaisScreen} />
           <Route exact path='/paiement' component = {PaymentScreen} />
           <Route exact path='/contact' component = {ContactScreen} />
-          <Route exact path='/commande/:id' component={OrderScreen} />
+          <Route exact path='/commande/' component={OrderScreen} />
+          <Route exact path='/commande/:id' component={OrderPaidScreen} />
           <Route exact path="/presentation" component ={PresentationScreen} />
           <Route exact path="/blog" component ={BlogScreen} />
           <Route exact path='/mentionslegales' component={LegalScreen} /> 

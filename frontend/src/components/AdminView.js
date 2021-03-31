@@ -16,11 +16,11 @@ const AdminView = () => {
 
   const dispatch = useDispatch()
 
-  const usersList = useSelector(state=>state.usersList)
+  // const usersList = useSelector(state=>state.usersList)
 
-  useEffect(() => {
-    dispatch(getUsersList())
-  },[dispatch])
+  // useEffect(() => {
+  //   dispatch(getUsersList())
+  // },[dispatch])
 
 
   return (
@@ -52,7 +52,9 @@ const AdminView = () => {
         <main>
           {
             ongletActif === 0 ? 
-              <GestionClients usersList = {usersList}/> :
+              <GestionClients 
+              //  usersList = {usersList}
+              /> :
             ongletActif === 1 ? 
               <GestionCommandes/> :
             ongletActif === 2 ?

@@ -3,24 +3,35 @@ import LoaderSpin from '../components/LoaderSpin'
 import {Container, ListGroup} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { getFilteredProducts } from '../actions/filterActions'
+import { getFilteredProducts, updateProductsPagination } from '../actions/filterActions'
 import { deleteProduct } from '../actions/productActions'
 
 const AdminListProducts = ({switchDisplayHandler}) => {
 
   const [modalDisplay, setModalDisplay] = useState(false)
   const [idProductToDelete, setIdProductToDelete] = useState('')
+  const [pages, setPages] = useState([])
 
   const dispatch = useDispatch()
 
-  const {filteredProducts} = useSelector(state => state.productsFiltered)
+  const {filteredProducts, loading, productPagination, allProducts, unpaginateProducts} = useSelector(state => state.productsFiltered)
   const {messageDeleteProduct, successDeleteProduct, loadingDeleteProduct } = useSelector(state => state.productDeleted)
 
   useEffect(()=>{
     dispatch(getFilteredProducts())
-  }, [dispatch, successDeleteProduct])
+  }, [dispatch, successDeleteProduct, productPagination])
 
 
+  useEffect(() => {
+    if(unpaginateProducts){
+      const totalPages = Math.floor(unpaginateProducts.length/productPagination.numberOfItemsToDisplay)+1
+      let totalPagesArray=[]
+      for(let i=0 ; i<totalPages ; i++){
+        totalPagesArray.push(i+1)
+      }
+      setPages(totalPagesArray)
+    }
+  }, [allProducts, productPagination])
 
   const deleteHandler = (event)=>{
     setIdProductToDelete(event.target.id)
@@ -31,6 +42,10 @@ const AdminListProducts = ({switchDisplayHandler}) => {
     dispatch(deleteProduct(productId))     
     window.scrollTo(0, 0)
     setModalDisplay(false)
+  }
+
+  const changeProductPagination = (name, value)=>{
+    dispatch(updateProductsPagination(productPagination, name, value))
   }
 
   return (
@@ -54,9 +69,44 @@ const AdminListProducts = ({switchDisplayHandler}) => {
         successDeleteProduct && <div className='alert-danger text-center h4 my-4'>{messageDeleteProduct.message}</div>
       }
 
+      <Filters className='filters-container'>
+        <div className='tri'>Trier par : </div>
+        
+        <div className='filter'>
+          <div>Nombre</div>
+          <select
+            name='numberOfItemsToDisplay' 
+            id='numberOfItemsToDisplay' 
+            value={productPagination.numberOfItemsToDisplay} 
+            onChange={(event)=>changeProductPagination(event.target.name, +event.target.value)}
+          >
+            <option value='10'>10</option>
+            <option value='20'>20</option>
+            <option value='50'>50</option>
+          </select>
+        </div>
+      </Filters>
+
+      <Pagination>
+        {
+          pages.map((page, index) => 
+            <div 
+              className='page' 
+              key={index}
+              id={index+1}
+              style={index === productPagination.currentPage-1 ? { backgroundColor : "#dde3e3", color : 'grey' } : null}
+              data-name ='currentPage'
+              onClick={(event) => changeProductPagination(event.target.dataset.name, (event.target.id))}
+            >
+              {page}
+            </div>
+          )
+        }
+      </Pagination>
+
       <Container>
       {
-        loadingDeleteProduct ? <LoaderSpin/> :
+        loadingDeleteProduct || loading ? <LoaderSpin/> :
         filteredProducts.map((product, index)=>
           <ListGroup key={index} className='my-5'>
             <ListGroup.Item variant='secondary'>
@@ -152,6 +202,39 @@ const AdminListProducts = ({switchDisplayHandler}) => {
     </div>
   )
 }
+
+
+
+const Filters = styled.div`
+  display:flex;
+  justify-content: center;
+
+  .tri{
+    margin-top : 15px;
+    margin-right : 15px;
+  }
+  .filter{
+    margin-right : 15px;
+    text-align : center;
+  }
+`
+
+const Pagination = styled.div`
+  display:flex;
+  justify-content : center;
+  margin : 20px auto 0px auto ;
+
+  .page{
+    text-align: center;
+    color : white;
+    background-color : grey;
+    width : 20px;
+    height : 20px;
+    cursor : pointer;
+    margin : 2px;
+    border : 1px double #dde3e3;
+  }
+`
 
 const Table = styled.div`
   width: 100%;

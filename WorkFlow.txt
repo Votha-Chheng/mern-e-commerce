@@ -1,5 +1,0 @@
-Luminaires Cavallo
-
-- Commande validée : mettre à jour le stock dans la BD
-- Filtrages des commandes et des clients par date et par recherche d'e-mail ou de n°client
-- Pagination affichage des produits

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { formatDate } from '../fonctionsOutils'
 import LoaderSpin from './LoaderSpin'
@@ -7,14 +7,28 @@ import Commandes from './Commandes'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUserOrdersList } from '../actions/orderActions'
 import BullesStats from './BullesStats'
+import { getUsersList, updateUsersFilters } from '../actions/userActions'
+import { RESET_SEARCH_USERS } from '../constants/userConstants'
 
-const GestionClients = ({usersList}) => {
+const GestionClients = () => {
 
   const [indexCommandes, setIndexCommandes] = useState('')
+
+  const [scrollYValue, setScrollYValue] = useState(0)
+
+  const [searchValue, setSearchValue] = useState('')
   
   const dispatch = useDispatch()
 
   const {userOrdersList, loadingUserOrdersList, errorUserOrdersList} = useSelector(state=>state.userOrdersList)
+  const {userInfo} = useSelector(state=>state.userLogin)
+  const {usersList, loadingUsersList, errorUsersList, filteredUsers, usersFilters} = useSelector(state=>state.usersList)
+
+  useEffect(() => {
+
+    dispatch(getUsersList())
+    
+  },[dispatch, usersFilters])
 
   const displayOrderHandler = (event)=>{
     if(indexCommandes===event.target.id){
@@ -26,20 +40,65 @@ const GestionClients = ({usersList}) => {
     }
   }
 
+  const chooseSearchHandler = (event)=>{
+    setScrollYValue(+event.target.id)
+    setSearchValue('')
+    console.log(event.target.id)
+    dispatch({type : RESET_SEARCH_USERS})
+  }
+
+  const onChangeSearchHandler = (event)=>{
+    setSearchValue(event.target.value)
+    if(scrollYValue === 45) dispatch(updateUsersFilters('byNom', (event.target.value)))
+    if(scrollYValue === 0) dispatch(updateUsersFilters('byPrenom', (event.target.value)))
+    if(scrollYValue === -45)dispatch(updateUsersFilters('byEmail', (event.target.value)))
+  }
+
   return ( 
     <Wrapper>
       <div className='bulle-stat'>
-        {
-          usersList.usersList &&
-          <BullesStats items={'clients'} itemsArray={usersList.usersList.slice(1)} icon={"fa fa-user-friends"} />
-        }  
+      {
+        usersList &&
+        <BullesStats items={'clients'} itemsArray={usersList.slice(1)} icon={"fa fa-user-friends"} />
+      }  
+      </div>
+      <div className='recherche py-3'>
+        <div>Rechercher un client par :</div>
+        <div className='choix' style={{transform:`translateY(${scrollYValue}px)`}}>
+          <div
+            className={`${scrollYValue === 45 ? "item active" : "item"}`}
+            id='45' 
+            data-value='byNom' 
+            onClick={(event)=>chooseSearchHandler(event)}
+          >
+            nom
+          </div>
+          <div 
+            className={`${scrollYValue === 0 ? "item middle active" : "item middle"}`}
+            id='0' 
+            data-value='byPrenom'
+            onClick={(event)=>chooseSearchHandler(event)}
+          >
+            prénom
+          </div>
+          <div 
+            className={`${scrollYValue === -45 ? "item active" : "item"}`}
+            id='-45' 
+            data-value='byEmail'
+            onClick={(event)=>chooseSearchHandler(event)}
+          >
+            e-mail
+          </div>
+        </div>
+        <div className='loupe'><i className="fas fa-search" style={{transform:"translate(50%, 50%)"}}/></div>
+        <input value={searchValue} onChange={(event)=>onChangeSearchHandler(event)} />
       </div>
       <div> 
         {
-          usersList.loadingUsersList ? <LoaderSpin/> :
-          usersList.errorUsersList ? <div className='alert-danger'>{usersList.errorUsersList}</div> :
-          usersList.usersList &&
-          usersList.usersList.filter(user=> user.nom && user.prénom !== 'administrateur').map((user, index)=>
+          loadingUsersList ? <LoaderSpin/> :
+          errorUsersList ? <div className='alert-danger'>{usersList.errorUsersList}</div> :
+          filteredUsers &&
+          filteredUsers.filter(user=> user.nom && user.prénom !== 'administrateur').map((user, index)=>
             <div key={user._id} className='item-container'>
               <h6>
                 Id client : {user._id}
@@ -98,12 +157,11 @@ const GestionClients = ({usersList}) => {
                   <>
                     <h5>Commandes passées</h5>
                       {userOrdersList.map((order, index)=> 
-                        <Commandes key={index} commande={order}/>
+                        <Commandes key={index} commande={order} user={userInfo}/>
                       )}
                   </> 
                   :
-                  <div className='alert-warning text-center h5'>Aucune commande passée.</div>
-                  
+                  <div className='alert-warning text-center h5'>Aucune commande passée.</div>  
                 }
               </div> 
             </div> 
@@ -115,6 +173,73 @@ const GestionClients = ({usersList}) => {
 }
 
 const Wrapper = styled(motion.div)`
+
+  .recherche{
+    display: flex;
+    align-items: center;
+    position: relative;
+    height : 100px;
+    overflow : hidden;
+
+    &::before{
+      content:'';
+      width : 100px;
+      height : 1px;
+      background-color : white;
+      position : absolute;
+      opacity : 0.9;
+      top : -5px;
+      left : 190px;
+      box-shadow : 0px 0px 15px 20px whitesmoke;
+      z-index : 2;
+    }
+    &::after{
+      content:'';
+      width : 100px;
+      height : 1px;
+      background-color : white;
+      position : absolute;
+      opacity : 0.9;
+      bottom : -5px;
+      left : 190px;
+      box-shadow : 0px 0px 15px 20px whitesmoke;
+      z-index : 2;
+    }
+
+    .loupe{
+      background-color : #dde3e3 ;
+      width :30px ;
+      height :30px;
+    }
+    input {
+      outline: none;
+      border: none;
+      background-color : #f4f6f6;
+      height :30px;
+      padding : 0 5px;
+    }
+    .choix{
+      margin : 0px 15px;
+      transition : all 0.3s;
+      .item{
+        border : 2px solid #dde3e3;
+        padding : 5px 10px;
+        border-top-left-radius: 20px 50%;
+        border-top-right-radius: 20px 50%;
+        border-bottom-right-radius: 20px 50%;
+        border-bottom-left-radius:  20px 50%;
+        cursor: pointer;
+        }
+      .item.active{
+        border : 2px solid #41819f;
+        color : #41819f;
+        font-weight : bold;
+      }
+      .middle{
+        margin : 8px 0px;
+      }
+    }
+  }
 
   .bulle-stat{
     width : 200px;

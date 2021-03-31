@@ -1,4 +1,4 @@
-import {  GET_FILTERED_PRODUCTS, GET_FILTERS, UPDATE_FILTERS } from '../constants/filtersConstants'
+import {  GET_FILTERED_PRODUCTS, GET_FILTERS, RESET_PRODUCT_PAGINATION, UPDATE_FILTERS, UPDATE_ORDER_PAGINATION, UPDATE_PRODUCT_PAGINATION } from '../constants/filtersConstants'
 import axios from 'axios'
 import { PRODUCTS_LIST_FAIL, PRODUCTS_LIST_REQUEST, PRODUCTS_LIST_SUCCESS } from '../constants/productsConstants'
 import { GET_FILTERED_ORDERS, GET_ORDER_FILTERS, ORDERS_LIST_FAIL, ORDERS_LIST_REQUEST, ORDERS_LIST_SUCCESS, UPDATE_ORDER_FILTERS } from '../constants/orderConstants'
@@ -61,7 +61,7 @@ export const getFilteredOrders = () => async (dispatch, getState) =>{
   }
 }
 
-export const ordersFiltersUpdate = (state, name, value)=>(dispatch)=>{
+export const updateOrdersFilters = (state, name, value)=>(dispatch)=>{
 
   const newFilters = {
     ...state,
@@ -69,4 +69,34 @@ export const ordersFiltersUpdate = (state, name, value)=>(dispatch)=>{
   }
 
   dispatch({type : UPDATE_ORDER_FILTERS, payload : newFilters})
+}
+
+export const updateOrdersPagination = (state, name, value)=>(dispatch)=>{
+
+  const newFilters = {
+    ...state,
+    [name] : value
+  }
+
+  dispatch({type : UPDATE_ORDER_PAGINATION, payload : newFilters})
+}
+
+export const updateProductsPagination = (state, name, value)=>(dispatch)=>{
+
+  const newFilters = {
+    ...state,
+    [name] : value
+  }
+
+  dispatch({type : UPDATE_PRODUCT_PAGINATION, payload : newFilters})
+}
+
+export const resetProductsPagination = (value)=>(dispatch)=>{
+
+  const newFilters = {
+    currentPage : 1,
+    numberOfItemsToDisplay : value
+  }
+
+  dispatch({type : RESET_PRODUCT_PAGINATION, payload : newFilters})
 }

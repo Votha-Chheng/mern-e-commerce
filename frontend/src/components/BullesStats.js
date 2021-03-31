@@ -6,7 +6,7 @@ const BullesStats = ({items, itemsArray, icon}) => {
 
     <Wrapper className='bulle'>
       <i className={icon}></i>
-      <div>Nombre de {items} enregistrés :</div>
+      <div>Nombre total de {items} enregistrés :</div>
       {
         itemsArray && <span>{itemsArray.length}</span>
       }
@@ -15,10 +15,6 @@ const BullesStats = ({items, itemsArray, icon}) => {
 }
 
 const Wrapper = styled.div`
-  /* margin-top : 20px;
-  display: flex;
-  justify-content: center;
-   */
 
   display: flex;
   flex-direction: column;

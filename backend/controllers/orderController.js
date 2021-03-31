@@ -50,7 +50,7 @@ const deleteOrder = asyncHandler(async(req, res)=>{
 //@access Private
 const getOrderById = asyncHandler(async(req, res)=>{
   
-  const order = await Order.findById(req.params.id).populate('client', 'nom prénom email')
+  const order = await Order.findById(req.params.id).populate('client', 'nom prénom email adresse')
 
   if(order){
     res.json(order)

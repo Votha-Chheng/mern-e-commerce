@@ -6,26 +6,18 @@ import LoaderSpin from './LoaderSpin'
 
 const CardHome = ({product, loading}) => {
 
-  const ratioFrame = 220/280
+  const ratioFrame = 220/264
   const [ratio, setRatio] = useState('')
 
   const image = useRef(null)
 
   const history = useHistory()
-  
-  useLayoutEffect(()=>{
-    if(loading){
-      const imageRatio = image.current.offsetWidth/image.current.offsetHeight
-      setRatio(imageRatio)
-      console.log(ratio)
-    }  
-  }, [loading, ratio])
-
 
   const addCartHandler = ()=> {
     history.push(`/panier/${product._id}?qty=1`)
   }
 
+  console.log(ratio)
   return (
     <Wrapper >     
       <Link to={`/produit/${product._id}`}>
@@ -37,7 +29,9 @@ const CardHome = ({product, loading}) => {
               src={product.images[0]} 
               alt={product.nom} 
               width={ratio>1 ? 'auto' : '220'}
+              height={ratio>1? '264' : 'auto'}
               style={{position : 'absolute', left:'0', transform:`scale(0.9) translateY(${ratio>ratioFrame?15:-15}px) translateX(-${ratio>1? 220*ratio/4 : '0'}px)`}}
+              onLoad={() => setRatio(image.current.offsetWidth/image.current.offsetHeight)}
             />
           } 
         </div>

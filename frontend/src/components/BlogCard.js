@@ -116,9 +116,27 @@ const Wrapper = styled.div`
       }
     }
   }
+  @media only screen and (max-width: 750px){
+    width : 350px;
 
+    .card-content{
+      flex-direction:column;
+      align-items:center;
+      width : 350px;
+      .image-container{
+        width : 300px;
+        img{
+          object-fit : cover;
+        }
+      }
+      .texte-container{
+        margin-top : 15px;
+        width : 320px;
+      }
+    }
+  }
   
-  
+
     
 `
 

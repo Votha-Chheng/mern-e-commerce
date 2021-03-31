@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
+import { useRef } from 'react'
 import styled from 'styled-components'
 import Modal from '../components/Modal'
+import ImageComponent from './ImageComponent'
 import LoaderSpin from './LoaderSpin'
 
 const CarouselImageProduit = ({images, loading}) => {
@@ -8,6 +10,7 @@ const CarouselImageProduit = ({images, loading}) => {
   const [indexImg, setIndexImg] = useState(0)
   const [indexModal, setIndexModal] = useState(0)
   const [modal, setModal] = useState(false)
+
 
   return (
     <Wrapper>
@@ -33,9 +36,10 @@ const CarouselImageProduit = ({images, loading}) => {
                       className='main-container-images-modal'
                       style={{transform: `translateX(${indexModal * -100}%)`}}
                     >
-                      <img 
-                        src={image} 
-                        alt='modal'
+                      <ImageComponent
+                        image={image}
+                        frameHeight='900'
+                        frameWidth ='900'
                       />
                     </div>
                   ))
@@ -204,7 +208,77 @@ const Wrapper = styled.div`
     height : 100%;
     background-color : none;
   }
+  
+  @media only screen and (max-width: 920px){
+    .image-frame-modal{
+      width : 700px;
+      height : 100%;
+      background-color : none;
+      .main-container-images-modal{
+        width : 700px;
+        overflow : hidden;
+      }
+    }
+  }
 
+  @media only screen and (max-width: 720px){
+    .image-frame-modal{
+      width : 500px;
+      max-height : 100vh;
+      .main-container-images-modal{
+        width : 500px;
+        overflow : hidden;
+        img{
+          object-fit : contain;
+          width : 500px;
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 570px){
+    max-width : 340px;
+    overflow: hidden;
+
+    .image-frame-modal{
+      width : 400px;
+      max-height : 100vh;
+      .main-container-images-modal{
+        width : 400px;
+        overflow : hidden;
+        img{
+          object-fit : contain;
+          width : 400px;
+        }
+      }
+    }
+    .carousel-container{
+      width : 340px;
+      overflow : hidden;
+      
+      .image-frame{
+        width : 100%;
+      }
+      .images-suite{
+        width : 340px;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 420px){
+    .image-frame-modal{
+      width : 360px;
+      max-height : 100vh;
+      .main-container-images-modal{
+        width : 360px;
+        overflow : hidden;
+        img{
+          object-fit : contain;
+          width : 360px;
+        }
+      }
+    }
+  }
 `
 
 export default CarouselImageProduit

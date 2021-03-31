@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 const secretCodeSchema = new mongoose.Schema({
-  email: {
+  emailCode: {
     type: String,
     required: true,
     unique: true
@@ -12,15 +12,19 @@ const secretCodeSchema = new mongoose.Schema({
   },
   numberEmailSent : {
     type : Number,
+    required: false,
     default : 0,
-    required: false
   },
   dateCreated: {
     type: Date,
-    default: Date.now(),
+    required: true,
     expires: 600,
   }
-});
+},
+{
+  timestamps : true
+}
+);
 
 
 const SecretCode = mongoose.model('SecretCode', secretCodeSchema)

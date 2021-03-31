@@ -135,6 +135,7 @@ const Wrapper = styled.div`
   .preview-container{
     display : flex;
     align-items : center;
+    flex-wrap : wrap;
 
     .image-uploaded{
       margin-right : 5px;

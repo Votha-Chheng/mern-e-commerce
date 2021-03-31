@@ -3,7 +3,7 @@ import React, { useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { resetCartItems } from '../actions/cartActions'
+// import { resetCartItems } from '../actions/cartActions'
 import { createOrder } from '../actions/orderActions'
 import CheckoutSteps from '../components/CheckoutSteps'
 import { convertPrice, pageTransition } from '../fonctionsOutils'
@@ -29,19 +29,21 @@ const PaymentScreen = () => {
   useEffect(()=>{
     if(!userInfo){
       history.push('/')
-    } else {
+    }
+  }, [history, userInfo])
+
+  useEffect(()=>{
+    if (!messageOrder){
       setMessageOrder(sessionStorage.getItem('orderMessage'))
-      if(successCreateOrder){
-        history.push(`/commande/${order._id}`)
-        dispatch(resetCartItems())
-      } else if(cartItems.length === 0 ){
-        history.push(`/commande/profil`)
-      }
     }
     
-  }, [dispatch, history, successCreateOrder, order, cartItems, userInfo])
+  }, [dispatch, messageOrder])
 
-
+  useEffect(()=>{
+    if(successCreateOrder || cartItems.length === 0){
+      history.push(`/commande`)
+    }
+  }, [successCreateOrder, history, order, cartItems])
 
   const placeOrderHandler = ()=>{
     dispatch(createOrder({
@@ -52,10 +54,7 @@ const PaymentScreen = () => {
       fraisDePort : 20,
       messageOrder : messageOrder
     }))
-    
   }
-
-  console.log(messageOrder)
 
   return (
 
@@ -88,13 +87,13 @@ const PaymentScreen = () => {
                       <img src={item.image} alt='lampe en bois flotté' width='60px'/>
                     </div>
                   </Link>
-                  <Link to={`/produit/${item.product}`}>
-                    <div className='item-nom item'>
-                    <span className='label'>{item.nom}</span>
+                  
+                    <div className='item-nom item'><Link to={`/produit/${item.product}`}>
+                    <span className='label'>{item.nom}</span></Link>
                     </div>
-                  </Link>
+                  
                   <div className='item-couleur item'>
-                    <span className='label'>Couleur d'abat-jour : {item.couleur ? item.couleur : 'aucune'}</span>
+                    <span className='label'>Couleur : {item.couleur ? item.couleur : 'aucune'}</span>
                   </div>
                   <div className='item-prix-total item'>
                   <span className='label'>Prix : {convertPrice(item.prix)} x {item.qty} = <span className='prix-final'>{convertPrice(item.prix*+item.qty)} €</span></span>
@@ -132,7 +131,6 @@ const Wrapper = styled(motion.div)`
   margin : 0 auto;
   display : flex;
   flex-direction: column;
-  /* align-items: center; */
   width : 100%;
 
   h2{
@@ -241,7 +239,51 @@ const Wrapper = styled(motion.div)`
       }
     }
   }
+@media (max-width:890px){
+  .recap-container{
+    flex-direction: column;
+    align-items: center;
+    .recap-right, .recap-left{
+      width : 100%;
+    }
+    .recap-left
+      .recap-produits{
+        .cart-items{
+          display : flex;
+          font-size : 0.8em;
+  
+          .item-nom{
+            width : 80px;
+            padding-left : 0px;
+          }
+          .item-couleur.item{
+            text-align : center;
+            width : 70px;
+          }
+          .item-qty{
+            width : 140px;
+          }
+          .item-prix-total{
+            width : 300px;
 
+            .prix-final{
+              font-size : 1.3em;
+              font-weight : bold;
+            }
+          }
+          .item{
+            display : flex;
+            flex-direction: column;
+            justify-content : center;
+            padding : 5px ;
+            border-left : 1px solid #DEE3E3;
+            height : 80px;
+          }
+        }
+      }
+
+  }
+}
 `
 
 export default PaymentScreen

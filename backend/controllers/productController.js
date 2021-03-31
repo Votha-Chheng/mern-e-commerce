@@ -140,20 +140,20 @@ const deleteProduct = asyncHandler(async(req, res)=>{
 //@access Private
 const updateProductStock = asyncHandler(async(req, res)=>{
   let err = [], success=[]
-  for (let i=0 ; i<req.body.order.length ; i++){
-    let product = await Product.findById(req.body.order[i]._id)
+  for (let i=0 ; i<req.body.orderBody.length ; i++){
+    let product = await Product.findById(req.body.orderBody[i]._id)
     if(product){
-      product.stock -= req.body.order[i].qty
+      product.stock -= req.body.orderBody[i].qty
       await product.save()
       success.push('success')
     } else {
       err.push('error')
     }
   }
-  if(success.length === req.body.order.length){
+  if(success.length === req.body.orderBody.length){
     res.json("Le stock a été modifié.")
   } else {
-    throw new Error(`La mise à jour du stock du produit n°${req.body.order[i]._id} a échoué.`)
+    throw new Error(`La mise à jour du stock des produits a échoué.`)
   }
   
 })

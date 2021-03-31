@@ -8,12 +8,15 @@ import { getOrderDetails, payOrder } from '../actions/orderActions'
 import LoaderSpin from '../components/LoaderSpin'
 import { convertPrice, formatDate, pageTransition } from '../fonctionsOutils'
 import {PayPalButton} from 'react-paypal-button-v2'
-import { ORDER_PAY_RESET } from '../constants/orderConstants'
+import { ORDER_CREATE_SUCCESS_TO_FALSE, ORDER_PAY_RESET } from '../constants/orderConstants'
 import { getUserDetails } from '../actions/userActions'
+import { updateProductStock } from '../actions/productActions'
+import { resetCartItems } from '../actions/cartActions'
 
 const OrderScreen = () => {
 
   const [sdkReady, setSdkReady] = useState(true)
+  const [loadingMount, setLoadingMount] = useState(true)
 
   const dispatch = useDispatch()
   const {id} = useParams()
@@ -22,31 +25,57 @@ const OrderScreen = () => {
   const userLogin = useSelector(state=>state.userLogin)
   const {userInfo} = userLogin
 
-  const {user} = useSelector(state=>state.userDetails)
-
-  // const orderCreate = useSelector(state=>state.orderCreate)
-
   const orderDetails = useSelector(state=>state.orderDetails)
-  const {order, loadingOrderDetails, produitsCommande} = orderDetails
+  const {order, loadingDetailsOrder} = orderDetails
+
+  const {successCreateOrder, order : orderCreated} = useSelector(state=>state.orderCreate)
 
   const orderPay = useSelector(state=>state.orderPay)
   const {loading : loadingPay, success : successPay, error : errorPay} = orderPay
 
+  const {loading} = useSelector(state=>state.productStockUpdate)
 
   useEffect(() => {
-
-    dispatch(getOrderDetails(id))
-    dispatch(getUserDetails(userInfo._id))
-
-  }, [dispatch, id])
-
-  useEffect(() => {
-    if(!userInfo){
+    if(!userInfo || !successCreateOrder){
       history.push('/')
     }
-  },[userInfo, history])
+  },[userInfo, history, successCreateOrder])
+
+
+  // useEffect(() => {
+  //   if(successCreateOrder){
+  //     dispatch(resetCartItems())
+  //     dispatch({type : ORDER_CREATE_SUCCESS_TO_FALSE})
+  //   }
+  //   if(successPay||!order){
+  //     if(successPay){
+  //       const orderBody = order.produitsCommande.map(item => ({_id : item.product, qty : item.qty}))
+  //       dispatch(updateProductStock({orderBody : orderBody}))
+  //     }
+  //     dispatch({type : ORDER_PAY_RESET})
+  //     dispatch(getOrderDetails(id))
+  //   }  
+  // }, [dispatch, id, successPay, successCreateOrder, order])
+
+  useEffect(()=>{
+    if(successCreateOrder){
+      setTimeout(()=>{
+        setLoadingMount(false)
+        dispatch(resetCartItems())
+        //dispatch({type : ORDER_CREATE_SUCCESS_TO_FALSE})
+      }, 5000) 
+    }
+  }, [successCreateOrder, dispatch])
 
   useEffect(() => {
+    if(successPay){
+      const orderBody = orderCreated.produitsCommande.map(item => ({_id : item.product, qty : item.qty}))
+      dispatch(updateProductStock({orderBody : orderBody}))
+      history.push(`/commande/${orderCreated._id}`)
+    }
+  },[successPay, dispatch, history, orderCreated])
+  
+  useEffect(()=>{
     const addPayPalScript = async (req, res)=>{
       const {data : clientId} = await axios.get('/api/config/paypal')
       const script = document.createElement('script')
@@ -56,17 +85,10 @@ const OrderScreen = () => {
       script.onload = ()=>{
         setSdkReady(true)
       }
-      document.getElementsByTagName('head')[0].appendChild(script)
-    }
-
-      
-    if(!order || successPay){
-      dispatch({type : ORDER_PAY_RESET})
-      dispatch(getOrderDetails(id))
-      if(successPay){
-        //Mettre à jour le stock dans les produits achetés.
-      }
-    } else if (!order.isPaid){
+      document.querySelector('body').appendChild(script)
+    }  
+    
+    if(!orderCreated.isPaid){
       if(!window.paypal){
         addPayPalScript()
       } else {
@@ -74,12 +96,11 @@ const OrderScreen = () => {
       }
     }
     
-  },[dispatch, id, successPay, order])
-
+  }, [dispatch, orderCreated])
 
   const successPaymentHandler = (paymentResult)=>{
     console.log(paymentResult)
-    dispatch(payOrder(id, paymentResult))
+    dispatch(payOrder(orderCreated._id, paymentResult)) 
   }
 
 
@@ -87,12 +108,12 @@ const OrderScreen = () => {
     <Wrapper variants={pageTransition} initital='initial' animate='animate' exit='exit'>
       
       {
-        loadingOrderDetails ? <LoaderSpin/> :
-        order && 
+        loadingDetailsOrder ? <LoaderSpin/> :
+        orderCreated && 
         <div>
           <div className='header'>
-            <h3>Détails commande n°{order._id}</h3>
-            <div><span className='label'>Effectuée le </span> {formatDate(order.createdAt)} </div>
+            <h3>Détails commande n°{orderCreated._id}</h3>
+            <div><span className='label'>Effectuée le </span> {formatDate(orderCreated.createdAt)} </div>
           </div>
           <div style={{borderBottom :'1px solid #d3d9d9', marginTop:'-20px', marginBottom:'50px'}}></div>
           
@@ -101,7 +122,7 @@ const OrderScreen = () => {
             <div className='order'>
               <div className='order-container'>
                 {
-                  order.produitsCommande && order.produitsCommande.map((item, index)=>(
+                  orderCreated.produitsCommande && orderCreated.produitsCommande.map((item, index)=>(
                     <div className='order-items-container' key={index}>
                       <Link to={`/produit/${item.product}`} className="img-container">
                         <img src={item.image} alt={item.nom} width='60'/>
@@ -122,30 +143,30 @@ const OrderScreen = () => {
                   <div className='label'>
                     Sous-total : 
                   </div>
-                  <div className='value'>{convertPrice(order.prixProduits)}€</div>
+                  <div className='value'>{convertPrice(orderCreated.prixProduits)}€</div>
                   <div className='label'>Frais de port :</div>
-                  <div className='value'>{convertPrice(order.fraisDePort)} €</div>
+                  <div className='value'>{convertPrice(orderCreated.fraisDePort)} €</div>
                   <div className='label last'>Total commande : </div>
-                  <div className='value total-prix alert-success pr-2'>{convertPrice(order.prixTotal)} €</div>
+                  <div className='value total-prix alert-success pr-2'>{convertPrice(orderCreated.prixTotal)} €</div>
                 </div>
               </div>
             </div>
-            {!order.isPaid && <div className='text-center h4'>Paiement via Paypal ou carte bancaire</div>}
+            {!orderCreated.isPaid && <div className='text-center mt-3 h4'>Paiement via Paypal ou carte bancaire</div>}
             
             <div className='payment-container'>
               {
                 errorPay && <div className='alert-danger h4 text-center'>{errorPay}</div>
               }
               {
-                order.isPaid ? 
-                <p className='alert-success h4 mt-3 p-2 w-100'>Commande payée le {formatDate(order.datePaiement)} via {order.méthodePaiement}</p>:<p className='alert-danger h4 mt-3 p-2'>Commande non-payée</p>
+                orderCreated.isPaid ? 
+                <p className='alert-success h4 mt-3 p-2 w-100'>Commande payée le {formatDate(orderCreated.datePaiement)} via {orderCreated.méthodePaiement}</p>:<p className='alert-danger h4 mt-3 p-2'>Commande non-payée</p>
               }
               {
-                loadingPay? <LoaderSpin/> :
+                loadingPay || loading || loadingMount ? <LoaderSpin/> :
                 !sdkReady ? <LoaderSpin/> :
-                !order.isPaid &&
+                !orderCreated.isPaid &&
                 <PayPalButton
-                  amount={order.prixTotal}
+                  amount={orderCreated.prixTotal}
                   onSuccess={successPaymentHandler}
                 />
               }
@@ -153,33 +174,31 @@ const OrderScreen = () => {
             <div style={{borderBottom :'1px solid #d3d9d9', margin:'30px 0'}}>
             </div>
             
-            
-
             <div className='card-container'>
               <div className='card'>
                 <h4 className='destinataire'>Destinataire</h4>
                 <div className='infos-perso'>
                   {
-                    user && (<>
+                    userInfo.adresse && (<>
                       <div className='nom'>
-                        {user.prénom} {user.nom}
+                        {userInfo.prénom} {userInfo.nom}
                       </div>
                       <div>
-                        {user.adresse.adresse}
+                        {userInfo.adresse.adresse}
                       </div>
                       <div>
-                        {user.adresse.codePostal} {user.adresse.ville}
+                        {userInfo.adresse.codePostal} {userInfo.adresse.ville}
                       </div>
                     </>)
                   }
                 </div>
               </div>
               {
-                order.messageOrder && 
+                orderCreated.messageOrder && 
                 <div className='card'>
                   <h4>Message de l'acheteur</h4>
                   <div className='infos-perso message'>
-                    {order.messageOrder}
+                    {orderCreated.messageOrder}
                   </div>
                 </div>
               }
@@ -187,11 +206,11 @@ const OrderScreen = () => {
                 <h4>Livraison point relais</h4>
                 <div className='infos-perso point-relais'>
                   {
-                    order.pointRelais ?
+                    orderCreated.pointRelais ?
                     <div>
-                      <div className='nom'>{order.pointRelais.nom}</div>
-                      <div>{order.pointRelais.adresse}</div>
-                      <div>{order.pointRelais.codePostal} {order.pointRelais.ville}</div>
+                      <div className='nom'>{orderCreated.pointRelais.nom}</div>
+                      <div>{orderCreated.pointRelais.adresse}</div>
+                      <div>{orderCreated.pointRelais.codePostal} {orderCreated.pointRelais.ville}</div>
                     </div> :
                     <div></div>
                   } 
@@ -199,8 +218,8 @@ const OrderScreen = () => {
               </div>
             </div>
             {
-              !order.isPaid ? null :
-              order.isDelivered ? <p className="alert-success h4 mt-3 p-2">Commande envoyée le {formatDate(order.deliveredAt)}</p> : <p className="alert-danger h4 mt-3 p-2">Commande en préparation</p> 
+              !orderCreated.isPaid ? null :
+              order.isDelivered ? <p className="alert-success h4 mt-3 p-2">Commande envoyée le {formatDate(orderCreated.deliveredAt)}</p> : <p className="alert-danger h4 mt-3 p-2">Commande en préparation</p> 
             } 
           </div>
           <div style={{borderBottom :'1px solid #d3d9d9', margin:'30px 0'}}></div>
@@ -337,6 +356,43 @@ const Wrapper = styled(motion.div)`
     }
   }
     
+@media (max-width:800px){
+  width : 100%;
+  padding : 10px;
+
+  .order{
+    flex-direction : column;
+    align-items : center;
+    .summary{
+      margin-top : 15px;
+    }
+  }
+  .payment-container{
+    flex-direction : column;
+
+  }
+  .card-container{
+    flex-direction : column;
+    align-items : center;
+  }
+}
+
+@media (max-width:600px){
+  .order-container{
+    width : 100%;
+    .order-items-container{
+      width : 100%;
+      margin : 0 auto;
+
+      .item-nom{
+        padding-left : 10px;
+        width : 100px;
+        font-size : 0.8em;
+      }
+    }
+  }
+  
+}
 `
 
 export default OrderScreen

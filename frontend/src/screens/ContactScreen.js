@@ -32,16 +32,26 @@ const ContactScreen = () => {
     try{
       setLoading(true)
 
-      const objectMessage = {
-        email : email,
-        subject : sujet,
-        message : message,
+      // const objectMessage = {
+      //   email : email,
+      //   subject : sujet,
+      //   message : message,
+      // }
+
+      const {data} = await axios
+        .post('/api/users/contact', 
+        {
+          email : email,
+          subject : sujet,
+          message : message,
+          dateCreated : Date.now()
+        }
+      )
+      if(data){
+        setSuccessMessage(data)
+        setLoading(false)
       }
-
-      const {data} = await axios.post('/api/users/contact', objectMessage)
-
-      setSuccessMessage(data)
-      setLoading(false)
+      
 
     } catch (err) {
 

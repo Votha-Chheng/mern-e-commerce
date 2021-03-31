@@ -271,5 +271,78 @@ const Wrapper = styled(motion.div)`
   #bleu-clair{
     background-color : #318ce7
   }
+
+  @media only screen and (max-width: 1350px){
+    width : 900px;  
+    margin : 0 auto;
+
+    .card-container{
+      width : 100%;
+      flex-direction : column;
+      align-items : center;
+
+      .card-description{
+        margin-top : 20px;
+      }
+    }
+  }
+  @media only screen and (max-width: 820px){
+    width : 500px;
+    .card-description{
+      margin-top : 20px;
+      flex-direction : column;
+    }
+  }
+
+  @media only screen and (max-width: 570px){
+    width : 340px;
+    overflow : hidden;
+    .card-container{
+      width : 340px; 
+      .card-description{
+        width : 335px;
+        margin : 0px 0px 0px 5px;
+        .partie-haute{
+          width : 330px;
+          margin-right : 0px;
+          margin-left : 0px;
+        }
+        .couleurs{
+          width : 300px;
+          display :flex;
+          flex-direction : column;
+          align-items : center;
+          justify-content : center;
+
+          h5{
+            margin-left : 20px;
+          }
+        }
+      }
+      .card-product{
+        padding : 0;
+        width : 340px;
+        margin-left : -5px;
+        .info-container{
+          width : 320px;
+          margin : 2px;
+          padding : 5px;
+        }
+      }
+    }
+
+    /* 
+      
+        
+        
+          
+        }
+        .
+      }
+    } */
+  }
+
+
+
 `
 export default ProductScreen

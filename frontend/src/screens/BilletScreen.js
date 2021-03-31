@@ -95,6 +95,25 @@ const Wrapper = styled(motion.div)`
     margin: 50px auto;
   }
 
+  @media screen and (max-width : 1200px){
+    .billet-container{
+      width : 700px;
+    }
+  }
+  @media screen and (max-width : 700px){
+    .billet-container{
+      width : 360px;
+    }
+  }
+  @media screen and (max-width : 520px){
+    button {
+      display : none;  
+    }
+    .billet-container{
+      width : 350px;
+    }
+  }
+
 `
 
 export default BilletScreen

@@ -6,12 +6,11 @@ import {protect} from '../middleware/authMiddleware.js'
 
 router.route('/').post(registerUser)
 router.route('/myorders').get(protect, getMyOrders)
-
 router.post('/login', authUsers)
 router.route('/profile').put(protect, updateUserProfile)
 router.route('/password').put(protect, updateUserPassword)
 router.route('/confirmation?').get(validateEmail)
-router.route('/validation/:token').get(protect, sendValidationEmail)
+router.route('/validation').get(protect, sendValidationEmail)
 router.route('/address').put(protect, updateUserAddress)
 router.route('/orders').put(protect, updateUserOrders)
 router.route('/admin').get(protect, getUsersList)

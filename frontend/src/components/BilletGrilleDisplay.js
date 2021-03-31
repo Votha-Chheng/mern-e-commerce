@@ -1,32 +1,13 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { formatDate } from '../fonctionsOutils'
 import Modal from './Modal'
+import ImageComponent from './ImageComponent'
 
 const BilletGrilleDisplay = ({billet}) => {
 
-  // const [indexImg, setIndexImg] = useState(0)
   const [indexModal, setIndexModal] = useState(0)
   const [modal, setModal] = useState(false)
-  const [refWidth, setRefWidth] = useState([])
-  const [refHeight, setRefHeight] = useState([])
-  const [refMiniWidth, setRefMiniWidth] = useState([])
-  const [refMiniHeight, setRefMiniHeight] = useState([])
-
-  const imgRef = useRef([])
-  const miniImgRef = useRef([])
-
-  const refAssign = (refObject, index)=>{
-    setRefWidth([...refWidth, refObject.current[index].offsetWidth])
-    setRefHeight([...refHeight, refObject.current[index].offsetHeight])
-  }
-  const refMiniAssign = (refObject, index)=>{
-    setRefMiniWidth([...refMiniWidth, refObject.current[index].offsetWidth])
-    setRefMiniHeight([...refMiniHeight, refObject.current[index].offsetHeight])
-  }
-  console.log(refMiniWidth)
-  console.log(refMiniHeight)
-  
 
   return (
     <Wrapper>
@@ -52,15 +33,11 @@ const BilletGrilleDisplay = ({billet}) => {
                     className='main-container-images-modal'
                     style={{transform: `translateX(${indexModal * -100}%)`}}
                   >
-                    <img 
-                      src={image.url} 
-                      alt='modal'
-                      ref={(el) => imgRef.current[index] = el}
-                      
-                      onLoad={()=> refAssign(imgRef,index)}
-                      height = {refWidth[index]>refHeight[index] ? `${(900*refHeight[index]/refWidth[index])}` : '900'}
-                      width = {refWidth[index]>refHeight[index] ? '900' : `${(900*refWidth[index]/refHeight[index])}`}
-                      style={{transform : `translateY(${refWidth[index]>refHeight[index] ? `${(900-(900*refHeight[index]/refWidth[index]))/2}px` : '0'})`}}
+                    <div className='text-center mt-5'>{image.legende}</div>
+                    <ImageComponent
+                      image = {image.url}
+                      frameWidth = "900"
+                      frameHeight = "900"
                     />
                   </div>
                 ))
@@ -78,25 +55,22 @@ const BilletGrilleDisplay = ({billet}) => {
 
         <div className='images-billet'>
           {
+            billet &&
             billet.photos.map((photo, index)=>
-              <div key={index} className='img-container' 
+              <div 
+                key={index} 
+                className='img-container' 
                 onClick={() => {
                   setModal(prev=>!prev)
                   setIndexModal(index)
                 }}
               >
-                <img  
-                  src={photo.url} 
-                  alt={`${billet.titre}-${index}`} 
-                  ref={(el) => miniImgRef.current[index] = el}
-                  onLoad={()=> refMiniAssign(miniImgRef,index)}
-                  height = {refMiniWidth[index]>refMiniHeight[index] ? `${(300*refMiniHeight[index]/refMiniWidth[index])}` : '300'}
-                  width = {refMiniWidth[index]>refMiniHeight[index] ? '300' : `${(300*refMiniWidth[index]/refMiniHeight[index])}`}
-                  style={{transform : `translateY(${refMiniWidth[index]>refMiniHeight[index] ? `${(300-(300*refMiniHeight[index]/refMiniWidth[index]))/2}px` : '0'})
-                          translateX(${refMiniWidth[index]<refMiniHeight[index] ? `${(300 - (refMiniWidth[index]*refMiniHeight[index]/300))/2}px` : '0'})`}}
-                /> 
-              </div>
-              
+                <ImageComponent
+                  image = {photo.url}
+                  frameWidth = "280"
+                  frameHeight = "280"
+                />
+              </div>  
             )
           }
         </div>
@@ -118,7 +92,7 @@ const Wrapper = styled.div`
   .image-frame-modal{
     position: relative;
     width: 900px;
-    height : 900px;
+    max-height : 900px;
     overflow: hidden;
     display: flex;
     border : 3px solid white;
@@ -159,8 +133,10 @@ const Wrapper = styled.div`
       .main-container-images-modal{
         width : 900px;
         max-height : 900px;
-        display : flex;
-        justify-content : center;
+        /* display : flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content : flex-start; */
         transition : transform 0.5s ease-out;
         overflow: hidden;
       }
@@ -196,6 +172,7 @@ const Wrapper = styled.div`
   .images-billet{
     display : flex;
     justify-content: center;
+    flex-wrap : wrap;
 
     .img-container{
       margin : 10px;
@@ -204,7 +181,7 @@ const Wrapper = styled.div`
       cursor : pointer;
       position : relative;
       border : 10px solid #f5f5f5;
-      overflow : hidden;
+    //  overflow : hidden;
 
       &::after {
         content : '';
@@ -221,6 +198,7 @@ const Wrapper = styled.div`
       }
     }
   }
+  
 `
 
 export default BilletGrilleDisplay

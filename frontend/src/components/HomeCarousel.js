@@ -86,7 +86,7 @@ const HomeCarousel = () => {
               <p className="date-carousel">Publié le {formatDate(item.dateBillet)}</p>
               <div className="texte-carousel">
                 <p dangerouslySetInnerHTML={{__html : resume(item.texte, 150)}}></p><br/>
-                <p>Lire la suite...</p>
+                <Link to={`/blog/${item._id}`}>Lire la suite...</Link>
               </div>
             </div>
             )

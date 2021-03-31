@@ -33,12 +33,20 @@ const Commandes = ({commande, user}) => {
             <div>
               Passée le : {formatDate(commande.createdAt)}
             </div>
+            {!commande.isPaid && <div className='text-center alert-danger h3'>Commande non payée</div>}
             <div className='item-order envoi'>
               {
                 loading ? <LoaderSpin/> :
                 commande.isDelivered ? 
                 <div className='alert-success text-center h4 my-2'>Envoyé le {commande.deliveredAt && formatDate(commande.deliveredAt)}</div> : 
                 user.isAdmin ? 
+                loading? <LoaderSpin/> :
+                !commande.isPaid ? 
+                <div 
+                  id={commande._id} 
+                  className='btn btn-block rounded my-2' 
+                  style={{backgroundColor:'#dde3e3', cursor:'not-allowed'}} 
+                >Marquer comme envoyé</div>:
                 <button 
                   id={commande._id} 
                   className='btn btn-block btn-danger rounded my-2' 
@@ -101,7 +109,13 @@ const Commandes = ({commande, user}) => {
               </div>  
             </div>
           </div>
-          
+          {
+            commande.messageOrder &&
+            <div className='message mt-2 pt-2 border-top'>
+              <h6 className='text-center'>Message de l'acheteur</h6>
+              {commande.messageOrder}
+            </div>
+          }  
         </div> :
         <h5>Une erreur est survenue.</h5>
       }
@@ -191,6 +205,10 @@ const Wrapper = styled.div`
 
   }
   
+  @media (max-width: 580px){
+    width : 90%;
+    padding : 5px;
+  }
   
 `
 

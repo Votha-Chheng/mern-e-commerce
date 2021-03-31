@@ -1,40 +1,107 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { loginModal, loginModalClose } from '../actions/loginModalAction'
+import { createSecretCode } from '../actions/secretCodeActions'
+import { login, register, sendEmailValidation } from '../actions/userActions'
 import LoaderSpin from './LoaderSpin'
 
 
-const LoginRegisterForm = (
-  {
-    onChangeFormHandler, 
-    submitHandler, 
-    submitRegisterHandler,
-    email, 
-    motDePasse, 
-    errorLogin,
-    errorRegister,
-    successRegister,
-    loadingLogin,
-    loadingRegister,
-    message, 
-    userInfoRegister,
-    emailRegister,
-    motDePasseRegister,
-    motDePasseConfirmRegister,
-    messageMatchPassword,
-    nomRegister,
-    prénomRegister,
-  }) => {
+const LoginRegisterForm = () => {
+
   const [ongletActive, setOngletActive] = useState('connexion')
 
-  useEffect(()=>{
+  const [email, setEmail] = useState('')
+  const [motDePasse, setMotDePasse] = useState('')
 
-  }, [successRegister])
+  const [emailRegister, setEmailRegister] = useState('')
+  const [motDePasseRegister, setMotDePasseRegister] = useState('')
+  const [motDePasseConfirmRegister, setMotDePasseConfirmRegister] =useState('')
+  const [nomRegister, setNomRegister] = useState('')
+  const [prénomRegister, setPrénomRegister] = useState('')
+  const [messageMatchPassword, setMessageMatchPassword] =useState('')
+
+  const dispatch = useDispatch()
+
+  const {userInfo, errorLogin, loadingLogin, successLogin} = useSelector(state=>state.userLogin)
+  const {errorRegister, successRegister, userInfoRegister, loadingRegister}  = useSelector(state=>state.userRegister)
+  const {success : successSecretCode} = useSelector(state=>state.secretCodeCreated)
+
+  useEffect(()=>{
+    if(ongletActive==='connexion' && successLogin && !loadingLogin){
+      dispatch(loginModalClose())
+    }
+    if(ongletActive!=='connexion' && successLogin && !loadingLogin){
+      dispatch(loginModal())
+    }
+  }, [successLogin, dispatch, ongletActive, loadingLogin])
+
+
+  useEffect(()=>{
+    if(successSecretCode && userInfo){
+      dispatch(sendEmailValidation())
+    }
+  }, [successSecretCode, userInfo, dispatch])
+
+
+
+  const submitLoginHandler = (event)=>{
+    event.preventDefault()
+    dispatch(login(email, motDePasse))
+  }
+
+  const submitRegisterHandler = (event)=>{
+    event.preventDefault()
+    if(!emailRegister||!motDePasseRegister||!nomRegister || !prénomRegister){
+      setMessageMatchPassword('Veuillez remplir tous les champs demandés.') 
+    } else if(motDePasseRegister === motDePasseConfirmRegister){
+      setMessageMatchPassword('')
+      dispatch(register(nomRegister, prénomRegister, emailRegister, motDePasseRegister))
+      dispatch(createSecretCode({email : emailRegister}))
+    } else {
+      setMessageMatchPassword('Les deux mots de passe sont différents.')
+    }   
+  }
+
+  const onChangeFormHandler=(name, value)=>{
+    if(name==='motDePasse'){
+      setMotDePasse(value)
+    }
+    if(name==='email'){
+      setEmail(value)
+    }
+    if(name==='motDePasseConfirmRegister'){
+      setMotDePasseConfirmRegister(value)
+    }
+    if(name==='emailRegister'){
+      setEmailRegister(value)
+    }
+    if(name==='motDePasseRegister'){
+      setMotDePasseRegister(value)
+    }
+    if(name==='nomRegister'){
+      setNomRegister(value)
+    }
+    if(name==='prénomRegister'){
+      setPrénomRegister(value)
+    }
+  }
   
   return (
     <WrapperDiv>
       <div className='conteneur-onglet'>
         <div className="conteneur-block">
-          <div className={`onglet ${ongletActive==='connexion' && 'active'}`} id='connexion' onClick={successRegister? null : (event)=>setOngletActive(event.target.id)}>
+          <div 
+            className={`onglet ${ongletActive==='connexion' && 'active'}`} 
+            id='connexion' 
+            onClick={
+              successRegister? null : 
+              (event)=>{
+                setOngletActive(event.target.id)
+                setMessageMatchPassword('')
+              }
+            }
+          >
             <h3>Connexion</h3>
           </div>
           <div className={`onglet ${ongletActive==='inscription' && 'active'}`} id='inscription' onClick={successRegister? null : (event)=>setOngletActive(event.target.id)}>
@@ -46,28 +113,34 @@ const LoginRegisterForm = (
       <div className='login-container'>
         {
           ongletActive==='connexion' && loadingLogin ? <LoaderSpin/> :
-          <div className='connexion' style={ongletActive==='connexion' ? {transform : "translateY(0)", display:'block'} : {transform : "translateY(-100%)",display : 'none'}} >
-            <form  onSubmit={submitHandler} >
+          <div className='connexion' style={ongletActive==='connexion' ? {transform : "translateY(0)", display:'block'} : {transform : "translateY(-100%)", display : 'none'}} >
+            <form onSubmit={(event)=>submitLoginHandler(event)}>
               <div className='input-form'>
-                <label>Adresse e-mail </label><input type='email' name='email' value={email} autoComplete="current-password" onChange={onChangeFormHandler} />
+                <label>Adresse e-mail </label>
+                <input 
+                  type='email' 
+                  name='email' 
+                  value={email} 
+                  autoComplete="current-password" 
+                  onChange={(event)=>onChangeFormHandler(event.target.name, event.target.value)} 
+                />
               </div>
               <div className='input-form'>
-                <label>Mot de passe </label><input type='password' name='motDePasse' value={motDePasse} onChange={onChangeFormHandler} />
+                <label>Mot de passe </label>
+                <input 
+                  type='password' 
+                  name='motDePasse' 
+                  value={motDePasse} 
+                  onChange={(event)=>onChangeFormHandler(event.target.name, event.target.value)} 
+                />
               </div>
+              {loadingLogin}
               <button type='submit' className="btn btn-primary btn-block">Connexion</button>
             </form>
             {errorLogin && <p className='alert-danger text-center h5'>{errorLogin}</p>}
-            {
-              message ? <p>{message}</p> : 
-              <>
-                <p>Nouveau client ?</p>
-                <div className='p-inscription' onClick={()=>setOngletActive('inscription')} >Créer votre compte ici.</div>
-              </>
-              
-            }
-            
+            <p>Nouveau client ?</p>
+            <div className='p-inscription' onClick={()=>setOngletActive('inscription')} >Créer votre compte ici.</div> 
           </div>
-
         }
         
         {
@@ -78,24 +151,56 @@ const LoginRegisterForm = (
             <form onSubmit={submitRegisterHandler}>
               <div className='input-form double-input'>
                 <div className='double'>
-                  <label>Prénom</label><input type='text' name='prénomRegister' value={prénomRegister} onChange={onChangeFormHandler} />
+                  <label>Prénom</label>
+                  <input 
+                    type='text' 
+                    name='prénomRegister' 
+                    value={prénomRegister} 
+                    onChange={(event)=>onChangeFormHandler(event.target.name, event.target.value)}
+                  />
                 </div>
                 <div className='double'>
-                  <label>Nom </label><input type='text' name='nomRegister' value={nomRegister} onChange={onChangeFormHandler} />
+                  <label>Nom </label>
+                  <input 
+                    type='text' 
+                    name='nomRegister' 
+                    value={nomRegister} 
+                    onChange={(event)=>onChangeFormHandler(event.target.name, event.target.value)} />
                 </div>
               </div>
               <div className='input-form'>
-                <label>E-mail </label><input type='text' name='emailRegister' value={emailRegister} onChange={onChangeFormHandler}/>
+                <label>E-mail </label>
+                <input 
+                  type='text' 
+                  name='emailRegister' 
+                  value={emailRegister} 
+                  onChange={(event)=>onChangeFormHandler(event.target.name, event.target.value)}
+                />
               </div>
               <div className='input-form double-input'>
                 <div className='double'>
-                  <label>Mot de passe :</label><input type='password' autoComplete="current-password" name='motDePasseRegister' value={motDePasseRegister} onChange={onChangeFormHandler} />
+                  <label>Mot de passe :</label>
+                  <input 
+                    type='password' 
+                    autoComplete="current-password" 
+                    name='motDePasseRegister' 
+                    value={motDePasseRegister} 
+                    onChange={(event)=>onChangeFormHandler(event.target.name, event.target.value)} 
+                  />
                 </div>
                 <div className='double'>
-                  <label>Confirmez le mot de passe</label><input type='password' name='motDePasseConfirmRegister' value={motDePasseConfirmRegister} onChange={onChangeFormHandler}/>
+                  <label>Confirmez le mot de passe</label>
+                  <input 
+                    type='password' 
+                    name='motDePasseConfirmRegister' 
+                    value={motDePasseConfirmRegister} 
+                    onChange={(event)=>onChangeFormHandler(event.target.name, event.target.value)}
+                  />
                 </div>
               </div>
-              <div><button type='submit' className="btn btn-primary btn-block">Valider</button></div>
+              <div>
+                <button type='submit' className="btn btn-primary btn-block">Valider</button>
+              </div>
             </form>
             {messageMatchPassword && <p className='alert-danger text-center h5'>{messageMatchPassword}</p>}
             {errorRegister && <p className='alert-danger h5 text-center'>{errorRegister}</p>}

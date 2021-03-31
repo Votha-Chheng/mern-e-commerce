@@ -1,4 +1,4 @@
-import { GET_USERS_LIST_FAIL, GET_USERS_LIST_REQUEST, GET_USERS_LIST_SUCCESS, SEND_VALIDATION_EMAIL_FAIL, SEND_VALIDATION_EMAIL_REQUEST, SEND_VALIDATION_EMAIL_SUCCESS, USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_UPDATE_ADDRESS_FAIL, USER_UPDATE_ADDRESS_REQUEST, USER_UPDATE_ADDRESS_SUCCESS, USER_UPDATE_ORDERS_FAIL, USER_UPDATE_ORDERS_REQUEST, USER_UPDATE_ORDERS_SUCCESS, USER_UPDATE_PASSWORD_FAIL, USER_UPDATE_PASSWORD_REQUEST, USER_UPDATE_PASSWORD_SUCCESS, USER_UPDATE_PROFILE_FAIL, USER_UPDATE_PROFILE_REQUEST, USER_UPDATE_PROFILE_SUCCESS, VALIDATE_USER_EMAIL_FAIL, VALIDATE_USER_EMAIL_REQUEST, VALIDATE_USER_EMAIL_SUCCESS } from "../constants/userConstants"
+import { GET_USERS_FILTERED, GET_USERS_FILTERS, GET_USERS_LIST_FAIL, GET_USERS_LIST_REQUEST, GET_USERS_LIST_SUCCESS, SEND_VALIDATION_EMAIL_FAIL, SEND_VALIDATION_EMAIL_REQUEST, SEND_VALIDATION_EMAIL_SUCCESS, UPDATE_USERS_FILTERS, USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_UPDATE_ADDRESS_FAIL, USER_UPDATE_ADDRESS_REQUEST, USER_UPDATE_ADDRESS_SUCCESS, USER_UPDATE_ORDERS_FAIL, USER_UPDATE_ORDERS_REQUEST, USER_UPDATE_ORDERS_SUCCESS, USER_UPDATE_PASSWORD_FAIL, USER_UPDATE_PASSWORD_REQUEST, USER_UPDATE_PASSWORD_SUCCESS, USER_UPDATE_PROFILE_FAIL, USER_UPDATE_PROFILE_REQUEST, USER_UPDATE_PROFILE_SUCCESS, VALIDATE_USER_EMAIL_FAIL, VALIDATE_USER_EMAIL_REQUEST, VALIDATE_USER_EMAIL_SUCCESS } from "../constants/userConstants"
 import axios from 'axios'
 
 
@@ -15,10 +15,11 @@ export const login = (email, motDePasse)=> async(dispatch)=> {
 
     const {data} = await axios.post(`/api/users/login`, {email, motDePasse}, configHeaders)
    
+    localStorage.setItem('userInfo', JSON.stringify(data))
 
     dispatch({type : USER_LOGIN_SUCCESS, payload : data})
 
-    localStorage.setItem('userInfo', JSON.stringify(data))
+    
 
   } catch (error){
     dispatch({type : USER_LOGIN_FAIL, payload : error.response && error.response.data.message ? error.response.data.message : "Une erreur du serveur s'est produite."})
@@ -47,7 +48,7 @@ export const register = (nom, prénom, email, motDePasse)=> async(dispatch)=> {
 
     dispatch({type : USER_REGISTER_SUCCESS, payload : data})
 
-    // dispatch({type : USER_LOGIN_SUCCESS, payload: data})
+    dispatch({type : USER_LOGIN_SUCCESS, payload: data})
 
     localStorage.setItem('userInfo', JSON.stringify(data))
 
@@ -173,7 +174,6 @@ export const sendEmailValidation = ()=>async(dispatch, getState)=>{
 
     const {userLogin : {userInfo}} = getState()
 
-
     const configHeaders = {
       headers: {
         'Content-Type': 'application/json',
@@ -181,7 +181,7 @@ export const sendEmailValidation = ()=>async(dispatch, getState)=>{
       }
     }
 
-    const {data} = await axios.get(`/api/users/validation/${userInfo.token}`, configHeaders)
+    const {data} = await axios.get(`/api/users/validation`, configHeaders)
 
     dispatch({type : SEND_VALIDATION_EMAIL_SUCCESS, payload : data})
 
@@ -226,12 +226,25 @@ export const getUsersList = ()=> async (dispatch, getState)=>{
       type : GET_USERS_LIST_SUCCESS, payload : data
     })
 
+    dispatch({type : GET_USERS_FILTERS})
+
+    dispatch({type : GET_USERS_FILTERED})
+
   } catch (err) {
 
     dispatch({
       type : GET_USERS_LIST_FAIL, payload : err.response && err.response.data.message ? err.response.data.message : err.message
     })
   }
+}
+
+export const updateUsersFilters = (name, value)=>(dispatch)=>{
+
+
+  const newfilterUsers = {
+    [name] : value,
+  }
+  dispatch({type : UPDATE_USERS_FILTERS, payload : newfilterUsers})
 }
 
 

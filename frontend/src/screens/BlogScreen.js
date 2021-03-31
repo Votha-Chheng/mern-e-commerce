@@ -233,6 +233,59 @@ const Wrapper = styled(motion.div)`
       }
     }
   }
+
+  @media only screen and (max-width: 1250px){
+    .container-blog{
+      width : 100%;
+    }
+    .container-articles{
+      width : 500px;
+      .cardblog-container{
+        width:700px;   
+      }
+    }
+    .texte-container{
+      margin-left : 10px;
+    }
+  }
+  @media only screen and (max-width: 880px){
+    .container-nav{
+      display : none;
+      width : 0;
+    }
+    .container-articles{
+      margin-left : 30px;
+    }
+  }
+  @media only screen and (max-width: 750px){
+    width : 100%;
+    .container-blog {
+      width : 360px;
+      overflow : hidden;
+      .container-articles{
+        width : 360px;
+        margin-left : -50px;
+      }
+    }
+    
+    .cardblog-container{
+      flex-wrap : wrap;
+      width : 360px;
+    }
+  }
+  @media only screen and (max-width: 490px){
+    .container-articles{
+      
+
+    }
+    .cardblog-container{
+      margin-left : 20px;
+    }
+    .container-blog {
+      width : 340px;
+      
+    }
+  }
 `
 
 export default BlogScreen

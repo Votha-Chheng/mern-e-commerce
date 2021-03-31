@@ -60,7 +60,7 @@ const GestionProduits = () => {
         <AdminProductDetails switchDisplayHandler={switchDisplayHandler} productId={productId} allProducts={allProducts}/> :
         displayAddProduct ?
         <AdminAddProduct addProductBackHandler={addProductBackHandler} categoriesList={categoriesList}/> :
-        <AdminListProducts filteredProducts={filteredProducts} allProducts={allProducts} switchDisplayHandler={switchDisplayHandler}/>
+        <AdminListProducts switchDisplayHandler={switchDisplayHandler}/>
       } 
     </ContainerDiv>
   )

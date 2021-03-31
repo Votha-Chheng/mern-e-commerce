@@ -18,11 +18,8 @@ const CartScreen = ({location}) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const cart = useSelector(state=>state.cart)
-  const {cartItems} = cart
+  const {cartItems} = useSelector(state=>state.cart)
   const {userInfo} = useSelector(state=>state.userLogin)
-  
-  // const showModalLogin = useSelector(state=>state.showModalLogin)
 
   useEffect(() => {
     if(id) {
@@ -60,24 +57,23 @@ const CartScreen = ({location}) => {
             {
               cartItems.map((item, index)=>(
                 <div key={index} className="cart-items" >
-                  <Link to={`/produit/${item.product}`}>
-                    <div className='item-photo' >
-                      <img src={item.image} alt='lampe en bois flotté' width='60px'/>
-                    </div>
-                  </Link>
-                  <Link to={`/produit/${item.product}`}>
-                    <div className='item-nom'>
-                    <span className='label'>{item.nom}</span>
-                    </div>
-                  </Link>
+                  
+                  <div className='item-photo' >
+                    <Link to={`/produit/${item.product}`}><img src={item.image} alt='lampe en bois flotté' width='60px'/></Link>
+                  </div>
+                  
+                  <div className='item-nom'>
+                    <Link to={`/produit/${item.product}`}><span className='label'>{item.nom}</span></Link>
+                  </div>
+                  
                   <div className='item-couleur'>
-                    <span className='label'>Couleur d'abat-jour : </span>{item.couleur ? item.couleur : 'aucune'}
+                    <span className='label'>Couleur : </span>{item.couleur ? item.couleur : 'aucune'}
                   </div>
                   <div className='item'>
-                  <span className='label'>Prix : </span>{convertPrice(item.prix*+item.qty)} €
+                  <span className='label'>Prix </span>{convertPrice(item.prix*+item.qty)} €
                   </div>
                   <div className='item-qty item'>
-                    <label className='label'>Quantité : &nbsp;</label> 
+                    <label className='label'>Quantité</label> 
                     <select value={item.qty} onChange={event => dispatch(addToCart(item.product, +event.target.value, item.couleur))} >
                       {
                         [...Array(item.stock).keys()].map((x)=> (
@@ -87,7 +83,8 @@ const CartScreen = ({location}) => {
                     </select>
                   </div>
                   <div className='item'>
-                    <button className='btn btn-danger' onClick={()=>removeCart(item.product)} >Supprimer</button>
+                    <button className='btn btn-danger supprimer' onClick={()=>removeCart(item.product)} >Supprimer</button>
+                    <i className="fas fa-trash-alt" onClick={()=>removeCart(item.product)}/>
                   </div>
               </div>
               ))
@@ -123,6 +120,15 @@ const Wrapper = styled(motion.div)`
     margin : 50px auto;
     text-align : center;
   }
+  i{
+    display : none;
+    transform : scale(2);
+    color : red;
+    margin : auto;
+    position : absolute;
+    left : 50%;
+    cursor : pointer; 
+  }
 
   .message-empty{
     font-size : 2em;
@@ -153,7 +159,7 @@ const Wrapper = styled(motion.div)`
       display: flex;
       flex-direction : row;
       justify-content: space-between;
-      margin : 1px 20px;
+      margin : 3px 0px;
       align-items: center;
       border: 1px solid #cccccc; 
       height : 75px;
@@ -184,6 +190,7 @@ const Wrapper = styled(motion.div)`
         padding : auto 10px;
         width : 115px;
         border-right : 1px solid #cccccc;
+        position : relative;
       }
       .item-nom{
         width : 130px;
@@ -231,7 +238,88 @@ const Wrapper = styled(motion.div)`
     background-color : #d7eadb;
     
   }
+  @media only screen  and (max-width : 1230px){
+    .super-container{
+      flex-direction : column;
+      align-items: center;
+      .recap{
+        margin-top : 20px;
+        width : 300px;
+      }
+    }
+  }
+  @media only screen and (max-width : 850px){
+    width : 100%;
+    .card-container{
+      width : 80%;
+      overflow: hidden;
+      margin :0;
+    }
+    .cart-items{
+      flex-direction : column;
+      width:450px;
+      height : 100%;
+      margin :0;
 
+      .item-photo{
+        margin : 0;
+        height : 100%;
+        max-width : 20%;
+
+        img{
+          width : 30px;
+          transform : translateY(0)
+        }
+      }
+      .item-couleur{
+        font-size : 0.7em;
+        max-width : 20%;
+        padding : 0px;
+        margin-right :-50px;
+      }
+      .item-qty.item{
+        border-right : none;
+      }
+      .item{
+        font-size : 0.7em;
+        margin : 0px;
+        padding :0px;
+        max-width : 20%;
+      }
+      .item-nom{
+        font-size : 0.7em;
+        max-width : 50px;
+        margin-right : 0px;
+      }
+      i{
+        display : block;
+        border-right : none;
+      }
+      .supprimer{
+        display : none;
+        border : none;
+      }
+      
+  }
+}
+@media only screen and (max-width : 500px){
+  .cart-items {
+    width : 360px;
+    margin-right : 0;
+  }
+  .item{
+    margin-left: -20px;
+  }
+  .item-photo{
+    height : 100%;
+    max-width : 20%;
+
+    img{
+      width : 30px;
+      transform : translateY(0)
+    }
+  }
+}
 `
 
 export default CartScreen
