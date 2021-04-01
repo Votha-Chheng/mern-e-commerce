@@ -50,7 +50,7 @@ const sendValidationEmail = asyncHandler(async(req, res)=>{
     const options={
       email : user.email,
       subject : "Valider votre compte.",
-      message : `<p>Veuillez cliquez sur ce lien pour valider la création de votre compte : <a href='${req.protocol}://localhost:3000/validationemail/${user._id}&${secretCodeUser.code}'>${req.protocol}://localhost:3000/validationemail/${user._id}&${secretCodeUser.code}</a></p><p>Les Luminaires Cavallo</p>` 
+      message : `<p>Veuillez cliquez sur ce lien pour valider la création de votre compte : <a href='${req.protocol}://luminairescavallo.herokuapp.com/validationemail/${user._id}&${secretCodeUser.code}'>${req.protocol}://luminairescavallo.herokuapp.com/validationemail/${user._id}&${secretCodeUser.code}</a></p><p>Les Luminaires Cavallo</p>` 
     }
     
     await sendEmail(options)
@@ -125,14 +125,8 @@ const sendEmailContact = asyncHandler(async(req, res)=>{
       res.json(
         "Message envoyé."
       )
-    } 
-    // else {
-    //   res.status(401)
-    //   throw new Error(`Pour éviter le spamming, vous ne pouvez pas envoyer plus de trois e-mails toutes les 10 minutes. Veuillez attendre.`)
-    // }
 
-  //Si elle n'existe pas, on crée un conteneur pour l'adresse e-mail utilisée qui n'existera que 10 minutes 
-   else if(!adresseEmail){
+    } else if(!adresseEmail){
 
     const adresseEmailCreated = await SecretCode.create({
       emailCode : req.body.email,

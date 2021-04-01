@@ -3,19 +3,12 @@ import nodemailer from 'nodemailer'
 export const sendEmail = async (options)=>{
 
   const transporter = nodemailer.createTransport({
-    // host: process.env.SMTP_HOST,
-    // port: process.env.SMTP_PORT,
+
     service : "Gmail",
     auth : {
       user : process.env.SMTP_EMAIL,
       pass : process.env.SMTP_PASSWORD
     }
-    // host: process.env.SMTP_HOST,
-    // port: process.env.SMTP_PORT,
-    // auth: {
-    //   user: process.env.SMTP_EMAIL, 
-    //   pass: process.env.SMTP_PASSWORD
-    // }
   });
 
   const message = {
@@ -39,12 +32,6 @@ export const sendEmailContactMe = async (options)=>{
       user : "jazerty31@gmail.com",
       pass : 31011983
     }
-    // host: process.env.SMTP_HOST,
-    // port: process.env.SMTP_PORT,
-    // auth: {
-    //   user: process.env.SMTP_EMAIL, 
-    //   pass: process.env.SMTP_PASSWORD
-    // },
   });
 
   const message = {
