@@ -32,12 +32,6 @@ const ContactScreen = () => {
     try{
       setLoading(true)
 
-      // const objectMessage = {
-      //   email : email,
-      //   subject : sujet,
-      //   message : message,
-      // }
-
       const {data} = await axios
         .post('/api/users/contact', 
         {
@@ -60,8 +54,6 @@ const ContactScreen = () => {
 
     }
   }
-
-  console.log(errorMessage)
 
   return (
     <Wrapper variants={pageTransition} initial='initial' animate='animate' exit='exit'>

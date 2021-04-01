@@ -13,6 +13,7 @@ const ProductScreen = () => {
 
   const [qty, setQty] = useState(1)
   const [couleur, setCouleur] = useState('beige')
+  const [loadingSend, setLoadingSend] = useState(false)
 
   const {id} = useParams()
   const dispatch = useDispatch()
@@ -39,6 +40,7 @@ const ProductScreen = () => {
   const addCartHandler = ()=> {
     history.push(`/panier/${product._id}?qty=${qty}&couleur=${couleur}`)
   }
+
 
   return (
     <Wrapper variants={pageTransition} initial='initial' animate='animate' exit='exit'>
@@ -122,7 +124,10 @@ const ProductScreen = () => {
                   </div>
                   <div className='bouton'>
                       {
-                        product.livraison ? <button className='btn btn-block btn-primary'onClick={()=>addCartHandler()} >Ajouter au panier</button> : <button className='btn btn-block btn-warning'>Me contacter</button>
+                        product.livraison ? 
+                        <button className='btn btn-block btn-primary'onClick={()=>addCartHandler()} >Ajouter au panier</button> 
+                        : 
+                        <button className='btn btn-block btn-warning' onClick={()=>history.push('/contact')}>Me contacter</button>
                       } 
                    </div>
                    </>
