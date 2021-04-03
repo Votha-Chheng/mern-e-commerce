@@ -2,14 +2,12 @@ import axios from 'axios'
 import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useHistory, useParams } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { getOrderDetails, payOrder } from '../actions/orderActions'
+import { payOrder } from '../actions/orderActions'
 import LoaderSpin from '../components/LoaderSpin'
 import { convertPrice, formatDate, pageTransition } from '../fonctionsOutils'
 import {PayPalButton} from 'react-paypal-button-v2'
-import { ORDER_CREATE_SUCCESS_TO_FALSE, ORDER_PAY_RESET } from '../constants/orderConstants'
-import { getUserDetails } from '../actions/userActions'
 import { updateProductStock } from '../actions/productActions'
 import { resetCartItems } from '../actions/cartActions'
 
@@ -19,7 +17,6 @@ const OrderScreen = () => {
   const [loadingMount, setLoadingMount] = useState(true)
 
   const dispatch = useDispatch()
-  const {id} = useParams()
   const history = useHistory()
 
   const userLogin = useSelector(state=>state.userLogin)

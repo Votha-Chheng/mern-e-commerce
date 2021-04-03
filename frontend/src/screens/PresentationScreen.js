@@ -25,10 +25,10 @@ const PresentationScreen = () => {
       <p className='text-right'>Bonne visite.</p>
       <p className='text-right'>François</p>
       <div className='img-container'>
-        <img src={photo1} width='450'/>
-        <img src={photo2} width='450'/>
-        <img src={photo3} width='450'/>
-        <img src={photo4} width='450'/>
+        <img src={photo1} width='450' alt='mes outils'/>
+        <img src={photo2} width='450' alt='en plein travail'/>
+        <img src={photo3} width='450' alt='en plein travail'/>
+        <img src={photo4} width='450' alt='devant mon petit entrepôt'/>
       </div>
       
       

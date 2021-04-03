@@ -87,7 +87,7 @@ const BoutiqueScreen = () => {
     if(history.action === 'POP'){
       window.scrollTo(0, sessionStorage.getItem("positionY"))
     }
-  }, [])
+  }, [history])
 
 
   const handleMinPriceChange = (name, value)=>{

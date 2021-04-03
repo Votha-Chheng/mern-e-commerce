@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { formatDate } from '../fonctionsOutils'
 import Modal from './Modal'
 import ImageComponent from './ImageComponent'
+import ImageModalComponent from './ImageModalComponent'
 
 const BilletGrilleDisplay = ({billet}) => {
 
@@ -22,9 +23,7 @@ const BilletGrilleDisplay = ({billet}) => {
             <div className='left' onClick={() => setIndexModal(indexModal === 0 ? billet.photos.length-1 : indexModal-1)}>
               <i className="fas fa-chevron-circle-left"></i>
             </div>
-            <div 
-              className='images-queue-modal' 
-            >
+            <div className='images-queue-modal'>
               { 
                 billet &&
                 billet.photos.map((image, index)=> (
@@ -33,12 +32,15 @@ const BilletGrilleDisplay = ({billet}) => {
                     className='main-container-images-modal'
                     style={{transform: `translateX(${indexModal * -100}%)`}}
                   >
-                    <div className='text-center mt-5'>{image.legende}</div>
-                    <ImageComponent
-                      image = {image.url}
-                      frameWidth = "900"
-                      frameHeight = "900"
-                    />
+                    <div className='text-center mt-5 legende'>{image.legende}</div>
+                    <div className='text-center modal-component'>
+                      <ImageModalComponent
+                        image = {image.url}
+                        frameWidth = "900"
+                        frameHeight = "900"
+                      />
+                    </div>
+                    
                   </div>
                 ))
               } 
@@ -133,12 +135,9 @@ const Wrapper = styled.div`
       .main-container-images-modal{
         width : 900px;
         max-height : 900px;
-        /* display : flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content : flex-start; */
         transition : transform 0.5s ease-out;
         overflow: hidden;
+        
       }
     }
   }
@@ -198,7 +197,61 @@ const Wrapper = styled.div`
       }
     }
   }
-  
+  @media only screen and (max-width: 920px){
+    .image-frame-modal{
+      width : 700px;
+      height : 100%;
+      background-color : none;
+      .main-container-images-modal{
+        width : 700px;
+        overflow : hidden;
+        .legende, .modal-component{
+          width : 700px
+        }
+        .modal-component{
+          img{
+            width :700px;
+          }
+        }
+      }
+    }
+  }
+  @media only screen and (max-width: 720px){
+    .image-frame-modal{
+      width : 500px;
+      background-color : none;
+      .main-container-images-modal{
+        width : 500px;
+        overflow : hidden;
+        .legende, .modal-component{
+          width : 500px
+        }
+        .modal-component{
+          img{
+            width :500px;
+          }
+        }
+      }
+    }
+  }
+  @media only screen and (max-width: 520px){
+    .image-frame-modal{
+      width : 360px;
+      background-color : none;
+      .main-container-images-modal{
+        width : 360px;
+        overflow : hidden;
+        .legende, .modal-component{
+          width : 360px
+        }
+        .modal-component{
+          img{
+            width :360px;
+          }
+        }
+      }
+    }
+  }
 `
 
 export default BilletGrilleDisplay

@@ -17,7 +17,7 @@ const GestionProduits = () => {
 
   const dispatch = useDispatch()
 
-  const {filteredProducts, allProducts} = useSelector(state => state.productsFiltered)
+  const {allProducts} = useSelector(state => state.productsFiltered)
 
   useEffect(()=>{
     dispatch(getFilteredProducts())

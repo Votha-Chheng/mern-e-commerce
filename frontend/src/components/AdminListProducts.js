@@ -31,7 +31,7 @@ const AdminListProducts = ({switchDisplayHandler}) => {
       }
       setPages(totalPagesArray)
     }
-  }, [allProducts, productPagination])
+  }, [allProducts, productPagination, unpaginateProducts])
 
   const deleteHandler = (event)=>{
     setIdProductToDelete(event.target.id)

@@ -27,7 +27,7 @@ const UserView = () => {
 
   const {successPassword, errorPassword, loadingUpdatePassword} = useSelector(state=>state.userUpdatePassword)
 
-  const {successValidationEmail, message, errorValidationEmail, loadingValidation} = useSelector(state=>state.validationEmail)
+  const {successValidationEmail, loadingValidation} = useSelector(state=>state.validationEmail)
 
   const {myOrders, loadingMyOrders, errorMyOrders} = useSelector(state => state.myOrders)
 
@@ -100,7 +100,8 @@ const UserView = () => {
             <h3>Mes informations</h3>
             {
               loadingDetails ? <LoaderSpin/> :
-              <>
+              error ? <div className='text-center h4 alert-danger'>{error}</div> :
+              <div>
                 <div className='name'>
                 <div className='infos-item label'>Prénom : </div>
                 {
@@ -132,7 +133,7 @@ const UserView = () => {
                   : ""
                 }
               </div>
-            </>
+            </div>
             }
             
             { 
@@ -152,7 +153,7 @@ const UserView = () => {
               </div>
             }
             {
-              loadingValidation && <p className='alert-warning text-center' style={{marginTop:'30px'}}>Envoi de l'e-mail en cours...</p>
+              (loadingValidation || loadingSecret) && <p className='alert-warning text-center' style={{marginTop:'30px'}}>Envoi de l'e-mail en cours...</p>
             }
             {
               errorSecret ? <p className='alert-danger text-center' style={{marginTop:'30px'}}>{errorSecret}</p> :

@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import {motion} from 'framer-motion'
 import LoginRegisterForm from './LoginRegisterForm'
 import { useDispatch, useSelector } from 'react-redux'
-import { login, register, sendEmailValidation } from '../actions/userActions'
 import { loginModalClose } from '../actions/loginModalAction'
-import { createSecretCode } from '../actions/secretCodeActions'
-// import { useHistory, useLocation } from 'react-router-dom'
 
-const ModalForm = ({closeModal}) => {
+const ModalForm = () => {
 
   const dispatch = useDispatch()
 
   const {showModalLogin} = useSelector(state=>state.showModalLogin)
 
-  // const clickLogin = (emailUser, password)=>{
-  //   dispatch(login(emailUser, password)) 
-  // }
   
   const modalAnim = {
     start: {y : '300px'},
@@ -29,26 +23,7 @@ const ModalForm = ({closeModal}) => {
       <motion.div className='conteneur' variants={modalAnim} initial='start' animate='end' >
         <div className='frame-modal' >
           <i className="fas fa-times-circle close" onClick={()=> dispatch(loginModalClose())} />
-          <LoginRegisterForm 
-            // email={email} 
-            // motDePasse={motDePasse} 
-            // errorLogin={errorLogin}
-            // errorRegister={errorRegister}
-            // successRegister={successRegister}
-            // emailRegister={emailRegister}
-            // motDePasseRegister={motDePasseRegister}
-            // motDePasseConfirmRegister = {motDePasseConfirmRegister}
-            // messageMatchPassword={messageMatchPassword}
-            // nomRegister={nomRegister}
-            // prénomRegister={prénomRegister}
-            // userInfo={userInfo}
-            // userInfoRegister={userInfoRegister}
-            // loadingRegister = {userRegister.loadingRegister}
-            // loadingLogin={loadingLogin}
-            // submitHandler={submitHandler} 
-            // submitRegisterHandler={submitRegisterHandler}
-            // onChangeFormHandler={(event)=>onChangeFormHandler(event.target.name, event.target.value)} 
-          />
+          <LoginRegisterForm />
         </div>
       </motion.div>
     </FormDiv>

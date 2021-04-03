@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {Link, NavLink, useHistory} from 'react-router-dom'
 import styled from 'styled-components'
 import {convertPrice} from '../fonctionsOutils'

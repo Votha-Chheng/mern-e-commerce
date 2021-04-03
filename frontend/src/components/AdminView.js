@@ -1,8 +1,6 @@
 import { motion } from 'framer-motion'
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { getUsersList } from '../actions/userActions'
 import GestionBlog from './GestionBlog'
 import GestionClients from './GestionClients'
 import GestionCommandes from './GestionCommandes'
@@ -12,16 +10,6 @@ import GestionProduits from './GestionProduits'
 const AdminView = () => {
 
   const [ongletActif, setOngletActif] = useState(0)
-
-
-  const dispatch = useDispatch()
-
-  // const usersList = useSelector(state=>state.usersList)
-
-  // useEffect(() => {
-  //   dispatch(getUsersList())
-  // },[dispatch])
-
 
   return (
     <>

@@ -37,7 +37,7 @@ const GestionCommandes = () => {
       }
       setPages(totalPagesArray)
     }
-  }, [allOrders])
+  }, [allOrders, orderPagination])
 
   console.log(pages)
 
