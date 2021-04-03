@@ -13,7 +13,6 @@ const ProductScreen = () => {
 
   const [qty, setQty] = useState(1)
   const [couleur, setCouleur] = useState('beige')
-  const [loadingSend, setLoadingSend] = useState(false)
 
   const {id} = useParams()
   const dispatch = useDispatch()
@@ -109,7 +108,7 @@ const ProductScreen = () => {
                         <button className="btn grey btn-block">Ajouter au panier</button>
                       </div>
                       <div className='info-container no-bottom-border'>
-                        <button className='btn btn-block btn-warning '>Me contacter</button>
+                        <button className='btn btn-block btn-warning' onClick={()=>history.push('/contact')}>Me contacter</button>
                       </div>
                     </>
                   }

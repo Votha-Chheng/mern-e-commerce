@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react'
 
-const ImageComponent = ({image, frameWidth, frameHeight}) => {
-
+const ImageModalComponent = ({frameWidth, frameHeight, image}) => {
   const [ratio, setRatio] = useState('')
 
   const imageRef = useRef(null)
@@ -12,13 +11,11 @@ const ImageComponent = ({image, frameWidth, frameHeight}) => {
       src={image} 
       alt='modal'
       onLoad={()=>setRatio(imageRef.current.naturalWidth/imageRef.current.naturalHeight)}
-      style={{objectFit : "contain", 
-      transform : `translateX(${ratio<1 && imageRef.current? (frameWidth - imageRef.current.offsetWidth)/2 : "0"}px) translateY(${ratio>1 && imageRef.current? (frameHeight - imageRef.current.offsetHeight)/2 : "0"}px)`
-    }}
+      style={{objectFit : "contain"}}
       width={ratio>1 ? frameWidth : 'auto'}
       height={ratio>1 ? "auto": frameHeight} 
     /> 
   )
 }
 
-export default ImageComponent
+export default ImageModalComponent

@@ -1,8 +1,7 @@
 import React, {useState} from 'react'
-import { useRef } from 'react'
 import styled from 'styled-components'
 import Modal from '../components/Modal'
-import ImageComponent from './ImageComponent'
+import ImageModalComponent from './ImageModalComponent'
 import LoaderSpin from './LoaderSpin'
 
 const CarouselImageProduit = ({images, loading}) => {
@@ -36,7 +35,7 @@ const CarouselImageProduit = ({images, loading}) => {
                       className='main-container-images-modal'
                       style={{transform: `translateX(${indexModal * -100}%)`}}
                     >
-                      <ImageComponent
+                      <ImageModalComponent
                         image={image}
                         frameHeight='900'
                         frameWidth ='900'
@@ -274,7 +273,6 @@ const Wrapper = styled.div`
         overflow : hidden;
         img{
           object-fit : contain;
-          width : 360px;
         }
       }
     }
