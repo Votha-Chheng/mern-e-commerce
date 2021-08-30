@@ -8,6 +8,6 @@ Features disponibles :
 - Implémentation du CDN de Mondial Relay
 - Transitions des pages via Framer-motion
 - Partie administrateur avec :
-    .Partie blogging avec seulement 2 templates de présentation disponibles
-    .Listing des clients avec recherche par nom, prénom, e-mail
-    .CRUD pour les objets en vente et le blogging
+    1. Partie blogging avec seulement 2 templates de présentation disponibles
+    2. Listing des clients avec recherche par nom, prénom, e-mail
+    3. CRUD pour les objets en vente et le blogging
