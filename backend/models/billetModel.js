@@ -13,12 +13,7 @@ const billetSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  photos : [
-    {
-      url : { type : String, required : true},
-      legende : {type : String, required : false}
-    }
-  ],
+  photos : [{ type : String, required : true}],
   displayPhotos : {
     type: String,
     required: true,
