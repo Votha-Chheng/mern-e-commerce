@@ -21,16 +21,15 @@ const BilletNormalDisplay = ({billet}) => {
           billet.photos.map((photo, index)=>
             <div key={index} className='img-container'>
               <div className='py-2 conteneur'>{photo.legende && photo.legende}</div>
-              <img  
-                src={photo.url} 
+              <img
+                src={photo} 
                 alt={`${billet.titre}-${index}`} 
                 ref={(el) => imgRef.current[index] = el}
                 onLoad={()=> setRefArray([...refArray, imgRef.current[index].offsetWidth/imgRef.current[index].offsetHeight])}
                 height = {refArray[index]<1 ? '750' : 'auto'}
                 width = {refArray[index]>1 ? '800' : 'auto'}
               /> 
-            </div>
-            
+            </div>  
           )
         }
       </div>

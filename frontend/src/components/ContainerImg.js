@@ -6,9 +6,6 @@ const ContainerImg = ({frameWidth, imageUrl, frameHeight}) => {
   const [ref, setRef] = useState('')
   const [ratio, setRatio] = useState('')
 
-
-  console.log(ratio)
-
   return (
     <Container>
       <img

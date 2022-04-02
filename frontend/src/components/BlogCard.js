@@ -23,11 +23,11 @@ const BlogCard = ({billet, loading}) => {
           <Link to={`/blog/${billet._id}`}>
           {
             loading ? <LoaderSpin/> :
-            billet.photos[0].url && 
+            billet.photos[0] && 
             <img 
               onLoad={()=> setRatio(ref.offsetWidth/ref.offsetHeight)}
               className={ `${ratio>1 ? 'horizontal' : 'vertical' }`}
-              src={billet.photos[0].url}
+              src={billet.photos[0]}
               alt = {billet.titre}
               ref={newRef => setRef(newRef)} 
               style = {{transform : `${ratio>1 ? 'translateX(-20%)' : 'translateY(-20%)'}`}}

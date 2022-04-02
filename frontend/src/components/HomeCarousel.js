@@ -77,7 +77,7 @@ const HomeCarousel = () => {
                 className="actu-img-frame"
               >
                 <ContainerImg
-                  imageUrl={item.photos[0].url}
+                  imageUrl={item.photos[0]}
                   frameWidth = '420px'
                   frameHeight = '320'
                 />

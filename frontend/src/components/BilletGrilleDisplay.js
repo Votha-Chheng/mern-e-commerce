@@ -35,7 +35,7 @@ const BilletGrilleDisplay = ({billet}) => {
                     <div className='text-center mt-5 legende'>{image.legende}</div>
                     <div className='text-center modal-component'>
                       <ImageModalComponent
-                        image = {image.url}
+                        image = {image}
                         frameWidth = "900"
                         frameHeight = "900"
                       />
