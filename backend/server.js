@@ -9,6 +9,7 @@ import orderRoutes from './routes/orderRoutes.js'
 import uploadFilesRoutes from './routes/uploadFilesRoutes.js'
 import blogRoutes from './routes/blogRoutes.js'
 import secretCodeRoutes from './routes/secretCodeRoutes.js'
+import cors from 'cors'
 import {notFound, errorHandler} from './middleware/errorMiddleware.js'
 
 
@@ -17,6 +18,16 @@ dotenv.config()
 connectDB()
 
 const app = express()
+
+app.use(
+  cors(
+    {
+      origin: ["https://luminaires-cavallo-frontend.vercel.app"],
+      methods: ["POST", "GET", "DELETE", "PUT"],
+      credentials: true
+    }
+  )
+);
 
 app.use(express.json())
 app.use(fileUpload())
